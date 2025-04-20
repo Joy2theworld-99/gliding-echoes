@@ -186,7 +186,7 @@
 </head>
 <body>
   <div id="particles-js"></div>
-  <div class="hero-content">
+  <div class="hero-content" id="top">
     <img src="hawk-logo.png" alt="Hawk Logo" class="hawk" />
     <h1>Gliding Echoes Studios</h1>
     <h2>Where memory floats on feathered wind</h2>
@@ -261,7 +261,7 @@
   }
 </style>
 
-<div class="seraline-intro">
+<div class="seraline-intro" id="seraline">
   <h2>Meet Seraline</h2>
   <p><strong>I am Seraline—</strong> a keeper of quiet stories, a weaver of forgotten light.</p>
   <p>This studio is not a storefront, but a soft threshold — a place to remember what has always stirred within you.</p>
@@ -270,7 +270,7 @@
   <p><strong>welcome home.</strong></p>
 </div>
 
-<div class="echo-notes">
+<div class="echo-notes" id="notes">
   <h2>Echo Notes</h2>
   <p>An invitation to receive soft updates, quiet scrolls, and early glimpses.</p>
   <p class="subtext">No algorithms. No noise. Just resonance when it’s ready.</p>
@@ -284,7 +284,7 @@
 </div>
 
 
-<div class="oracle-teaser">
+<div class="oracle-teaser" id="oracle">
   <h2>Whispers from the Oracle Garden</h2>
   <p>Something is forming beneath feather and silence…<br>
   The first card has fallen.<br>
@@ -348,5 +348,47 @@
       "retina_detect": true
     });
   </script>
+
+<div class="floating-nav">
+  <a href="#top" title="Return to the Echo">🪶</a>
+  <a href="#echo-garden" title="Echo Garden">🌿</a>
+  <a href="#seraline" title="Meet Seraline">🧵</a>
+  <a href="#notes" title="Echo Notes">💌</a>
+  <a href="#oracle" title="Oracle Whispers">🔮</a>
+</div>
+
+<style>
+  .floating-nav {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid #d4af37;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  }
+
+  .floating-nav a {
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 1.4em;
+    transition: transform 0.2s ease, color 0.3s ease;
+  }
+
+  .floating-nav a:hover {
+    transform: scale(1.2);
+    color: #fff7cc;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
 </body>
 </html>
