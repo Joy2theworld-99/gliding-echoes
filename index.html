@@ -350,7 +350,7 @@
   </script>
 
 <div class="floating-nav">
-  <a href="#top" title="Return to the Echo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Feather_icon_gold.svg" alt="Feather Icon" style="width: 24px; height: 24px;" /></a>
+  <a href="#top" title="Return to the Echo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Feather_icon_gold.png/48px-Feather_icon_gold.png" alt="Feather Icon" style="width: 24px; height: 24px;" /></a>
   <a href="#echo-garden" title="Echo Garden">🌿</a>
   <a href="#seraline" title="Meet Seraline">🧵</a>
   <a href="#notes" title="Echo Notes">💌</a>
@@ -386,16 +386,13 @@
   }
 </style>
 <style>
-  .floating-nav a img,
   .floating-nav a {
-    filter: grayscale(1) brightness(2) sepia(1) hue-rotate(30deg) saturate(4);
-    transition: filter 0.3s ease, transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
   }
 
-  .floating-nav a:hover img,
   .floating-nav a:hover {
-    filter: none;
     transform: scale(1.2);
+    box-shadow: 0 0 8px #d4af37;
   }
 </style>
 
