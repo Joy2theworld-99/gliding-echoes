@@ -148,50 +148,7 @@
     }
   </style>
 
-<style>
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-  }
 
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .seraline-intro {
-    transition: box-shadow 0.6s ease;
-  }
-
-  .seraline-intro:hover {
-    box-shadow: 0 0 18px 6px rgba(255, 215, 0, 0.25);
-  }
-</style>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const faders = document.querySelectorAll('.fade-in');
-
-    const appearOptions = {
-      threshold: 0.2,
-      rootMargin: "0px 0px -10% 0px"
-    };
-
-    const appearOnScroll = new IntersectionObserver(function (entries) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        } else {
-          entry.target.classList.remove('visible'); // Reset on scroll out
-        }
-      });
-    }, appearOptions);
-
-    faders.forEach(fader => {
-      appearOnScroll.observe(fader);
-    });
-  });
-</script>
 
 
 <style>
@@ -293,7 +250,7 @@
   }
 </style>
 
-<div class="seraline-intro fade-in">
+<div class="seraline-intro">
   <h2>Meet Seraline</h2>
   <p><strong>I am Seraline—</strong> a keeper of quiet stories, a weaver of forgotten light.</p>
   <p>This studio is not a storefront, but a soft threshold — a place to remember what has always stirred within you.</p>
