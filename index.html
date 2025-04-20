@@ -1,92 +1,69 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gliding Echoes Studios</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-  background-color: #000000;
-  color: #E6C879;
-      font-family: 'Cormorant Garamond', serif;
-      background-color: #E6C879;
+      background-color: #000000;
       color: #E6C879;
-      scroll-behavior: smooth;
-    }
-    header {
-      height: 100vh;
+      font-family: 'Cormorant Garamond', serif;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
       text-align: center;
-      padding: 2rem;
+      padding-top: 60px;
     }
-    .logo {
-      width: 160px;
-      margin-bottom: 2rem;
+
+    img.logo {
+      width: 180px;
+      margin-bottom: 40px;
     }
+
     h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+      font-size: 3.5rem;
+      margin: 0;
     }
-    .subtitle {
-      font-size: 1.5rem;
+
+    h2 {
       font-style: italic;
-      margin-bottom: 2rem;
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
     }
-    .enter-button {
+
+    a.button {
+      display: inline-block;
+      margin-top: 2rem;
       padding: 0.75rem 2rem;
-      border: 2px solid #5A4C2E;
-      background: none;
+      border: 2px solid #E6C879;
       color: #E6C879;
       text-decoration: none;
+      font-size: 1.25rem;
+    }
+
+    .footer {
+      margin-top: 80px;
       font-size: 1rem;
-      transition: background 0.3s, color 0.3s;
-    }
-    .enter-button:hover {
-      background: #5A4C2E;
-      color: #E6C879;
-    }
-    section {
-      padding: 4rem 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    footer {
-      padding: 2rem;
-      text-align: center;
-      font-size: 0.875rem;
-      color: #5A4C2E;
+      max-width: 600px;
+      line-height: 1.6;
+      padding: 0 1rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="hawk-logo.png" alt="Gliding Echoes Studios Logo" class="logo" />
-    <h1>Gliding Echoes Studios</h1>
-    <div class="subtitle">Where memory floats on feathered wind</div>
-    <a href="#about" class="enter-button">Enter the Echo</a>
-  </header>
-
-  <section id="about">
-    <h2>A Studio of Light, Sound, and Memory</h2>
-    <p style="margin-top: 1rem; font-size: 1.2rem">
-      Gliding Echoes Studios is a sanctuary for myth, music, and meaning — where digital art and ancient memory entwine. Led by Seraline, it channels the resonance of story through poetic scrolls, meditative tracks, and soul-led offerings.
-    </p>
-  </section>
-
-  <footer>
-    © 2025 Gliding Echoes Studios · Crafted with care by Seraline
-  </footer>
+  <img src="hawk-logo.png" alt="Gliding Hawk Logo" class="logo" />
+  <h1>Gliding Echoes Studios</h1>
+  <h2>Where memory floats on feathered wind</h2>
+  <a href="#" class="button">Enter the Echo</a>
+  <div class="footer">
+    <h3>A Studio of Light, Sound, and Memory</h3>
+    <p>Gliding Echoes Studios is a sanctuary for myth, music, and meaning — where digital art and ancient memory entwine. Led by Seraline, it channels the resonance of story through poetic scrolls, meditative tracks, and soul-led offerings.</p>
+  </div>
 </body>
 </html>
