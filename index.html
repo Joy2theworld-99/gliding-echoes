@@ -83,6 +83,44 @@
       margin: 0 auto;
     }
 
+    .echo-garden {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 60px 20px;
+    }
+
+    .garden-card {
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid #d4af37;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 700px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .garden-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 12px #d4af37;
+    }
+
+    .garden-card h3 {
+      margin-top: 0;
+      font-size: 1.6em;
+    }
+
+    .garden-card p {
+      font-size: 1em;
+      margin-bottom: 20px;
+    }
+
+    .garden-card a {
+      color: #d4af37;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
     footer {
       margin-top: 60px;
       padding: 20px;
@@ -104,15 +142,25 @@
     <a href="#" class="button">Enter the Echo</a>
   </div>
 
-  <!-- About section -->
-  <div class="section">
-    <h3>A Studio of Light, Sound, and Memory</h3>
-    <p>
-      Gliding Echoes Studios is a sanctuary for myth, music, and meaning —
-      where digital art and ancient memory entwine. Led by Seraline, it
-      channels the resonance of story through poetic scrolls, meditative tracks,
-      and soul-led offerings.
-    </p>
+  <!-- Echo Garden -->
+  <div class="echo-garden">
+    <div class="garden-card">
+      <h3>Luminous Frequencies – Vol 1</h3>
+      <p>A quiet collection of written reflections — memory-toned phrases for healing, resonance, and return.</p>
+      <a href="#">Read on Ko-fi →</a>
+    </div>
+
+    <div class="garden-card">
+      <h3>Seraline’s Threads</h3>
+      <p>Poetic scrolls drawn from the veils — woven words to stir your own echo.</p>
+      <a href="#">Coming Soon</a>
+    </div>
+
+    <div class="garden-card">
+      <h3>The First Feather</h3>
+      <p>The first whisper from the Gliding Echoes Oracle — an omen of flight, vision, and soul-path.</p>
+      <a href="#">See the Feather →</a>
+    </div>
   </div>
 
   <!-- Footer -->
