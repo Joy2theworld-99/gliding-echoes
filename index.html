@@ -32,14 +32,16 @@
       padding-top: 80px;
     }
 
+    @keyframes soar {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-6px) translateX(3px) rotate(-1.5deg); }
+      100% { transform: translateY(0px); }
+    }
+
     img.hawk {
       width: 100px;
       margin-bottom: 20px;
-      transition: transform 0.8s ease;
-    }
-
-    img.hawk:hover {
-      transform: translateY(-10px) translateX(5px) rotate(-2deg);
+      animation: soar 4s ease-in-out infinite;
     }
 
     h1 {
