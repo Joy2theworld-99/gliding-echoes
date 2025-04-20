@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +15,6 @@
       text-align: center;
       overflow-x: hidden;
     }
-
     #particles-js {
       position: absolute;
       width: 100%;
@@ -25,46 +23,38 @@
       left: 0;
       z-index: 0;
     }
-
     .hero-content {
       position: relative;
       z-index: 1;
       padding-top: 80px;
     }
-
     @keyframes soar {
-      0%   { transform: translateY(0px); }
-      50%  { transform: translateY(-6px) translateX(3px) rotate(-1.5deg); }
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-6px) translateX(3px) rotate(-1.5deg); }
       100% { transform: translateY(0px); }
     }
-
     img.hawk {
       width: 100px;
       margin-bottom: 20px;
       animation: soar 4s ease-in-out infinite;
     }
-
     h1 {
       font-size: 2.8em;
       margin: 0;
       transition: text-shadow 0.4s ease;
     }
-
     h1:hover {
       text-shadow: 0 0 6px #d4af37, 0 0 12px #d4af37;
     }
-
     h2 {
       font-style: italic;
       font-weight: normal;
       margin-top: 10px;
       transition: text-shadow 0.4s ease;
     }
-
     h2:hover {
       text-shadow: 0 0 6px #d4af37, 0 0 12px #d4af37;
     }
-
     .button {
       display: inline-block;
       margin: 30px auto;
@@ -77,72 +67,39 @@
       text-shadow: 0 0 6px #d4af37, 0 0 12px #d4af37;
       box-shadow: 0 0 8px #d4af37;
     }
-
     .button:hover {
       background-color: #d4af37;
       color: #000;
       box-shadow: 0 0 12px #d4af37, 0 0 20px #d4af37;
     }
-
-    .threshold {
-      margin-top: 40px;
-      font-style: italic;
-      font-size: 1.1em;
-      line-height: 1.6;
-      color: #d4af37;
-      padding: 0 20px;
+    .threshold, .overview, .echo-notes {
+      margin-top: 60px;
       max-width: 800px;
       margin-left: auto;
       margin-right: auto;
-      opacity: 0.9;
-    }
-
-    .overview {
-      margin-top: 80px;
       padding: 0 20px;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
     }
-
-    .overview h2 {
+    .threshold p, .overview p, .echo-notes p {
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+    .overview h2, .echo-notes h2 {
       font-size: 2.4em;
-      margin-bottom: 20px;
     }
-
     .overview hr {
       border: none;
       height: 2px;
       background-color: #d4af37;
-      margin: 0 auto 30px auto;
+      margin: 30px auto;
       width: 90%;
     }
-
-    .overview p {
-      font-size: 1.1em;
-      margin: 10px 0;
-      line-height: 1.6;
-    }
-
-    .overview strong {
-      font-weight: bold;
-      font-size: 1.15em;
-    }
-
-    .spacer {
-      height: 60px;
-    }
-
     .echo-garden {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 40px;
       padding: 60px 20px;
-      position: relative;
-      z-index: 2;
     }
-
     .garden-card {
       background-color: rgba(255, 255, 255, 0.03);
       border: 1px solid #d4af37;
@@ -152,27 +109,37 @@
       width: 90%;
       transition: box-shadow 0.4s ease;
     }
-
     .garden-card:hover {
       box-shadow: 0 0 12px #d4af37;
     }
-
     .garden-card h3 {
       margin-top: 0;
       font-size: 1.6em;
     }
-
-    .garden-card p {
-      font-size: 1em;
-      margin-bottom: 20px;
-    }
-
     .garden-card a {
       color: #d4af37;
-      text-decoration: underline;
       font-weight: bold;
+      text-decoration: underline;
     }
-
+    .echo-notes {
+      border: 1px solid #d4af37;
+      border-radius: 12px;
+      background-color: #000;
+      text-align: center;
+    }
+    .echo-notes .subtext {
+      font-style: italic;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+    .substack-embed iframe {
+      background-color: #000;
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      padding: 10px;
+      width: 100%;
+      height: 150px;
+    }
     footer {
       margin-top: 60px;
       padding: 20px;
@@ -182,11 +149,7 @@
   </style>
 </head>
 <body>
-
-  <!-- Particle shimmer layer -->
   <div id="particles-js"></div>
-
-  <!-- Main content -->
   <div class="hero-content">
     <img src="hawk-logo.png" alt="Hawk Logo" class="hawk" />
     <h1>Gliding Echoes Studios</h1>
@@ -194,7 +157,6 @@
     <a href="#echo-garden" class="button">Enter the Echo</a>
   </div>
 
-  <!-- Poetic threshold scroll -->
   <div class="threshold">
     <p>Step lightly through the hush between worlds—</p>
     <p>where echoes become art, and silence begins to sing.</p>
@@ -203,7 +165,6 @@
        who shape light into meaning.</p>
   </div>
 
-  <!-- Overview Section -->
   <div class="overview">
     <h2>Welcome to the Echo Garden</h2>
     <hr />
@@ -214,23 +175,17 @@
     <p><strong>The First Feather</strong> — oracle whispers and inspirations</p>
   </div>
 
-  <!-- Spacer -->
-  <div class="spacer"></div>
-
-  <!-- Echo Garden -->
   <div id="echo-garden" class="echo-garden">
     <div class="garden-card">
       <h3>Luminous Frequencies – Vol 1</h3>
       <p>A quiet collection of written reflections — memory-toned phrases for healing, resonance, and return.</p>
       <a href="#">Read on Ko-fi →</a>
     </div>
-
     <div class="garden-card">
       <h3>Seraline’s Threads</h3>
       <p>Poetic scrolls drawn from the veils — woven words to stir your own echo.</p>
       <a href="#">Coming Soon</a>
     </div>
-
     <div class="garden-card">
       <h3>The First Feather</h3>
       <p>Oracle whispers and inspirations — what blooms here may change with the wind.</p>
@@ -238,54 +193,39 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <div class="echo-notes">
+    <h2>Echo Notes</h2>
+    <p>An invitation to receive soft updates, quiet scrolls, and early glimpses.</p>
+    <p class="subtext">No algorithms. No noise. Just resonance when it’s ready.</p>
+    <div class="substack-embed">
+      <iframe src="https://substack.com/embed" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+
   <footer>
     © 2025 Gliding Echoes Studios. All rights reserved.
   </footer>
 
-  <!-- Initialize particle shimmer -->
   <script>
     particlesJS("particles-js", {
       "particles": {
-        "number": {
-          "value": 80,
-          "density": { "enable": true, "value_area": 800 }
-        },
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
         "color": { "value": "#d4af37" },
-        "shape": {
-          "type": "circle",
-          "stroke": { "width": 0, "color": "#000000" }
-        },
-        "opacity": {
-          "value": 0.5,
-          "random": true
-        },
-        "size": {
-          "value": 2,
-          "random": true
-        },
-        "line_linked": {
-          "enable": false
-        },
+        "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }},
+        "opacity": { "value": 0.5, "random": true },
+        "size": { "value": 2, "random": true },
+        "line_linked": { "enable": false },
         "move": {
-          "enable": true,
-          "speed": 0.6,
-          "direction": "none",
-          "random": true,
-          "straight": false,
-          "out_mode": "out"
+          "enable": true, "speed": 0.6, "direction": "none",
+          "random": true, "straight": false, "out_mode": "out"
         }
       },
       "interactivity": {
         "detect_on": "canvas",
-        "events": {
-          "onhover": { "enable": false },
-          "onclick": { "enable": false }
-        }
+        "events": { "onhover": { "enable": false }, "onclick": { "enable": false } }
       },
       "retina_detect": true
     });
   </script>
-
 </body>
 </html>
