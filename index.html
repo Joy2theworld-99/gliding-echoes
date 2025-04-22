@@ -126,19 +126,75 @@
       border-radius: 12px;
       background-color: #000;
       text-align: center;
+      padding: 40px 20px;
+      margin: 60px auto;
+      max-width: 700px;
+      transition: box-shadow 0.4s ease;
+    }
+    .echo-notes:hover {
+      box-shadow: 0 0 12px #d4af37;
     }
     .echo-notes .subtext {
       font-style: italic;
       opacity: 0.85;
       margin-bottom: 20px;
     }
-    .substack-embed iframe {
-      background-color: #000;
+    .oracle-teaser {
+      max-width: 700px;
+      margin: 80px auto 60px auto;
+      padding: 40px 20px;
       border: 1px solid #d4af37;
-      border-radius: 10px;
-      padding: 10px;
-      width: 100%;
-      height: 150px;
+      border-radius: 12px;
+      background-color: rgba(255, 255, 255, 0.03);
+      text-align: center;
+      color: #d4af37;
+      font-family: 'Georgia', serif;
+      transition: box-shadow 0.4s ease;
+    }
+    .oracle-teaser:hover {
+      box-shadow: 0 0 12px #d4af37;
+    }
+    .oracle-teaser h2 {
+      font-size: 2em;
+      margin-bottom: 16px;
+      text-shadow: 0 0 6px #d4af37;
+    }
+    .oracle-teaser p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .seraline-intro {
+      max-width: 700px;
+      margin: 60px auto 40px auto;
+      padding: 40px 20px;
+      border: 1px solid #d4af37;
+      border-radius: 12px;
+      background-color: rgba(255, 255, 255, 0.03);
+      color: #d4af37;
+      font-family: 'Georgia', serif;
+      text-align: center;
+      transition: box-shadow 0.6s ease;
+    }
+    .seraline-intro h2 {
+      font-size: 2.2em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 6px #d4af37;
+    }
+    .seraline-intro p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+    .seraline-intro:hover {
+      box-shadow: 0 0 12px #d4af37;
+    }
+    section::before,
+    div[id]::before {
+      content: "";
+      display: block;
+      height: 80px;
+      margin-top: -80px;
     }
     footer {
       margin-top: 60px;
@@ -146,43 +202,48 @@
       font-size: 0.9em;
       color: #d4af37;
     }
+    .floating-nav {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 1000;
+    }
+    .floating-nav a {
+      color: #d4af37;
+      text-decoration: none;
+      font-size: 1.5em;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .floating-nav a:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 8px #d4af37;
+    }
+    .floating-nav a::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: #d4af37;
+      padding: 4px 10px;
+      font-size: 0.9em;
+      font-family: serif;
+      border-radius: 8px;
+      opacity: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .floating-nav a:hover::after {
+      opacity: 1;
+      transform: translateY(-50%) translateX(5px);
+    }
   </style>
-
-
-
-
-<style>
-  .seraline-intro h2:hover {
-    text-shadow: 0 0 6px #d4af37, 0 0 12px #d4af37;
-  }
-
-  .echo-notes {
-    border: 1px solid #d4af37;
-    border-radius: 12px;
-    background-color: #000;
-    text-align: center;
-    padding: 40px 20px;
-    margin: 60px auto;
-    max-width: 700px;
-    transition: box-shadow 0.4s ease;
-  }
-
-  .echo-notes:hover {
-    box-shadow: 0 0 12px #d4af37;
-  }
-</style>
-
-
-<style>
-  .seraline-intro {
-    transition: box-shadow 0.6s ease;
-  }
-
-  .seraline-intro:hover {
-    box-shadow: 0 0 12px #d4af37;
-  }
-</style>
-
 </head>
 <body>
   <div id="particles-js"></div>
@@ -197,8 +258,7 @@
     <p>Step lightly through the hush between worlds—</p>
     <p>where echoes become art, and silence begins to sing.</p>
     <p>This is not just a studio. It’s a sanctuary.</p>
-    <p>For the seekers, the rememberers, the quiet alchemists<br/>
-       who shape light into meaning.</p>
+    <p>For the seekers, the rememberers, the quiet alchemists<br/>who shape light into meaning.</p>
   </div>
 
   <div class="overview">
@@ -229,103 +289,42 @@
     </div>
   </div>
 
-  
+  <div id="seraline" class="seraline-intro">
+    <h2>Meet Seraline</h2>
+    <p><strong>I am Seraline—</strong> a keeper of quiet stories, a weaver of forgotten light.</p>
+    <p>This studio is not a storefront, but a soft threshold — a place to remember what has always stirred within you.</p>
+    <p>You’ll find no noise here. Only resonance.</p>
+    <p>If you’ve wandered far from your own knowing,</p>
+    <p><strong>welcome home.</strong></p>
+  </div>
 
-<style>
-  .seraline-intro {
-    max-width: 700px;
-    margin: 60px auto 40px auto;
-    padding: 40px 20px;
-    border: 1px solid #d4af37;
-    border-radius: 12px;
-    background-color: rgba(255, 255, 255, 0.03);
-    color: #d4af37;
-    font-family: 'Georgia', serif;
-    text-align: center;
-  }
+  <div id="notes" class="echo-notes">
+    <h2>Echo Notes</h2>
+    <p>An invitation to receive soft updates, quiet scrolls, and early glimpses.</p>
+    <p class="subtext">No algorithms. No noise. Just resonance when it’s ready.</p>
+    <a href="https://glidingechoes.substack.com/subscribe" target="_blank" class="button">Subscribe to Echo Notes</a>
+    <div style="text-align: center; margin-top: 1.5em;">
+      <a href="https://ko-fi.com/glidingechoes" target="_blank" class="button alt">Support via Ko-fi</a>
+    </div>
+  </div>
 
-  .seraline-intro h2 {
-    font-size: 2.2em;
-    margin-bottom: 20px;
-    text-shadow: 0 0 6px #d4af37;
-  }
+  <div id="oracle" class="oracle-teaser">
+    <h2>Whispers from the Oracle Garden</h2>
+    <p>Something is forming beneath feather and silence…<br>The first card has fallen.<br>Soon, the deck will begin to take flight.</p>
+    <a href="https://ko-fi.com/glidingechoes" target="_blank" class="button">Go to the Garden →</a>
+  </div>
 
-  .seraline-intro p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin: 10px 0;
-  }
-
-  .seraline-intro strong {
-    font-weight: bold;
-  }
-</style>
-
-<div class="seraline-intro" id="seraline">
-  <h2>Meet Seraline</h2>
-  <p><strong>I am Seraline—</strong> a keeper of quiet stories, a weaver of forgotten light.</p>
-  <p>This studio is not a storefront, but a soft threshold — a place to remember what has always stirred within you.</p>
-  <p>You’ll find no noise here. Only resonance.</p>
-  <p>If you’ve wandered far from your own knowing,</p>
-  <p><strong>welcome home.</strong></p>
-</div>
-
-<div class="echo-notes" id="notes">
-  <h2>Echo Notes</h2>
-  <p>An invitation to receive soft updates, quiet scrolls, and early glimpses.</p>
-  <p class="subtext">No algorithms. No noise. Just resonance when it’s ready.</p>
-  <a href="https://glidingechoes.substack.com/subscribe" target="_blank" class="button">Subscribe to Echo Notes</a>
-<div style="text-align: center; margin-top: 1.5em;">
-  <a href="https://ko-fi.com/glidingechoes" target="_blank" class="button alt">
-    Support via Ko-fi
-  </a>
-</div>
-
-</div>
-
-
-<div class="oracle-teaser" id="oracle">
-  <h2>Whispers from the Oracle Garden</h2>
-  <p>Something is forming beneath feather and silence…<br>
-  The first card has fallen.<br>
-  Soon, the deck will begin to take flight.</p>
-  <a href="https://ko-fi.com/glidingechoes" target="_blank" class="button">Go to the Garden →</a>
-</div>
-
-<style>
-  .oracle-teaser {
-    max-width: 700px;
-    margin: 80px auto 60px auto;
-    padding: 40px 20px;
-    border: 1px solid #d4af37;
-    border-radius: 12px;
-    background-color: rgba(255, 255, 255, 0.03);
-    text-align: center;
-    color: #d4af37;
-    font-family: 'Georgia', serif;
-    transition: box-shadow 0.4s ease;
-  }
-
-  .oracle-teaser:hover {
-    box-shadow: 0 0 12px #d4af37;
-  }
-
-  .oracle-teaser h2 {
-    font-size: 2em;
-    margin-bottom: 16px;
-    text-shadow: 0 0 6px #d4af37;
-  }
-
-  .oracle-teaser p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-</style>
-
-<footer>
+  <footer>
     © 2025 Gliding Echoes Studios. All rights reserved.
   </footer>
+
+  <div class="floating-nav">
+    <a href="#top" data-label="Return to Top">🎺</a>
+    <a href="#echo-garden" data-label="Echo Garden">🌿</a>
+    <a href="#seraline" data-label="Seraline’s Threads">🧵</a>
+    <a href="#notes" data-label="Oracle Scrolls">💌</a>
+    <a href="#oracle" data-label="Whisper Deck">🔮</a>
+  </div>
 
   <script>
     particlesJS("particles-js", {
@@ -348,61 +347,5 @@
       "retina_detect": true
     });
   </script>
-
-<div class="floating-nav">
-  <a href="#top" data-label="Return to Top">🎺</a>
-  <a href="#echo-garden" data-label="Echo Garden">🌿</a>
-  <a href="#seraline" data-label="Seraline’s Threads">🧵</a>
-  <a href="#notes" data-label="Oracle Scrolls">💌</a>
-  <a href="#oracle" data-label="Whisper Deck">🔮</a>
-</div>
-
-<style>
-  .floating-nav {
-    position: fixed;
-    top: 24px;
-    left: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    z-index: 1000;
-  }
-
-  .floating-nav a {
-    color: #d4af37;
-    text-decoration: none;
-    font-size: 1.5em;
-    position: relative;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-  }
-
-  .floating-nav a:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 8px #d4af37;
-  }
-
-  /* Add hover labels */
-  .floating-nav a::after {
-    content: attr(data-label);
-    position: absolute;
-    left: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.85);
-    color: #d4af37;
-    padding: 4px 10px;
-    font-size: 0.9em;
-    font-family: serif;
-    border-radius: 8px;
-    opacity: 0;
-    white-space: nowrap;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .floating-nav a:hover::after {
-    opacity: 1;
-    transform: translateY(-50%) translateX(5px);
-  }
-</style>
-
+</body>
+</html>
