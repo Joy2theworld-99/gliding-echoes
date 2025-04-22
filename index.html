@@ -350,15 +350,11 @@
   </script>
 
 <div class="floating-nav">
-  <a href="#top" title="Return to the Echo">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#d4af37" aria-label="Feather Icon">
-  <path d="M2 17.5L12.7 7.1c.6-.6 1.3-1.1 2-1.5 1.5-.8 3.1-1 4.6-.5l1.4-1.4c.2-.2.2-.5 0-.7s-.5-.2-.7 0l-1.4 1.4c-.5-1.5-.3-3.1.5-4.6.4-.7.9-1.4 1.5-2L6.5 20.5c-.4.4-1 .4-1.4 0l-3-3c-.4-.4-.4-1 0-1.4l.9-.9z"/>
-</svg>
-</a>
-  <a href="#echo-garden" title="Echo Garden">🌿</a>
-  <a href="#seraline" title="Meet Seraline">🧵</a>
-  <a href="#notes" title="Echo Notes">💌</a>
-  <a href="#oracle" title="Oracle Whispers">🔮</a>
+  <a href="#top" title="Return to Top" data-label="Return to Top">🎺</a>
+  <a href="#echo-garden" title="Echo Garden" data-label="Echo Garden">🌿</a>
+  <a href="#seraline" title="Seraline’s Threads" data-label="Seraline’s Threads">🧵</a>
+  <a href="#notes" title="Oracle Scrolls" data-label="Oracle Scrolls">💌</a>
+  <a href="#oracle" title="Whisper Deck" data-label="Whisper Deck">🔮</a>
 </div>
 
 <style>
@@ -366,31 +362,17 @@
     position: fixed;
     top: 24px;
     left: 24px;
-    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
     z-index: 1000;
   }
 
   .floating-nav a {
     color: #d4af37;
     text-decoration: none;
-    font-size: 1.4em;
-    transition: transform 0.2s ease, color 0.3s ease;
-  }
-
-  .floating-nav a:hover {
-    transform: scale(1.2);
-    color: #fff7cc;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-</style>
-<style>
-  .floating-nav a {
+    font-size: 1.5em;
+    position: relative;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
   }
 
@@ -398,7 +380,29 @@
     transform: scale(1.2);
     box-shadow: 0 0 8px #d4af37;
   }
+
+  /* Add hover labels */
+  .floating-nav a::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #d4af37;
+    padding: 4px 10px;
+    font-size: 0.9em;
+    font-family: serif;
+    border-radius: 8px;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .floating-nav a:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(5px);
+  }
 </style>
 
-</body>
-</html>
