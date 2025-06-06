@@ -1,139 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gliding Echoes Services</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strategic Services | Gliding Echoes Studios</title>
   <style>
     body {
       background-color: #000;
       color: #d4af37;
-      font-family: 'Georgia', serif;
+      font-family: Georgia, serif;
       margin: 0;
       padding: 0;
     }
-    header {
-      text-align: center;
-      padding: 40px 20px 10px;
-    }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    h2 {
-      font-size: 1.2em;
-      font-style: italic;
-      color: #ccc;
-    }
     .container {
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 20px;
+      max-width: 960px;
+      margin: 80px auto;
+      padding: 0 24px;
     }
-    .intro {
-      font-size: 1.1em;
-      line-height: 1.7;
+    h1, h2, h3 {
       text-align: center;
-      margin-bottom: 40px;
     }
-    .service-box {
-      background-color: #111;
-      border: 1px solid #444;
+    .card {
+      border: 1px solid #d4af37;
       border-radius: 12px;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 0 0 #000;
-      transition: box-shadow 0.3s ease;
+      padding: 24px;
+      margin-bottom: 40px;
+      background-color: rgba(255, 255, 255, 0.05);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
     }
-    .service-box:hover {
-      box-shadow: 0 0 12px #d4af37, 0 0 24px #d4af37;
+    .card:hover {
+      box-shadow: 0 0 20px #d4af37;
+      transform: scale(1.02);
     }
-    .service-title {
-      font-size: 1.4em;
-      margin-bottom: 10px;
-      font-weight: bold;
+    .card h3 {
+      margin-top: 0;
     }
-    .service-price {
-      font-weight: bold;
-      margin-top: 20px;
-    }
-    .center-button {
-      text-align: center;
-      margin-top: 40px;
-    }
-    .get-in-touch {
-      display: inline-block;
-      background-color: #ffd700;
-      color: #000;
-      padding: 12px 24px;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      font-size: 1em;
+    .cta-button {
+      display: block;
+      margin: 40px auto 0;
+      padding: 14px 32px;
+      background-color: transparent;
+      border: 2px solid #d4af37;
+      color: #d4af37;
+      font-size: 1.2em;
+      border-radius: 8px;
       cursor: pointer;
-      text-decoration: none;
-      text-align: center;
       transition: all 0.3s ease;
-      box-shadow: 0 0 6px #ffd700;
     }
-    .get-in-touch:hover {
-      background-color: #000;
-      color: #ffd700;
-      box-shadow: 0 0 12px #ffd700, 0 0 24px #ffd700;
+    .cta-button:hover {
+      background-color: #d4af37;
+      color: #000;
+      box-shadow: 0 0 10px #d4af37;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+    .grid .card {
+      flex: 1;
+      min-width: 260px;
     }
     footer {
       text-align: center;
-      padding: 40px 20px 20px;
+      margin: 80px 0 40px;
       font-size: 0.9em;
-      color: #888;
+      color: #999;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>For Founders & Creators</h1>
-    <h2>Soul-Aligned Systems + Strategic Clarity</h2>
-  </header>
   <div class="container">
-    <p class="intro">
-      You’ve built something beautiful — but the systems, strategy, or tech are slowing you down.
-      With 25+ years in IT and a creator’s heart, I help founders, artists, and visionaries bridge story with structure.
-    </p>
+    <h1>🧭 Strategic Services</h1>
+    <p style="text-align:center; font-style: italic;">For creators, consultants & visionaries ready to simplify and scale</p>
 
-    <div class="service-box">
-      <div class="service-title">✨ Offer + Funnel Audit</div>
-      <p>
-        A deep review of your existing setup — from website to emails to checkout — with a written guide to fix leaks and boost conversion.
-        You’ll walk away with clarity, focus, and a practical next step map.
-      </p>
-      <p class="service-price">$297 flat rate</p>
+    <div class="card">
+      <h3>🔍 Funnel Audit</h3>
+      <p>Fix leaks, boost flow — written audit + action plan</p>
+      <ul>
+        <li>✓ Website & email flow review</li>
+        <li>✓ Written improvement guide</li>
+        <li>✗ Live consultation</li>
+        <li>✗ Tech implementation</li>
+      </ul>
+      <strong>$297 flat rate</strong>
     </div>
 
-    <div class="service-box">
-      <div class="service-title">⚙️ Launch Architecture Session</div>
-      <p>
-        90-minute Zoom or recorded session where we dive into your business systems, tech stack, and brand resonance.
-        Includes a strategic PDF recap with customized recommendations.
-      </p>
-      <p class="service-price">$777 one-time</p>
+    <div class="card">
+      <h3>⚙️ Architecture Session</h3>
+      <p>90-minute deep dive via Zoom + PDF roadmap</p>
+      <ul>
+        <li>✓ Systems strategy call (90 min)</li>
+        <li>✓ Personalized launch plan</li>
+        <li>✓ Tech guidance</li>
+        <li>✗ Setup services</li>
+      </ul>
+      <strong>$777 one-time</strong>
     </div>
 
-    <div class="service-box">
-      <div class="service-title">🛠️ Soul-Aligned System Build</div>
-      <p>
-        Done-with-you or done-for-you creation of your launch platform: from custom-coded site, Stripe,
-        and MailerLite, to your first product and funnel. Limited availability each month.
-      </p>
-      <p class="service-price">Starting at $1,111+</p>
+    <div class="card">
+      <h3>🧠 System Build</h3>
+      <p>Done-with-you or done-for-you system setup</p>
+      <ul>
+        <li>✓ 1 product fully configured</li>
+        <li>✓ Stripe + MailerLite + site setup</li>
+        <li>✓ Ongoing support options</li>
+        <li>✓ Voice & design alignment</li>
+      </ul>
+      <strong>Starts at $1,111+</strong>
     </div>
 
-    <div class="center-button">
-      <a href="mailto:studio@glidingechoes.com" class="get-in-touch">Get in Touch</a>
+    <h2 style="margin-top: 80px;">✨ Compare Service Tiers</h2>
+    <p style="text-align: center; font-style: italic; margin-bottom: 2em;">Choose the level of support that aligns with your vision</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🔍 Funnel Audit</h3>
+        <p><em>Fix leaks & boost conversions</em></p>
+        <ul>
+          <li>✓ Website & email flow review</li>
+          <li>✓ Written improvement guide</li>
+          <li>✗ Live consultation</li>
+          <li>✗ Tech implementation</li>
+        </ul>
+        <strong>$297 flat rate</strong>
+      </div>
+      <div class="card">
+        <h3>⚙️ Architecture Session</h3>
+        <p><em>90-min strategic clarity</em></p>
+        <ul>
+          <li>✓ Full systems deep-dive</li>
+          <li>✓ Recorded Zoom + PDF plan</li>
+          <li>✓ Tech stack guidance</li>
+          <li>✗ Hands-on setup</li>
+        </ul>
+        <strong>$777 one-time</strong>
+      </div>
+      <div class="card">
+        <h3>🛠️ System Build</h3>
+        <p><em>Done-with-you or Done-for-you</em></p>
+        <ul>
+          <li>✓ Website or funnel built for you</li>
+          <li>✓ Stripe + MailerLite setup</li>
+          <li>✓ 1 product fully configured</li>
+          <li>✓ Ongoing support options</li>
+        </ul>
+        <strong>Starts at $1,111+</strong>
+      </div>
     </div>
+
+    <a href="mailto:studio@glidingechoes.com" class="cta-button">Request Your Spot</a>
   </div>
+
   <footer>
-    &copy; 2025 Gliding Echoes Studios • Strategic System Builds
+    &copy; Gliding Echoes Studios | Strategic Services
   </footer>
 </body>
 </html>
+
 
