@@ -37,6 +37,10 @@
       margin: 20px auto;
       max-width: 700px;
       background-color: #111;
+      transition: box-shadow 0.3s ease;
+    }
+    .section:hover {
+      box-shadow: 0 0 15px #d4af37;
     }
     .features {
       list-style: none;
@@ -45,15 +49,11 @@
     }
     .features li {
       margin: 8px 0;
-      color: #d4af37;
     }
-    .features li::before {
-      content: "\2713";
+    .green {
       color: #00ff88;
-      padding-right: 8px;
     }
-    .features .red::before {
-      content: "\2717";
+    .red {
       color: #ff6666;
     }
     .comparison {
@@ -76,9 +76,11 @@
       border-radius: 6px;
       box-shadow: 0 0 10px #d4af37;
       margin-top: 40px;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
     }
     .button:hover {
-      background-color: #fff;
+      box-shadow: 0 0 20px #d4af37;
+      background-color: #d4af37;
       color: #000;
     }
     footer {
