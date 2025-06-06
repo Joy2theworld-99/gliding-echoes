@@ -62,6 +62,41 @@
     .section:hover {
       box-shadow: 0 0 15px #d4af37;
     }
+    .hero-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-top: 25vh;
+  color: #f9d881;
+  font-family: Georgia, serif;
+}
+
+.hero-overlay h1 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.hero-overlay p {
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
+}
     .features {
       list-style: none;
       padding: 0;
@@ -111,6 +146,17 @@
   </style>
 </head>
 <body>
+  <div class="hero-container">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="/assets/video/ai-hero.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="hero-overlay">
+    <h1>Delivering the Future</h1>
+    <p>AI strategy & integration services for visionaries<br>ready to lead the wave — not follow it.</p>
+    <a class="button" href="mailto:studio@glidingechoes.com">Book a Free 15-Minute Strategy Call</a>
+  </div>
+</div>
    <div id="particles-js"></div>
   <h1>Strategic Services</h1>
   <p><em>Expert systems & soulful strategy for creators, founders & consultants</em></p>
