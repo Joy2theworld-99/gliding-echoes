@@ -1,65 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Services | Gliding Echoes</title>
- 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gliding Echoes Services</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Georgia', serif;
       background-color: #000;
-      color: #f7f7f7;
-      line-height: 1.6;
+      color: #d4af37;
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
     }
     header {
-      background-color: #111;
-      padding: 2rem;
       text-align: center;
-      border-bottom: 1px solid gold;
+      padding: 40px 20px 10px;
     }
-    header h1 {
-      font-size: 2.5rem;
-      color: gold;
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
     }
-    .section {
-      padding: 3rem 1rem;
-      max-width: 800px;
-      margin: 0 auto;
+    h2 {
+      font-size: 1.2em;
+      font-style: italic;
+      color: #ccc;
     }
-    .section h2 {
-      color: gold;
-      font-size: 1.75rem;
-      margin-bottom: 0.5rem;
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
-    .section p {
-      margin-bottom: 1.5rem;
+    .intro {
+      font-size: 1.1em;
+      line-height: 1.7;
+      text-align: center;
+      margin-bottom: 40px;
     }
-    .service-block {
+    .service-box {
       background-color: #111;
-      border: 1px solid #333;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      border-radius: 10px;
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 0 #000;
+      transition: box-shadow 0.3s ease;
     }
-    .cta-button {
-      display: inline-block;
-      background-color: gold;
-      color: #000;
-      padding: 0.75rem 1.5rem;
-      text-decoration: none;
+    .service-box:hover {
+      box-shadow: 0 0 12px #d4af37, 0 0 24px #d4af37;
+    }
+    .service-title {
+      font-size: 1.4em;
+      margin-bottom: 10px;
       font-weight: bold;
-      border-radius: 5px;
-      transition: background 0.3s;
     }
-    .cta-button:hover {
-      background-color: #e6c200;
+    .service-price {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .center-button {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .get-in-touch {
+      display: inline-block;
+      background-color: #ffd700;
+      color: #000;
+      padding: 12px 24px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 6px #ffd700;
+    }
+    .get-in-touch:hover {
+      background-color: #000;
+      color: #ffd700;
+      box-shadow: 0 0 12px #ffd700, 0 0 24px #ffd700;
     }
     footer {
       text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
+      padding: 40px 20px 20px;
+      font-size: 0.9em;
       color: #888;
     }
   </style>
@@ -67,36 +92,48 @@
 <body>
   <header>
     <h1>For Founders & Creators</h1>
-    <p>Soul-Aligned Systems + Strategic Clarity</p>
+    <h2>Soul-Aligned Systems + Strategic Clarity</h2>
   </header>
+  <div class="container">
+    <p class="intro">
+      You’ve built something beautiful — but the systems, strategy, or tech are slowing you down.
+      With 25+ years in IT and a creator’s heart, I help founders, artists, and visionaries bridge story with structure.
+    </p>
 
-  <div class="section">
-    <p>You’ve built something beautiful — but the systems, strategy, or tech are slowing you down. With 25+ years in IT and a creator’s heart, I help founders, artists, and visionaries bridge story with structure.</p>
-
-    <div class="service-block">
-      <h2>✨ Offer + Funnel Audit</h2>
-      <p>A deep review of your existing setup — from website to emails to checkout — with a written guide to fix leaks and boost conversion. You’ll walk away with clarity, focus, and a practical next step map.</p>
-      <p><strong>$297 flat rate</strong></p>
+    <div class="service-box">
+      <div class="service-title">✨ Offer + Funnel Audit</div>
+      <p>
+        A deep review of your existing setup — from website to emails to checkout — with a written guide to fix leaks and boost conversion.
+        You’ll walk away with clarity, focus, and a practical next step map.
+      </p>
+      <p class="service-price">$297 flat rate</p>
     </div>
 
-    <div class="service-block">
-      <h2>⚙️ Launch Architecture Session</h2>
-      <p>90-minute Zoom or recorded session where we dive into your business systems, tech stack, and brand resonance. Includes a strategic PDF recap with customized recommendations.</p>
-      <p><strong>$777 one-time</strong></p>
+    <div class="service-box">
+      <div class="service-title">⚙️ Launch Architecture Session</div>
+      <p>
+        90-minute Zoom or recorded session where we dive into your business systems, tech stack, and brand resonance.
+        Includes a strategic PDF recap with customized recommendations.
+      </p>
+      <p class="service-price">$777 one-time</p>
     </div>
 
-    <div class="service-block">
-      <h2>🧠 Soul-Aligned System Build</h2>
-      <p>Done-with-you or done-for-you creation of your launch platform: from custom-coded site, Stripe, and MailerLite, to your first product and funnel. Limited availability each month.</p>
-      <p><strong>Starting at $1,111+</strong></p>
+    <div class="service-box">
+      <div class="service-title">🛠️ Soul-Aligned System Build</div>
+      <p>
+        Done-with-you or done-for-you creation of your launch platform: from custom-coded site, Stripe,
+        and MailerLite, to your first product and funnel. Limited availability each month.
+      </p>
+      <p class="service-price">Starting at $1,111+</p>
     </div>
 
-    <p>Questions or ready to book?</p>
-    <a class="cta-button" href="mailto:studio@glidingechoes.com?subject=Service Inquiry from Gliding Echoes">Get in Touch</a>
+    <div class="center-button">
+      <a href="mailto:studio@glidingechoes.com" class="get-in-touch">Get in Touch</a>
+    </div>
   </div>
-
   <footer>
     &copy; 2025 Gliding Echoes Studios • Strategic System Builds
   </footer>
 </body>
 </html>
+
