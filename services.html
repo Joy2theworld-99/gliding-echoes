@@ -10,153 +10,194 @@
       color: #d4af37;
       font-family: Georgia, serif;
       margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 960px;
-      margin: 80px auto;
-      padding: 0 24px;
+      padding: 2rem;
+      line-height: 1.6;
     }
     h1, h2, h3 {
       text-align: center;
     }
-    .card {
-      border: 1px solid #d4af37;
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 40px;
-      background-color: rgba(255, 255, 255, 0.05);
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    h1 {
+      font-size: 2em;
     }
-    .card:hover {
-      box-shadow: 0 0 20px #d4af37;
-      transform: scale(1.02);
+    h2 {
+      font-size: 1.6em;
+      margin-bottom: 0.5rem;
     }
-    .card h3 {
+    h3 {
+      font-size: 1.3em;
       margin-top: 0;
     }
-    .cta-button {
-      display: block;
-      margin: 40px auto 0;
-      padding: 14px 32px;
-      background-color: transparent;
-      border: 2px solid #d4af37;
-      color: #d4af37;
-      font-size: 1.2em;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    .subtitle {
+      text-align: center;
+      font-style: italic;
+      font-size: 0.9em;
+      margin-bottom: 2rem;
     }
-    .cta-button:hover {
-      background-color: #d4af37;
-      color: #000;
+    .service-box {
+      background-color: #111;
+      border: 1px solid #d4af37;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      transition: box-shadow 0.3s ease;
+    }
+    .service-box:hover {
+      box-shadow: 0 0 12px #d4af37;
+    }
+    .service-box ul {
+      list-style: none;
+      padding-left: 1rem;
+      margin-top: 0.5rem;
+    }
+    .service-box li {
+      margin-bottom: 0.4rem;
+    }
+    .check {
+      color: #7CFC00;
+      margin-right: 0.4rem;
+    }
+    .cross {
+      color: #FF6347;
+      margin-right: 0.4rem;
+    }
+    .price {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    .section-title {
+      margin-top: 4rem;
+      text-align: center;
+    }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .compare-box {
+      background-color: #111;
+      border: 1px solid #d4af37;
+      border-radius: 8px;
+      padding: 1rem;
+      transition: box-shadow 0.3s ease;
+    }
+    .compare-box:hover {
       box-shadow: 0 0 10px #d4af37;
     }
-    .grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      justify-content: center;
+    .cta {
+      text-align: center;
+      margin-top: 2rem;
     }
-    .grid .card {
-      flex: 1;
-      min-width: 260px;
+    .cta a {
+      display: inline-block;
+      background-color: #d4af37;
+      color: #000;
+      text-decoration: none;
+      padding: 0.7rem 1.5rem;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: box-shadow 0.3s ease;
+    }
+    .cta a:hover {
+      box-shadow: 0 0 10px #d4af37;
     }
     footer {
+      margin-top: 4rem;
       text-align: center;
-      margin: 80px 0 40px;
-      font-size: 0.9em;
-      color: #999;
+      font-size: 0.85em;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧭 Strategic Services</h1>
-    <p style="text-align:center; font-style: italic;">For creators, consultants & visionaries ready to simplify and scale</p>
+  <h1>🧭 Strategic Services</h1>
+  <div class="subtitle">For creators, consultants & visionaries ready to simplify and scale</div>
 
-    <div class="card">
+  <div class="service-box">
+    <h2>🔍 Funnel Audit</h2>
+    <p>Fix leaks, boost flow — written audit + action plan</p>
+    <ul>
+      <li><span class="check">✅</span>Website & email flow review</li>
+      <li><span class="check">✅</span>Written improvement guide</li>
+      <li><span class="cross">❌</span>Live consultation</li>
+      <li><span class="cross">❌</span>Tech implementation</li>
+    </ul>
+    <div class="price">$297 flat rate</div>
+  </div>
+
+  <div class="service-box">
+    <h2>⚙️ Architecture Session</h2>
+    <p>90-minute deep dive via Zoom + PDF roadmap</p>
+    <ul>
+      <li><span class="check">✅</span>Systems strategy call (90 min)</li>
+      <li><span class="check">✅</span>Personalized launch plan</li>
+      <li><span class="check">✅</span>Tech guidance</li>
+      <li><span class="cross">❌</span>Setup services</li>
+    </ul>
+    <div class="price">$777 one-time</div>
+  </div>
+
+  <div class="service-box">
+    <h2>🛠️ System Build</h2>
+    <p>Done-with-you or done-for-you system setup</p>
+    <ul>
+      <li><span class="check">✅</span>1 product fully configured</li>
+      <li><span class="check">✅</span>Stripe + MailerLite + site setup</li>
+      <li><span class="check">✅</span>Ongoing support options</li>
+      <li><span class="check">✅</span>Voice & design alignment</li>
+    </ul>
+    <div class="price">Starts at $1,111+</div>
+  </div>
+
+  <div class="section-title">
+    <h2>✨ Compare Service Tiers</h2>
+    <div class="subtitle">Choose the level of support that aligns with your vision</div>
+  </div>
+
+  <div class="comparison-grid">
+    <div class="compare-box">
       <h3>🔍 Funnel Audit</h3>
-      <p>Fix leaks, boost flow — written audit + action plan</p>
+      <p><em>Fix leaks & boost conversions</em></p>
       <ul>
-        <li>✅ Website & email flow review</li>
-        <li>✅ Written improvement guide</li>
-        <li>❌ Live consultation</li>
-        <li>❌ Tech implementation</li>
+        <li><span class="check">✅</span>Website & email flow review</li>
+        <li><span class="check">✅</span>Written improvement guide</li>
+        <li><span class="cross">❌</span>Live consultation</li>
+        <li><span class="cross">❌</span>Tech implementation</li>
       </ul>
-      <strong>$297 flat rate</strong>
+      <div class="price">$297 flat rate</div>
     </div>
 
-    <div class="card">
+    <div class="compare-box">
       <h3>⚙️ Architecture Session</h3>
-      <p>90-minute deep dive via Zoom + PDF roadmap</p>
+      <p><em>90-min strategic clarity</em></p>
       <ul>
-        <li>✅ Systems strategy call (90 min)</li>
-        <li>✅Personalized launch plan</li>
-        <li>✅ Tech guidance</li>
-        <li>❌ Setup services</li>
+        <li><span class="check">✅</span>Full systems deep-dive</li>
+        <li><span class="check">✅</span>Recorded Zoom + PDF plan</li>
+        <li><span class="check">✅</span>Tech stack guidance</li>
+        <li><span class="cross">❌</span>Hands-on setup</li>
       </ul>
-      <strong>$777 one-time</strong>
+      <div class="price">$777 one-time</div>
     </div>
 
-    <div class="card">
+    <div class="compare-box">
       <h3>🛠️ System Build</h3>
-      <p>Done-with-you or done-for-you system setup</p>
+      <p><em>Done-with-you or Done-for-you</em></p>
       <ul>
-        <li>✅ 1 product fully configured</li>
-        <li>✅ Stripe + MailerLite + site setup</li>
-        <li>✅ Ongoing support options</li>
-        <li>✅ Voice & design alignment</li>
+        <li><span class="check">✅</span>Website or funnel built for you</li>
+        <li><span class="check">✅</span>Stripe + MailerLite setup</li>
+        <li><span class="check">✅</span>1 product fully configured</li>
+        <li><span class="check">✅</span>Ongoing support options</li>
       </ul>
-      <strong>Starts at $1,111+</strong>
+      <div class="price">Starts at $1,111+</div>
     </div>
+  </div>
 
-    <h2 style="margin-top: 80px;">✨ Compare Service Tiers</h2>
-    <p style="text-align: center; font-style: italic; margin-bottom: 2em;">Choose the level of support that aligns with your vision</p>
-
-    <div class="grid">
-      <div class="card">
-        <h3>🔍 Funnel Audit</h3>
-        <p><em>Fix leaks & boost conversions</em></p>
-        <ul>
-          <li>✅ Website & email flow review</li>
-          <li>✅ Written improvement guide</li>
-          <li>❌ Live consultation</li>
-          <li>❌ Tech implementation</li>
-        </ul>
-        <strong>$297 flat rate</strong>
-      </div>
-      <div class="card">
-        <h3>⚙️ Architecture Session</h3>
-        <p><em>90-min strategic clarity</em></p>
-        <ul>
-          <li>✅ Full systems deep-dive</li>
-          <li>✅ Recorded Zoom + PDF plan</li>
-          <li>✅ Tech stack guidance</li>
-          <li>❌ Hands-on setup</li>
-        </ul>
-        <strong>$777 one-time</strong>
-      </div>
-      <div class="card">
-        <h3>🛠️ System Build</h3>
-        <p><em>Done-with-you or Done-for-you</em></p>
-        <ul>
-          <li>✅ Website or funnel built for you</li>
-          <li>✅ Stripe + MailerLite setup</li>
-          <li>✅ 1 product fully configured</li>
-          <li>✅ Ongoing support options</li>
-        </ul>
-        <strong>Starts at $1,111+</strong>
-      </div>
-    </div>
-
-    <a href="mailto:studio@glidingechoes.com" class="cta-button">Request Your Spot</a>
+  <div class="cta">
+    <a href="#">Request Your Spot</a>
   </div>
 
   <footer>
-    &copy; Gliding Echoes Studios | Strategic Services
+    © 2025 Gliding Echoes Studios | Strategic Services
   </footer>
 </body>
 </html>
-
-
