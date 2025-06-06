@@ -39,6 +39,8 @@
       line-height: 1.6;
     }
     .section {
+      position: relative; /* <-- Required to apply z-index */
+      z-index: 1;          /* <-- Ensures it's above the particle layer */
       border: 1px solid #d4af37;
       border-radius: 8px;
       padding: 20px;
