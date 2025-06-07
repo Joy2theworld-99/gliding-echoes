@@ -12,7 +12,7 @@
 }
 
 body {
-  background-image: "assets/downloads/Service_Website_Page_Background.png"; /* update with your actual file path */
+  background-image: url(assets/downloads/Service_Website_Page_Background.png); /* update with your actual file path */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -85,13 +85,14 @@ body {
     .section {
       position: relative; /* <-- Required to apply z-index */
       z-index: 1;          /* <-- Ensures it's above the particle layer */
-      border: 1px solid #d4af37;
-      border-radius: 8px;
-      padding: 30px;
-      margin: 20px auto;
-      max-width: 700px;
-      background-color: #111;
-      transition: box-shadow 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.6); /* transparent black overlay */
+  border: 1px solid #00d9ff;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px auto;
+  max-width: 700px;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+  color: #ffffff;
     }
     .section:hover {
       box-shadow: 0 0 15px #d4af37;
