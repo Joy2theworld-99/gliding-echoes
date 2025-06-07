@@ -21,14 +21,14 @@ body {
   font-family: 'Inter', sans-serif; /* optional font upgrade */
 }
     
-     #particles-js canvas {
+    >!-- #particles-js canvas {
       position: fixed; /* instead of absolute */
       width: 100%;
       height: 100%; /* stretches across entire page scroll */
       top: 0;
       left: 0;
       z-index: 0;
-      pointer-events: none; /* ensures it's non-interactive */
+      pointer-events: none; /* ensures it's non-interactive */ -->
     }
     h1 {
       font-size: 2.4em;
@@ -85,17 +85,27 @@ body {
     .section {
       position: relative; /* <-- Required to apply z-index */
       z-index: 1;          /* <-- Ensures it's above the particle layer */
-  background-color: rgba(0, 0, 0, 0.6); /* transparent black overlay */
-  border: 1px solid #00d9ff;
-  border-radius: 12px;
-  padding: 30px;
-  margin: 20px auto;
-  max-width: 700px;
-  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
-  color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center; /* or center if that feels better to you */
+      background-color: rgba(0, 0, 0, 0.6); /* transparent black overlay */
+      border: 1px solid #00d9ff;
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 650px;
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+      color: #ffffff;
     }
+    .intro-text {
+  text-align: center;
+  max-width: 800px;
+  margin: 2rem auto;
+}
     .section:hover {
       box-shadow: 0 0 15px #d4af37;
+      transition: box-shadow 0.3s ease-in-out;
     }
   .hero-section {
   position: relative;
@@ -247,12 +257,12 @@ body {
 
 </div>
 </div>
-   <div id="particles-js"></div>
+  <!-- <div id="particles-js"></div> -->
 
 <br>
 <!-- Testimonials come first for credibility -->
 <div class="section">
-  <h2>💬 What Clients Are Saying</h2>
+  <h2>What Clients Are Saying</h2>
   <blockquote>
     “This was exactly the clarity I needed. Fast, thoughtful, and beautifully done — I finally feel in flow again.”
     <footer>— Jordan R., Creative Strategist</footer>
@@ -264,11 +274,13 @@ body {
 </div>
   
   
+ <div class="intro-text">
   <h1>Strategic Services</h1>
   <p><em>Expert systems & soulful strategy for creators, founders & consultants</em></p>
+</div>
 <br>
   <div class="section">
-    <h2>🔍 Funnel Audit</h2>
+    <h2>Funnel Audit</h2>
     <p><strong>Fix leaks, boost flow — written audit + action plan</strong></p>
     <ul class="features">
       <li>Website & email flow review</li>
@@ -280,7 +292,7 @@ body {
   </div>
 
   <div class="section">
-    <h2>⚙️ Architecture Session</h2>
+    <h2>Architecture Session</h2>
     <p><strong>90-minute deep dive via Zoom + PDF roadmap</strong></p>
     <ul class="features">
       <li>Systems strategy call (90 min)</li>
@@ -292,7 +304,7 @@ body {
   </div>
 
   <div class="section">
-    <h2>🛠️ System Build</h2>
+    <h2>System Build</h2>
     <p><strong>Done-with-you or done-for-you system setup</strong></p>
     <ul class="features">
       <li>1 product fully configured</li>
@@ -303,12 +315,12 @@ body {
     <p><strong>Starts at $1,111+</strong></p>
   </div>
 <br>
-  <h2>✨ Compare Service Tiers</h2>
+  <h2>Compare Service Tiers</h2>
   <p><em>Choose the level of support that aligns with your vision</em></p>
 
   <div class="comparison">
     <div class="section">
-      <h3>🔍 Funnel Audit</h3>
+      <h3>Funnel Audit</h3>
       <p><em>Fix leaks & boost conversions</em></p>
       <ul class="features">
         <li>Website & email flow review</li>
@@ -320,7 +332,7 @@ body {
     </div>
 
     <div class="section">
-      <h3>⚙️ Architecture Session</h3>
+      <h3>Architecture Session</h3>
       <p><em>90-min strategic clarity</em></p>
       <ul class="features">
         <li>Full systems deep-dive</li>
@@ -332,7 +344,7 @@ body {
     </div>
 
     <div class="section">
-      <h3>🛠️ System Build</h3>
+      <h3>System Build</h3>
       <p><em>Done-with-you or Done-for-you</em></p>
       <ul class="features">
         <li>Website or funnel built for you</li>
@@ -350,10 +362,10 @@ body {
   <br>
    <p><strong>Let’s talk through your goals and uncover YOUR next best move — no pressure, no obligation</strong></p>
 <!-- Load the particles.js library -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> -->
 
 <!-- Configure the particle effect -->
-<script>
+<!-- <script>
   particlesJS("particles-js", {
     "particles": {
       "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
@@ -373,7 +385,7 @@ body {
     },
     "retina_detect": true
   });
-</script>
+</script> -->
   <footer>
     © 2025 Gliding Echoes Studios • Strategic Services
   </footer>
