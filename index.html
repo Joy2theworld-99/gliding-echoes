@@ -385,7 +385,7 @@
     const audio = document.getElementById(name + 'Audio');
     const button = document.getElementById(name + 'Button');
 
-    // Pause the other audio if it's playing
+    // Pause any other audio
     ['solon', 'seraline'].forEach(id => {
       if (id !== name) {
         const otherAudio = document.getElementById(id + 'Audio');
@@ -406,6 +406,11 @@
       audio.pause();
       button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
     }
+
+    // Reset button text when audio ends
+    audio.onended = function () {
+      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
+    };
   }
 
   function capitalize(str) {
