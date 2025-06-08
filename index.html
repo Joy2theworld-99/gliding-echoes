@@ -361,15 +361,47 @@
   <img src="Oracle_Solon_MiniGPT.png" alt="Oracle Solon" style="max-width: 300px; border-radius: 12px; box-shadow: 0 0 20px #888;">
   <p style="font-size: 1.2em; margin-top: 1em;">
     <br>
+<script>
+  function toggleAudio(name) {
+    const audio = document.getElementById(name + 'Audio');
+    const button = document.getElementById(name + 'Button');
 
+    // Pause the other audio if it's playing
+    ['solon', 'seraline'].forEach(id => {
+      if (id !== name) {
+        const otherAudio = document.getElementById(id + 'Audio');
+        const otherBtn = document.getElementById(id + 'Button');
+        if (!otherAudio.paused) {
+          otherAudio.pause();
+          otherAudio.currentTime = 0;
+          otherBtn.textContent = `🎧 Hear ${capitalize(id)}’s Greeting`;
+        }
+      }
+    });
+
+    // Toggle current audio
+    if (audio.paused) {
+      audio.play();
+      button.textContent = `⏸️ Pause ${capitalize(name)}’s Greeting`;
+    } else {
+      audio.pause();
+      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
+    }
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+</script>
+    
 <p><strong>Click below to hear Solon's voice...</strong></p>
 <button class="solon-audio-button" onclick="document.getElementById('solonAudio').play()">
   🎧 Hear Solon's Greeting
 </button>
 <audio id="solonAudio">
   <source src="/assets/downloads/Solon3_Silence_Begins_to_Speak.mp3" type="audio/mpeg" />
-  Your browser does not support the audio element.
 </audio>
+<button id="solonButton" class="audio-toggle" onclick="toggleAudio('solon')">🎧 Hear Solon’s Greeting</button>
     <br>
     <br>
     <br>
@@ -418,9 +450,9 @@
   🎧 Hear Seraline's Greeting
 </button>
 <audio id="seralineAudio">
-  <source src="/assets/downloads/Greeting_Seraline - Whisper Voice.mp3" type="audio/mpeg" />
-  Your browser does not support the audio element.
+  <source src="/assets/downloads/Seraline_Welcome_Message.mp3" type="audio/mpeg" />
 </audio>
+<button id="seralineButton" class="audio-toggle" onclick="toggleAudio('seraline')">🎧 Hear Seraline’s Greeting</button>
     <br>
     <br>
   <br>
