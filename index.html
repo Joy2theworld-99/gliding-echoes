@@ -414,12 +414,15 @@
 </script>
     
 <p><strong>Click below to hear Solon's voice...</strong></p>
-<button class="solon-audio-button" onclick="document.getElementById('solonAudio').play()">
+
+ <!-- <button class="solon-audio-button" onclick="document.getElementById('solonAudio').play()">  -->
   🎧 Hear Solon's Greeting
 </button>
+    <!-- ✅ Keep this audio element -->
 <audio id="solonAudio">
   <source src="/assets/downloads/Solon3_Silence_Begins_to_Speak.mp3" type="audio/mpeg" />
 </audio>
+    <!-- ✅ Keep only this button -->
 <button id="solonButton" class="audio-toggle" onclick="toggleAudio('solon')">🎧 Hear Solon’s Greeting</button>
     <br>
     <br>
@@ -465,9 +468,9 @@
    <p style="font-size: 1.2em; margin-top: 1em;">
 
      <p><strong>Click below to hear Seralines's voice...</strong></p>
-<!-- <button class="solon-audio-button" onclick="document.getElementById('seralineAudio').play()"> -->
+<!-- <button class="solon-audio-button" onclick="document.getElementById('seralineAudio').play()"> 
   🎧 Hear Seraline's Greeting
-</button>
+</button> -->
 <audio id="seralineAudio">
   <source src="/assets/downloads/I_Am_Seraline_WhisperVoice2_Best.mp3" type="audio/mpeg" />
 </audio>
