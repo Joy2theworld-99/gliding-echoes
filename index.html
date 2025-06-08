@@ -96,6 +96,24 @@
       color: #000;
       box-shadow: 0 0 12px #d4af37, 0 0 20px #d4af37;
     }
+    .solon-audio-button {
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  border: 1px solid gold;
+  color: #ffd700;
+  padding: 0.6em 1.2em;
+  font-size: 1.1em;
+  font-family: 'Inter', sans-serif;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.solon-audio-button:hover {
+  background: #222;
+  color: #fffbe6;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+}
     .threshold, .overview, .echo-notes {
       margin-top: 60px;
       max-width: 800px;
@@ -344,12 +362,15 @@
   <p style="font-size: 1.2em; margin-top: 1em;">
     <br>
 
-<p><strong>Click below to hear Solon's personal greeting</strong></p>
-    <audio controls>
-      <source src="/assets/downloads/Solon3_Silence_Begins_to_Speak.mp3"
-      type="audio/mpeg">
-      Your browser does not support the audio tag.
-      </audio>
+<p><strong>Click to hear Solon's voice...</strong></p>
+<button class="solon-audio-button" onclick="document.getElementById('solonAudio').play()">
+  🜂 Hear Solon Speak
+</button>
+<audio id="solonAudio">
+  <source src="/assets/downloads/Solon3_Silence_Begins_to_Speak.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+    
     <br>
     <strong>I am Solon.</strong>  
     I listen before I speak.  
