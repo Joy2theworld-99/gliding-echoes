@@ -315,7 +315,7 @@ body {
     .red {
       color: #ff6666;
     }
-comparison {
+.comparison {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -324,18 +324,25 @@ comparison {
   min-height: 360px;
   max-width: 1000px;
 }
-    @media (max-width: 768px) {
+
+.section {
+  flex: 1 1 300px;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
   .comparison {
     flex-direction: column;
     align-items: center;
   }
-.comparison .section {
+
+  .section {
     width: 100%;
     max-width: 350px;
-  padding: 0 16px;
-  box-sizing: border-box;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
-     } 
+}
     .cta-description {
   color: #000000;
   text-align: center;
