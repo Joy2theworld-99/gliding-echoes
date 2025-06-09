@@ -277,7 +277,50 @@ body {
   border: 2px solid #f794d4;
   box-shadow: 0 0 25px rgba(247, 148, 212, 0.4);
 }
+/* Shimmer Button */
+.shimmer-button {
+  display: inline-block;
+  text-align: center;
+  padding: 16px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  background-color: #7ffcff;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
 
+.shimmer-button::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -50%;
+  width: 200%;
+  height: calc(100% + 4px);
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 12px;
+  animation: shimmer-border 4s infinite linear;
+  z-index: -1;
+}
+
+@keyframes shimmer-border {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+    
 /* Moved outside of .ai-highlight */
 /* Divider Line */
 .divider-metallic {
@@ -499,13 +542,20 @@ body {
   </div>
 
  <div style="text-align: center;">
-  <a class="button" href="https://calendar.app.google/7kTSNpR2NRWvuk8r7" target="_blank">Start With a Free Strategy Call</a>
+ <a
+  class="shimmer-button"
+  href="https://calendar.app.google/7kTSNpR2NRWvuk8r7"
+  target="_blank"
+>
+  Start With a Free Strategy Call
+</a>
 </div>
  <p class="cta-description">Have questions first?
    <b>Send an email to:</b></p>
 <p class="cta-description">📩  <a href="mailto:studio@glidingechoes.com">studio@glidingechoes.com</a></p>
    <p class="cta-description"><strong>Let’s talk through your goals and uncover YOUR next best move — no pressure, no obligation</strong></p>
-<!-- Load the particles.js library -->
+
+  <!-- Load the particles.js library -->
 <!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> -->
 
 <!-- Configure the particle effect -->
