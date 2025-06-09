@@ -308,7 +308,7 @@ body {
     rgba(255, 255, 255, 0) 100%
   );
   border-radius: 12px;
-  animation: shimmer-border 4s infinite linear;
+  animation: shimmer-border 2.5s infinite linear;
   z-index: -1;
 }
 
@@ -319,6 +319,11 @@ body {
   100% {
     left: 100%;
   }
+  .shimmer-button:hover {
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.2), 0 0 24px rgba(0, 0, 0, 0.1);
+      background-color: #f794d4;
+      color: #000;
+      transform: scale(1.03);
 }
     
 /* Moved outside of .ai-highlight */
