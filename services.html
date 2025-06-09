@@ -50,7 +50,7 @@ body {
   background-image: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 255, 255, 0.3),
+    rgba(0, 255, 255, 0.8),
     transparent
   );
   background-size: 200% auto;
@@ -67,6 +67,49 @@ body {
     background-position: 200% center;
   }
 }
+    .header-glow {
+  display: inline-block;
+  color: #b0b0b0;
+  font-weight: 700;
+  font-size: 2.8rem;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.header-glow::after {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(0, 255, 255, 0) 0%,
+    rgba(0, 255, 255, 0.5) 50%,
+    rgba(0, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  transition: none;
+}
+
+.header-glow:hover {
+  color: #d0d0d0;
+}
+
+.header-glow:hover::after {
+  animation: title-flash 1.4s ease-out 1;
+}
+
+@keyframes title-flash {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
     h1 {
       font-size: 2.4em;
       margin-top: 40px;
@@ -618,9 +661,11 @@ body {
     "retina_detect": true
   });
 </script> -->
+  
   <footer><b>
     © 2025 Gliding Echoes Studios • Strategic Services</b>
   </footer>
+  
   <script>
   const shimmerEls = document.querySelectorAll('.scroll-shimmer');
 
@@ -635,6 +680,6 @@ body {
 
   shimmerEls.forEach(el => observer.observe(el));
 </script>
-
+  
 </body>
 </html>
