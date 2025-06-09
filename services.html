@@ -67,47 +67,45 @@ body {
     background-position: 200% center;
   }
 }
-    .header-glow {
+   .header-glow {
   display: inline-block;
+  position: relative;
   color: #b0b0b0;
   font-weight: 700;
   font-size: 2.8rem;
-  position: relative;
-  overflow: hidden; /* prevents overflow box effect */
   transition: color 0.3s ease;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.header-glow::after {
+.header-glow::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 200%;
+  left: -75%;
+  width: 50%;
   height: 100%;
   background: linear-gradient(
     120deg,
-    rgba(0, 255, 255, 0) 0%,
-    rgba(0, 255, 255, 0.4) 50%,
-    rgba(0, 255, 255, 0) 100%
+    rgba(255, 255, 255, 0) 0%,
+    rgba(0, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
   );
-  pointer-events: none;
+  transform: skewX(-20deg);
   z-index: 2;
+  pointer-events: none;
 }
 
-.header-glow:hover {
-  color: #d0d0d0;
+.header-glow:hover::before {
+  animation: shimmer-sweep 1.2s ease-out forwards;
 }
 
-.header-glow:hover::after {
-  animation: title-flash 1.4s ease-out 1;
-}
-
-@keyframes title-flash {
+@keyframes shimmer-sweep {
   0% {
-    left: -100%;
+    left: -75%;
   }
   100% {
-    left: 100%;
+    left: 125%;
   }
 }
     h1 {
@@ -519,7 +517,7 @@ body {
   
   
  <div class="intro-text">
-  <h1 class="header-glow scroll-shimmer">Strategic Services</h1>
+  <h1 class="header-glow">Strategic Services</h1>
   <p><strong><em>Expert systems & soulful strategy for creators, founders & consultants</em></strong></p>
 </div>
 <br>
