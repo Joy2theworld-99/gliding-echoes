@@ -290,7 +290,7 @@ body {
   border-radius: 12px;
   position: relative;
   overflow: hidden;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   z-index: 1;
 }
 
@@ -319,14 +319,18 @@ body {
   100% {
     left: 100%;
   }
-  .shimmer-button:hover {
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.2), 0 0 24px rgba(0, 0, 0, 0.1);
-      background-color: #f794d4;
-      color: #000;
-      transform: scale(1.03);
 }
-    }
+
+/* ✅ Moved outside the @keyframes */
+.shimmer-button:hover {
+  background-color: #f794d4;
+  box-shadow: 0 0 12px rgba(247, 148, 212, 0.6),
+              0 0 24px rgba(247, 148, 212, 0.4);
+  transform: scale(1.03);
+  color: #000;
+}
 /* Moved outside of .ai-highlight */
+    
 /* Divider Line */
 .divider-metallic {
   height: 12px;
