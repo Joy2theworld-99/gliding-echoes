@@ -315,7 +315,7 @@ body {
     .red {
       color: #ff6666;
     }
-  .comparison {
+comparison {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -325,18 +325,13 @@ body {
 }
 
 .comparison .section {
-  width: 300px;
-  flex: 1 1 300px; /* allows responsiveness */
-}
+    width: 90%;
+    max-width: 350px;
+  }
   @media (max-width: 960px) {
   .comparison {
     flex-direction: column;
     align-items: center;
-  }
-
- .comparison .section {
-    width: 90%;
-    max-width: 350px;
   }
 }
     .cta-description {
