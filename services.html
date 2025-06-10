@@ -426,6 +426,57 @@ body {
   transform: scale(1.03);
   color: #000;
 }
+   /* Shimmer Button AI */
+.shimmer-button-ai {
+  display: inline-block;
+  text-align: center;
+  padding: 16px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  background-color: #00c9cc;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 1;
+}
+
+.shimmer-button-ai::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -50%;
+  width: 200%;
+  height: calc(100% + 4px);
+  background: linear-gradient(
+    120deg,
+    rgba(153, 255, 221, 0) 0%,
+    rgba(153, 255, 221, 0.6) 50%,
+    rgba(153, 255, 221, 0) 100%
+  );
+  border-radius: 12px;
+  animation: shimmer-border 2.5s infinite linear;
+  z-index: -1;
+}
+
+@keyframes shimmer-border {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+/* Moved outside the @keyframes */
+.shimmer-button-ai:hover {
+  background-color: #e6e6e6;
+  box-shadow: 0 0 12px rgba(179, 179, 179, 0.6),
+              0 0 24px rgba(179, 179, 179, 0.4);
+  transform: scale(1.03);
+  color: #000;
+}
 /* Moved outside of .ai-highlight */
 .cta-top {
   text-align: center;
@@ -548,7 +599,22 @@ body {
   <div class="full-width-header">
   <h1>Delivering the Future — One System at a Time</h1>
   <h2>AI Strategy & Integration Services for Visionaries</h2>
+  
+  <script>
+  const shimmerEls = document.querySelectorAll('.scroll-shimmer');
 
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // one-time shimmer
+      }
+    });
+  });
+
+  shimmerEls.forEach(el => observer.observe(el));
+</script>
+  
 </div>
 </div>
   <!-- <div id="particles-js"></div> -->
@@ -577,7 +643,7 @@ body {
   href="https://dashboard.mailerlite.com/forms/1467576/156769686760982287/share"
   target="_blank"
    >
-  Need Help? Explore Service Options...
+  Need Help? Explore Options Here...
 </a>
 </div>
   <div class="divider-metallic"></div>
@@ -588,13 +654,13 @@ body {
 
   <div class="section">
     <h2>Funnel Audit</h2>
-    <p><i><b>Who is this for?</b> Perfect for creators and small businesses who already have systems in place, but need better flow.</i></p>
+    <p><i><b>Who is this for?</b> Perfect for creators, small businesses & those who already have systems in place, but need better flow.</i></p>
     <p><strong>Identify & fix leaks, boost flow — written audit + action plan</strong></p>
     <ul class="features">
       <li>Website & email review</li>
       <li>Analysis of current Customer Journey (tech through sales)</li>
       <li>Written improvement guide</li>
-      <li>One free consultation (more support available for an additional fee)</li>
+      <li>One free consultation call (more support available for an additional fee)</li>
       <li class="red">❌ Tech setup or AI implementation</li>
       <li class="red">❌ Ongoing tech support (monthly retainer available as an add-on)</li>
     </ul>
@@ -603,11 +669,11 @@ body {
 
   <div class="section">
     <h2>Architecture Session</h2>
-    <p><i><b>Who is this for?</b> You have ideas, tools, or drafts already in motion — but you need a clear strategy to bring it all together. Ideal for creators & small businesses feeling scattered, stalled, or unsure which direction to take next.</i></p>
+    <p><i><b>Who is this for?</b> You have ideas, tools, or drafts already in motion — but you need a clear strategy to bring it all together. Ideal for creators, small businesses & those feeling scattered, stalled, or unsure which direction to take next.</i></p>
     <p><strong>90-minute deep dive via Live Strategy Session + Personalized Launch Map</strong></p>
     <ul class="features">
       <li>Systems strategy call (90 min)</li>
-      <li>Personalized launch plan</li>
+      <li>Personalized product launch plan</li>
       <li>Tech guidance</li>
       <li class="red">❌ Tech setup or AI implementation</li>
       <li class="red">❌ Ongoing tech support (monthly retainer available as an add-on)</li>
@@ -621,15 +687,15 @@ body {
     <p><strong>Done-with-you or done-for-you system setup</strong></p>
     <ul class="features">
       <li>1 product - fully configured</li>
-      <li>Payments + 1 Email Campaign + website setup</li>
-      <li>Ongoing support options</li>
-      <li>Branding polish</li>
+      <li>Payment Setup + 1 Email Campaign + 1 Website setup</li>
       <li>Tech to Sales Customer Journey Flow</li>
+      <li>Branding polish</li>
+      <li>Testing for all tech components</li>
       <li class="red">❌ AI implementation</li>
       <li class="red">❌ Ongoing tech support (monthly retainer available as an add-on)</li>
     </ul>
    <p>Let your system match the strength of your offer</p>
-    <p><strong>Custom quotes available - Let’s design the perfect setup for your needs</strong></p>
+    <p><strong>Custom quotes available - Let’s design the perfect setup for your specific needs</strong></p>
   </div>
 
   <!--<div class="section">
@@ -708,14 +774,15 @@ body {
     <li>Custom GPT agent & automation roadmap</li>
     <li>Multi-tool integration (ChatGPT, Claude, Gemini...)</li>
     <li>Voice-to-output workflows (text, code, client-facing)</li>
-  <p><em>Optional upgrade(s) for small businesses, solo creators & founders ready to integrate AI tools into their business model</em></p>
+  <p><em>Optional upgrade(s) for small businesses, creators & those ready to integrate AI tools into their business model</em></p>
       <p>Available as add-on's or can be purchased separately as stand-alone services</p>
   <ul class="features">
         <li class="red">❌ Funnel Audit, Architecture Session or System Build Service
     <li class="red">❌ Ongoing tech support (ongoing support options available for an additional fee)</li>
   </ul>
   <p><strong>Interested in AI? Let’s explore what’s possible together.</strong></p>
-  <a href="https://dashboard.mailerlite.com/forms/1467576/156760035071887059/share" class="request-ai-button" target="_blank">Explore Your AI Options</a>
+  <a
+    href="https://dashboard.mailerlite.com/forms/1467576/156760035071887059/share" class="shimmer-button-ai" target="_blank">Explore AI Options</a>
      </div>
 </div>
   <div class="divider-metallic"></div>
@@ -763,21 +830,6 @@ body {
   <footer><b>
     © 2025 Gliding Echoes Studios • Strategic Services</b>
   </footer>
-  
-  <script>
-  const shimmerEls = document.querySelectorAll('.scroll-shimmer');
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // one-time shimmer
-      }
-    });
-  });
-
-  shimmerEls.forEach(el => observer.observe(el));
-</script>
-  
 </body>
 </html>
