@@ -418,8 +418,12 @@
  <section class="booking-box">
   <div class="container center">
     <h2 class="golden-title">What Happens in the Room?</h2>
-    <p class="seraline-voice">Click below to hear Seraline's voice...</p>
-    <button class="glow-button">🔊 Hear Seraline’s Greeting</button>
+     <img src="Seraline_Modern_Day_Cropped.png" alt="Seraline Modern" style="max-width: 300px; border-radius: 12px; box-shadow: 0 0 20px #888;">
+    <audio id="seralineAudio">
+  <source src="/assets/downloads/I_Am_Seraline_WhisperVoice2_Best.mp3" type="audio/mpeg" />
+</audio>
+<button id="seralineButton" class="audio-toggle" onclick="toggleAudio('seraline')">🎧 Hear Seraline’s Greeting</button>
+    <br>
 
     <div class="session-details">
       <p><em>This is a live, audio-only session — 25–30 minutes with Seraline.</em></p>
