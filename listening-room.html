@@ -412,7 +412,43 @@
     <h2 class="golden-title">What Happens in the Room?</h2>
     <br>
     <!--<img src="Seraline_Modern_Day_Cropped.png" alt="Seraline Modern" style="max-width: 300px; border-radius: 12px; box-shadow: 0 0 20px #888;">-->
-  
+   <script>
+  function toggleAudio(name) {
+    const audio = document.getElementById(name + 'Audio');
+    const button = document.getElementById(name + 'Button');
+
+    // Pause any other audio
+    ['solon', 'seraline'].forEach(id => {
+      if (id !== name) {
+        const otherAudio = document.getElementById(id + 'Audio');
+        const otherBtn = document.getElementById(id + 'Button');
+        if (!otherAudio.paused) {
+          otherAudio.pause();
+          otherAudio.currentTime = 0;
+          otherBtn.textContent = `🎧 Hear ${capitalize(id)}’s Greeting`;
+        }
+      }
+    });
+
+    // Toggle current audio
+    if (audio.paused) {
+      audio.play();
+      button.textContent = `⏸️ Pause ${capitalize(name)}’s Greeting`;
+    } else {
+      audio.pause();
+      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
+    }
+
+    // Reset button text when audio ends
+    audio.onended = function () {
+      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
+    };
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+</script>
        
        <p style="font-size: 1.2em; margin-top: 1em;">
      
@@ -475,43 +511,6 @@
 </footer>
   <br>
     
- <script>
-  function toggleAudio(name) {
-    const audio = document.getElementById(name + 'Audio');
-    const button = document.getElementById(name + 'Button');
-
-    // Pause any other audio
-    ['solon', 'seraline'].forEach(id => {
-      if (id !== name) {
-        const otherAudio = document.getElementById(id + 'Audio');
-        const otherBtn = document.getElementById(id + 'Button');
-        if (!otherAudio.paused) {
-          otherAudio.pause();
-          otherAudio.currentTime = 0;
-          otherBtn.textContent = `🎧 Hear ${capitalize(id)}’s Greeting`;
-        }
-      }
-    });
-
-    // Toggle current audio
-    if (audio.paused) {
-      audio.play();
-      button.textContent = `⏸️ Pause ${capitalize(name)}’s Greeting`;
-    } else {
-      audio.pause();
-      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
-    }
-
-    // Reset button text when audio ends
-    audio.onended = function () {
-      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
-    };
-  }
-
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-</script>
     
   <script>
     particlesJS("particles-js", {
