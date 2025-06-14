@@ -466,54 +466,6 @@
       <p>No script. No diagnosis. No predictions. Just presence...with a real person.</p>
       <p>If you need to feel heard ~ gently & quietly ~ this is where she meets you.</p>
     </div>
-<script>
-  function toggleAudio(name) {
-    const audio = document.getElementById(name + 'Audio');
-    const button = document.getElementById(name + 'Button');
-
-    // Pause any other audio
-    ['solon', 'seraline'].forEach(id => {
-      if (id !== name) {
-        const otherAudio = document.getElementById(id + 'Audio');
-        const otherBtn = document.getElementById(id + 'Button');
-        if (!otherAudio.paused) {
-          otherAudio.pause();
-          otherAudio.currentTime = 0;
-          otherBtn.textContent = `🎧 Hear ${capitalize(id)}’s Greeting`;
-        }
-      }
-    });
-
-    // Toggle current audio
-    if (audio.paused) {
-      audio.play();
-      button.textContent = `⏸️ Pause ${capitalize(name)}’s Greeting`;
-    } else {
-      audio.pause();
-      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
-    }
-
-    // Reset button text when audio ends
-    audio.onended = function () {
-      button.textContent = `🎧 Hear ${capitalize(name)}’s Greeting`;
-    };
-  }
-
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-</script>
-    
-<p><strong>Click below to hear Seraline's voice...</strong></p>
-
-    <!-- ✅ Keep this audio element -->
-<audio id="solonAudio">
-  <source src="/assets/downloads/Solon3_Silence_Begins_to_Speak.mp3" type="audio/mpeg" />
-</audio>
-    <!-- ✅ Keep only this button -->
-<button id="solonButton" class="audio-toggle" onclick="toggleAudio('solon')">🎧 Hear Seraline’s Voice</button>
-    <br>
-
        
     <h3 class="golden-subtitle">📞 Ready to book?</h3>
     <p>Click below to schedule your time & receive a Google Meet link</p>
