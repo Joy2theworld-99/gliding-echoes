@@ -3,116 +3,107 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adopt a Timecove Pebble – Zin Edition</title>
+  <title>Adopt Your Timecove Pebble</title>
   <style>
     body {
-      font-family: 'Georgia', serif;
-      background-color: #fdf8f1;
+      background: #f7f4ee;
+      font-family: 'Trebuchet MS', sans-serif;
       color: #333;
-      margin: 0;
       padding: 0;
-      text-align: center;
+      margin: 0;
     }
-
     .container {
       max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
+      margin: auto;
+      padding: 40px 20px;
+      text-align: center;
     }
-
     h1 {
       font-size: 2.5rem;
-      color: #3a2d1d;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.5rem;
     }
-
     .subtitle {
       font-size: 1.2rem;
-      color: #7b6a5b;
+      color: #775e2b;
       margin-bottom: 2rem;
     }
-
-    .hero-image {
+    .image {
       width: 100%;
-      max-width: 400px;
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 164, 0, 0.2);
-      margin-bottom: 2rem;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-
+    .section {
+      margin: 40px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #d4af37;
+      color: white;
+      padding: 14px 28px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .cta-button:hover {
+      background: #b3922d;
+    }
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      text-align: left;
     }
-
-    .feature-box {
-      background-color: #fffaf0;
-      border: 1px solid #f4e6d8;
-      border-radius: 12px;
-      padding: 1rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    .feature {
+      background: #fff8e7;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
-
-    .feature-box h3 {
-      margin-top: 0;
-      color: #cc5500;
-    }
-
-    .button {
-      display: inline-block;
-      background-color: #f8b500;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 30px;
-      text-decoration: none;
-      margin-top: 2rem;
-      transition: background-color 0.3s;
-    }
-
-    .button:hover {
-      background-color: #e39c00;
-    }
-
-    .quote {
-      font-style: italic;
-      color: #7b6a5b;
-      margin-top: 2rem;
+    @media (max-width: 600px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Adopt a Timecove Pebble</h1>
-    <p class="subtitle">Where magic meets memory — and every child becomes a Guardian of the Garden</p>
+    <div class="subtitle">Where magic meets memory ~ and every child becomes a Guardian of the Garden</div>
+    <img src="Zin_Pebble_with_Fire_Spiral.png" alt="A colorful, glowing Timecove Pebble with a mysterious glyph" class="image">
 
-    <img src="Zin_Pebble_with_Fire_Spiral.png" alt="Zin Pebble" class="hero-image" />
-
-    <div class="features">
-      <div class="feature-box">
-        <h3>🌟 Personalized Certificate</h3>
-        <p>Each pebble comes with a digital adoption scroll, including its name, glyph, and secret power.</p>
+    <div class="section features">
+      <div class="feature">
+        <h3>✨ Personalized Certificate</h3>
+        <p>Each pebble comes with a digital adoption scroll, including its name, glyph, audio whisper, and secret power.</p>
       </div>
-      <div class="feature-box">
-        <h3>📜 Hidden Lore</h3>
+      <div class="feature">
+        <h3>🌀 Hidden Lore</h3>
         <p>Every pebble holds a memory — from the Garden, the Stars, or the Timecove itself. No two are the same.</p>
       </div>
-      <div class="feature-box">
+      <div class="feature">
         <h3>🎁 Just $7</h3>
-        <p>A magical gift under $10 — great for birthdays, quiet time, or digital treasure collecting.</p>
+        <p>A magical gift for under $10 — great for birthdays, quiet time, or digital treasure collecting.</p>
       </div>
-      <div class="feature-box">
-        <h3>✅ Parent-Approved</h3>
+      <div class="feature">
+        <h3>👩‍👧 Parent-Approved</h3>
         <p>100% screen-free imagination fuel. Wholesome, creative, and safe for all ages.</p>
       </div>
     </div>
 
-    <a href="https://buy.stripe.com/test_placeholder" class="button">Adopt a Pebble Now</a>
+    <div class="section">
+      <a href="#" class="cta-button">Adopt a Pebble Now</a>
+    </div>
 
-    <p class="quote">"Mommy, I HAVE to have this one! Look — it glows and it has a SPIRAL!" – a happy whisper from the Echo Garden</p>
+    <div class="section">
+      <p><em>"Mommy, I HAVE to have this one! Look — it glows and it has a SPIRAL!"</em> – a happy whisper from the Echo Garden</p>
+    </div>
   </div>
 </body>
 </html>
+
