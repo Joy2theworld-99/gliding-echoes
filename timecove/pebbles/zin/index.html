@@ -2,84 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zin Edition – Timecove Pebbles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adopt Your Timecove Pebble</title>
   <style>
     body {
-      margin: 0;
+      background: #f7f4ee;
+      font-family: 'Trebuchet MS', sans-serif;
+      color: #333;
       padding: 0;
-      font-family: 'Georgia', serif;
-      background: linear-gradient(#0d0d0d, #1a1a1a);
-      color: #f9f4e8;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      margin: 0;
     }
-
     .container {
       max-width: 800px;
-      padding: 2rem;
+      margin: auto;
+      padding: 40px 20px;
       text-align: center;
     }
-
-    .hero-image {
-      width: 100%;
-      max-width: 500px;
-      border-radius: 16px;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 30px rgba(255, 204, 102, 0.3);
-    }
-
     h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
-      color: #ffeccc;
     }
-
-    p {
-      font-size: 1.15rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
+    .subtitle {
+      font-size: 1.2rem;
+      color: #775e2b;
+      margin-bottom: 2rem;
     }
-
-    .button {
-      background-color: #ffeccc;
-      color: #1a1a1a;
-      padding: 0.75rem 1.5rem;
+    .image {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .section {
+      margin: 40px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #d4af37;
+      color: white;
+      padding: 14px 28px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 6px;
       text-decoration: none;
-      font-weight: bold;
-      border-radius: 30px;
-      transition: background-color 0.3s;
+      cursor: pointer;
+      transition: background 0.3s;
     }
-
-    .button:hover {
-      background-color: #ffcc66;
+    .cta-button:hover {
+      background: #b3922d;
     }
-
-    .note {
-      font-size: 0.9rem;
-      color: #ccc;
-      margin-top: 1rem;
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      text-align: left;
+    }
+    .feature {
+      background: #fff8e7;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    @media (max-width: 600px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="Zin_Pebble_with_Fire_Spiral.png" alt="Pebble of Zin" class="hero-image" />
+    <h1>Adopt a Timecove Pebble</h1>
+    <div class="subtitle">Where magic meets memory — and every child becomes a Guardian of the Garden</div>
+    <img src="Zin_Pebble_with_Fire_Spiral.png" alt="A colorful, glowing Timecove Pebble with a mysterious glyph" class="image">
 
-    <h1>The Pebble of Zin</h1>
-    <p>
-      Forged in the radiant fires of summer, the Pebble of Zin holds the fierce joy and bold warmth of a season that refuses to hide. Each whisper it carries is a flicker of courage, a spark of remembrance, a truth only heat can reveal.
-    </p>
+    <div class="section features">
+      <div class="feature">
+        <h3>✨ Personalized Certificate</h3>
+        <p>Each pebble comes with a digital adoption scroll, including its name, glyph, and secret power.</p>
+      </div>
+      <div class="feature">
+        <h3>🌀 Hidden Lore</h3>
+        <p>Every pebble holds a memory — from the Garden, the Stars, or the Timecove itself. No two are the same.</p>
+      </div>
+      <div class="feature">
+        <h3>🎁 Just $7</h3>
+        <p>A magical gift for under $10 — great for birthdays, quiet time, or digital treasure collecting.</p>
+      </div>
+      <div class="feature">
+        <h3>👩‍👧 Parent-Approved</h3>
+        <p>100% screen-free imagination fuel. Wholesome, creative, and safe for all ages.</p>
+      </div>
+    </div>
 
-    <p>
-      Only a limited number of these elemental echoes will be released into the world. When the last spark fades, this edition will return to the Timecove vault.
-    </p>
-<br>
-    <a href="https://buy.stripe.com/test_placeholder" class="button">Claim Your Zin Pebble</a>
-<br>
-    <div class="note">
-      Limited Summer Edition · Only 33 Available
+    <div class="section">
+      <a href="#" class="cta-button">Adopt a Pebble Now</a>
+    </div>
+
+    <div class="section">
+      <p><em>"Mommy, I HAVE to have this one! Look — it glows and it has a SPIRAL!"</em> – a happy whisper from the Echo Garden</p>
     </div>
   </div>
 </body>
