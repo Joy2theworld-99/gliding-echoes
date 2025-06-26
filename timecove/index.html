@@ -13,20 +13,6 @@
       padding: 0;
       line-height: 1.6;
     }
-  .header-image img {
-  max-width: 90%;
-  height: auto;
-}
-@media (min-width: 768px) {
-  .header-image img {
-    max-width: 600px;
-  }
-
-.hero-content {
-      position: relative;
-      z-index: 1;
-      padding-top: 80px;
-    }
 
     .container {
       max-width: 800px;
@@ -41,7 +27,26 @@
 
     .section {
       margin-bottom: 3rem;
+    }
+
+    .header-image {
       text-align: center;
+      margin-top: 2rem;
+    }
+
+    .header-image img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      display: block;
+      margin: 0 auto 3rem auto;
+      border-radius: 12px;
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
 
     .button-row {
@@ -71,9 +76,10 @@
   </style>
 </head>
 <body>
- <div class="header-image">
-    <img src="Timecove_Entrance.png" alt="Timecove Entrance" />
-</div>
+  <div class="header-image">
+    <img src="Timecove_Entrance.png" alt="Timecove Entrance">
+  </div>
+
   <div class="container">
     <div class="section">
       <h1>Welcome to the Timecove</h1>
