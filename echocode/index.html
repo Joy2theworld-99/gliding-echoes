@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EchoCode Translator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 2rem;
-      background: #f4f4f4;
+      background: #eee;
     }
     textarea {
       width: 100%;
@@ -17,8 +17,8 @@
     }
     button {
       padding: 0.5rem 1rem;
-      margin-right: 0.5rem;
       font-size: 1rem;
+      margin-right: 0.5rem;
     }
     pre {
       background: #fff;
@@ -27,19 +27,19 @@
       white-space: pre-wrap;
       word-wrap: break-word;
     }
+    h1 {
+      margin-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body>
   <h1>EchoCode Translator</h1>
-
   <label for="inputText">Enter English Text:</label>
-  <textarea id="inputText"></textarea>
-  <br/>
-  <button onclick="translate()">Translate</button>
-  <button onclick="reverseTranslate()">Reverse</button>
-  <button onclick="copyToClipboard()">Copy</button>
-  <button onclick="exportToFile()">Export</button>
-
+  <textarea id="inputText"></textarea><br/>
+  <button id="translateBtn">Translate</button>
+  <button id="reverseBtn">Reverse</button>
+  <button id="copyBtn">Copy</button>
+  <button id="exportBtn">Export</button>
   <h2>EchoCode Output:</h2>
   <pre id="output"></pre>
 
@@ -54,47 +54,56 @@
       Object.entries(symbolMap).map(([k, v]) => [v, k])
     );
 
-    function translate() {
-      const text = document.getElementById('inputText').value;
+    function encodeText(text) {
       const lines = text.split(/\n+/);
-      const translated = lines.map(line => {
-        return line.split(' ').map(word => {
-          return word.toUpperCase().split('').map(char => {
-            return symbolMap[char] || char;
-          }).join(' ');
-        }).join('  ');
-      }).join('\n');
-      document.getElementById('output').textContent = translated;
+      return lines.map(line =>
+        line.split(' ').map(word =>
+          word.toUpperCase().split('').map(char =>
+            symbolMap[char] || char
+          ).join(' ')
+        ).join('  ')
+      ).join('\n');
     }
 
-    function reverseTranslate() {
-      const text = document.getElementById('inputText').value;
+    function decodeText(text) {
       const lines = text.split(/\n+/);
-      const reversed = lines.map(line => {
-        return line.split('  ').map(symbolWord => {
-          return symbolWord.split(' ').map(sym => {
-            return reverseMap[sym] || sym;
-          }).join('');
-        }).join(' ');
-      }).join('\n');
-      document.getElementById('output').textContent = reversed;
+      return lines.map(line =>
+        line.split('  ').map(symbolWord =>
+          symbolWord.split(' ').map(sym =>
+            reverseMap[sym] || sym
+          ).join('')
+        ).join(' ')
+      ).join('\n');
     }
 
-    function copyToClipboard() {
-      const outputText = document.getElementById('output').textContent;
-      navigator.clipboard.writeText(outputText).then(() => {
-        alert("Copied to clipboard!");
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('translateBtn').addEventListener('click', () => {
+        const input = document.getElementById('inputText').value;
+        document.getElementById('output').textContent = encodeText(input);
       });
-    }
 
-    function exportToFile() {
-      const text = document.getElementById('output').textContent;
-      const blob = new Blob([text], { type: 'text/plain' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'echocode.txt';
-      link.click();
-    }
+      document.getElementById('reverseBtn').addEventListener('click', () => {
+        const input = document.getElementById('inputText').value;
+        document.getElementById('output').textContent = decodeText(input);
+      });
+
+      document.getElementById('copyBtn').addEventListener('click', () => {
+        const outputText = document.getElementById('output').textContent;
+        navigator.clipboard.writeText(outputText).then(() => {
+          alert("Copied to clipboard!");
+        });
+      });
+
+      document.getElementById('exportBtn').addEventListener('click', () => {
+        const text = document.getElementById('output').textContent;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'echocode.txt';
+        link.click();
+      });
+    });
   </script>
 </body>
 </html>
+
