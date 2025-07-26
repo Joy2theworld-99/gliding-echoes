@@ -63,20 +63,20 @@
     }
 
     function translateToEcho() {
-      const input = document.getElementById('inputText').value;
-      let output = '';
+  const input = document.getElementById('inputText').value;
+  let output = '';
 
-      for (let char of input.toUpperCase()) {
-        if (symbolMap[char]) {
-          output += `'${symbolMap[char]}' `;
-        } else if (char === ' ') {
-          output += '{:} ';
-        } else {
-          output += `{${char}} `;
-        }
-      }
+  for (let char of input.toUpperCase()) {
+    if (symbolMap[char]) {
+      output += symbolMap[char] + ' ';
+    } else if (char === ' ') {
+      output += '{:} ';
+    } else {
+      output += `{${char}} `;
+    }
+  }
 
-      displayOutput(output.trim());
+  displayOutput(output.trim());
     }
 
     function translateToEnglish() {
