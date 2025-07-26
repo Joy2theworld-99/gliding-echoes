@@ -62,23 +62,20 @@
       reverseSymbolMap[value] = key;
     }
 
-    function translateToEcho() {
-  const input = document.getElementById('inputText').value;
-  let output = '';
+   function translateToEcho() {
+      const input = document.getElementById('inputText').value;
+      let output = '';
 
-  for (let char of input.toUpperCase()) {
-    if (symbolMap[char]) {
-      output += symbolMap[char] + ' ';
-    } else if (char === ' ') {
-      output += '{:} ';
-    } else {
-      output += `{${char}} `;
+      for (let char of input.toUpperCase()) {
+        if (char === ' ') {
+          output += '  ';
+        } else if (symbolMap[char]) {
+          output += symbolMap[char] + ' ';
+        }
+      }
+
+      displayOutput(output.trim());
     }
-  }
-
-  displayOutput(output.trim());
-    }
-
     function translateToEnglish() {
       const input = document.getElementById('inputText').value;
       const tokens = input.match(/'[^']'|{\S+}/g);
