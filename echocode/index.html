@@ -101,21 +101,31 @@
 
 function translateToEnglish() {
   const text = document.getElementById('input').value.trim();
-  const tokens = text.match(/\{.*?\}|[^\s]+|\s/g) || [];
+  const tokens = text.match(/\{.*?\}|[^\s]/g) || [];
   let result = '';
 
   for (let token of tokens) {
-    if (token.trim() === '') {
-      result += ' '; // handle actual spaces
-    } else if (token.startsWith('{') && token.endsWith('}')) {
+    // Ignore visual symbols like brackets, quotes, commas
+    if (['[', ']', '"', ','].includes(token)) {
+      continue;
+    }
+
+    // Translate symbols wrapped in {} (e.g., {!})
+    if (token.startsWith('{') && token.endsWith('}')) {
       const key = token.slice(1, -1);
       result += reverseMap[key] || '?';
-    } else {
-      result += reverseMap[token] || '?';
+    } 
+    // Translate single characters in the map (e.g., *)
+    else if (reverseMap[token]) {
+      result += reverseMap[token];
+    }
+    // Otherwise, treat it as a space
+    else {
+      result += ' ';
     }
   }
 
-  document.getElementById('result').innerText = 'Echo Output:\n' + result;
+  document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
 }
 
     function clearText() {
