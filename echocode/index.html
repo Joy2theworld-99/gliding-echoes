@@ -105,7 +105,7 @@
 
     function translateToEnglish() {
       const text = document.getElementById('input').value;
-      const tokens = text.match(/\{.*?\}|\S+/g) || [];
+      const tokens = text.match(/\{.*?\}|[^\s]/g) || [];
       let result = '';
       for (let token of tokens) {
         if (token === '/') {
