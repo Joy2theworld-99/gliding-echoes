@@ -1,145 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EchoCode Translator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Code Translator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      padding: 30px;
+      padding: 2rem;
+      background: #f4f4f4;
     }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
-    textarea, input[type="text"] {
+    textarea {
       width: 100%;
-      height: 100px;
-      margin-bottom: 10px;
-      font-size: 1.1em;
+      height: 120px;
+      margin-bottom: 1rem;
     }
     button {
-      margin: 5px;
-      padding: 8px 14px;
-      font-size: 1em;
-      cursor: pointer;
+      margin-right: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
     }
-    #outputBox {
+    pre {
       background: #fff;
+      padding: 1rem;
       border: 1px solid #ccc;
-      padding: 10px;
-      min-height: 40px;
       white-space: pre-wrap;
+      word-wrap: break-word;
     }
   </style>
 </head>
 <body>
-
-  <h1>EchoCode Translator</h1>
-
-  <label for="inputText">Enter English Text or EchoCode:</label>
-  <textarea id="inputText" placeholder="Type something like 'Lio is here!'"></textarea>
-
-  <br>
-  <button id="translateBtn">Translate</button>
-  <button id="reverseBtn">Reverse</button>
-  <button id="copyBtn">Copy</button>
-  <button id="exportBtn">Export</button>
-  <button id="clearBtn">Clear</button>
-
-  <h2>EchoCode Output:</h2>
-  <div id="outputBox"></div>
+  <h1>Echo Code Translator</h1>
+  <label for="inputText">Enter English Text:</label>
+  <textarea id="inputText"></textarea>
+  <div>
+    <button id="translateBtn">Translate</button>
+    <button id="reverseBtn">Reverse Translate</button>
+    <button id="copyBtn">Copy</button>
+    <button id="exportBtn">Export</button>
+    <button id="clearBtn">Clear</button>
+  </div>
+  <h2>Echo Code Output:</h2>
+  <pre id="output"></pre>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const letterMap = {
-        A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: '!',
-        J: '`', K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
-        S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
-      };
+    const symbolMap = {
+      A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: '!',
+      J: '`', K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
+      S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
+    };
 
-      const reverseLetterMap = Object.fromEntries(
-        Object.entries(letterMap).map(([k, v]) => [v, k])
-      );
+    const reverseMap = Object.entries(symbolMap).reduce((acc, [key, value]) => {
+      acc[value] = key;
+      return acc;
+    }, {});
 
-      const punctuationMap = {
-        '.': '{.}', ',': '{,}', '!': '{!}', '?': '{?}', "'": "{'}",
-        ':': '{:}', ';': '{;}', '-': '{-}'
-      };
-
-      const reversePunctMap = Object.fromEntries(
-        Object.entries(punctuationMap).map(([k, v]) => [v, k])
-      );
-
-      const input = document.getElementById("inputText");
-      const output = document.getElementById("outputBox");
-
-      document.getElementById("translateBtn").onclick = () => {
-        const text = input.value;
-        let result = '';
-
-        for (let char of text) {
-          if (char === ' ') {
-            result += '  ';
-          } else {
+    function translate() {
+      const text = document.getElementById('inputText').value;
+      const lines = text.split(/\n+/);
+      const translated = lines.map(line => {
+        return line.split(' ').map(word => {
+          return word.split('').map(char => {
             const upper = char.toUpperCase();
-            if (letterMap[upper]) {
-              result += letterMap[upper] + ' ';
-            } else if (punctuationMap[char]) {
-              result += punctuationMap[char] + ' ';
-            } else {
-              result += char + ' ';
-            }
-          }
+            if (symbolMap[upper]) return symbolMap[upper];
+            if (/[.,!?(){}]/.test(char)) return `{${char}}`;
+            return char;
+          }).join(' ');
+        }).join('  ');
+      }).join('\n');
+
+      document.getElementById('output').textContent = translated;
+    }
+
+    function reverseTranslate() {
+      const text = document.getElementById('inputText').value;
+      const translated = text.replace(/\{(.*?)\}|[^\s]+/g, match => {
+        if (match.startsWith('{') && match.endsWith('}')) {
+          return match.slice(1, -1);
+        } else {
+          const symbol = match.trim();
+          return reverseMap[symbol] || symbol;
         }
+      }).replace(/  /g, ' ').replace(/\n/g, '\n');
 
-        output.textContent = result.trim();
-      };
+      document.getElementById('output').textContent = translated;
+    }
 
-      document.getElementById("reverseBtn").onclick = () => {
-        const text = input.value.trim();
-        const parts = text.split(/\s+/);
-        let result = '';
+    function copyOutput() {
+      const output = document.getElementById('output').textContent;
+      navigator.clipboard.writeText(output);
+    }
 
-        for (let part of parts) {
-          if (reverseLetterMap[part]) {
-            result += reverseLetterMap[part];
-          } else if (reversePunctMap[part]) {
-            result += reversePunctMap[part];
-          } else if (part === '') {
-            result += ' ';
-          } else {
-            result += part;
-          }
-        }
+    function exportText() {
+      const output = document.getElementById('output').textContent;
+      const blob = new Blob([output], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'echo_code_output.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
 
-        output.textContent = result;
-      };
+    function clearText() {
+      document.getElementById('inputText').value = '';
+      document.getElementById('output').textContent = '';
+    }
 
-      document.getElementById("copyBtn").onclick = () => {
-        const text = output.textContent;
-        navigator.clipboard.writeText(text)
-          .then(() => alert("Copied to clipboard!"))
-          .catch(err => alert("Failed to copy: " + err));
-      };
-
-      document.getElementById("exportBtn").onclick = () => {
-        const text = output.textContent;
-        const blob = new Blob([text], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "echocode.txt";
-        a.click();
-        URL.revokeObjectURL(url);
-      };
-
-      document.getElementById("clearBtn").onclick = () => {
-        input.value = '';
-        output.textContent = '';
-      };
-    });
+    document.getElementById('translateBtn').addEventListener('click', translate);
+    document.getElementById('reverseBtn').addEventListener('click', reverseTranslate);
+    document.getElementById('copyBtn').addEventListener('click', copyOutput);
+    document.getElementById('exportBtn').addEventListener('click', exportText);
+    document.getElementById('clearBtn').addEventListener('click', clearText);
   </script>
 </body>
 </html>
