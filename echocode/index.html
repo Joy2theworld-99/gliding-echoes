@@ -1,50 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Echo Code Translator</title>
   <style>
     body {
-      background: #eee;
       font-family: monospace;
+      background-color: #eaeaea;
       padding: 20px;
-    }
-    h1 {
-      font-size: 2em;
     }
     textarea {
       width: 100%;
-      height: 100px;
+      height: 120px;
       font-family: monospace;
-      font-size: 1.2em;
+      font-size: 16px;
     }
     button {
-      margin: 10px 5px;
-      font-size: 1em;
-      padding: 5px 10px;
+      padding: 10px 16px;
+      margin: 5px;
+      font-size: 16px;
     }
-    #output {
-      white-space: pre-wrap;
-      background: #fff;
+    #result {
+      background-color: #fff;
       padding: 10px;
-      margin-top: 20px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1.2em;
+      margin-top: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+
   <h1>Echo Code Translator</h1>
   <label for="input"><strong>Enter Text:</strong></label><br>
   <textarea id="input"></textarea><br>
+
   <button onclick="translateToEcho()">Translate to Echo Code</button>
   <button onclick="translateToEnglish()">Translate to English</button>
   <button onclick="clearText()">Clear</button>
-  <button onclick="exportText()">Export</button>
+  <button onclick="exportResult()">Export</button>
 
-  <div id="output"><strong>Echo Output:</strong><br><span id="result"></span></div>
-
+  <div id="result"><strong>Echo Output:</strong></div>
+  
   <script>
     const symbolMap = {
       A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: "-", N: ",",
@@ -104,45 +100,40 @@
 
 
  function translateToEnglish() {
-  const text = document.getElementById('input').value;
-  const tokens = text.match(/\{.*?\}|\S/g) || [];
-  let result = '';
+      const text = document.getElementById('input').value.trim();
+      const tokens = text.match(/\{.*?\}|\S/g) || [];
+      let result = '';
 
-  for (let token of tokens) {
-    if (token === '/' && !reverseMap[token]) {
-      result += ' ';
-    } else if (token.startsWith('{') && token.endsWith('}')) {
-      const inner = token.slice(1, -1);
-      if (reverseMap[inner]) {
-        result += reverseMap[inner];
-      } else {
-        result += '?';
+      for (let token of tokens) {
+        if (token === '/') {
+          result += ' ';
+        } else if (token.startsWith('{') && token.endsWith('}')) {
+          const key = token.slice(1, -1);
+          result += reverseMap[key] || '?';
+        } else {
+          result += reverseMap[token] || '?';
+        }
       }
-    } else if (reverseMap[token]) {
-      result += reverseMap[token];
-    } else {
-      result += '?';
-    }
-  }
 
-  document.getElementById('result').innerText = result;
-}
+      document.getElementById('result').innerText = 'Echo Output:\n' + result;
+    }
 
     function clearText() {
       document.getElementById('input').value = '';
-      document.getElementById('result').innerText = '';
+      document.getElementById('result').innerText = 'Echo Output:';
     }
 
-    function exportText() {
-      const text = document.getElementById('result').innerText;
+    function exportResult() {
+      const text = document.getElementById('result').innerText.replace('Echo Output:\n', '');
       const blob = new Blob([text], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'echo_output.txt';
-      a.click();
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'echo_output.txt';
+      link.click();
       URL.revokeObjectURL(url);
     }
   </script>
+
 </body>
 </html>
