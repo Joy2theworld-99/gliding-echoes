@@ -56,19 +56,52 @@
     );
 
     function translateToEcho() {
-      const text = document.getElementById('input').value.toUpperCase();
-      let result = '';
-      for (let char of text) {
-        if (symbolMap[char]) {
-          result += symbolMap[char] + ' ';
-        } else if (char === ' ') {
-          result += '/ ';
-        } else {
-          result += `{${char}} `;
-        }
+  const text = document.getElementById('input').value;
+  let result = '';
+  let prevWasSpace = false;
+  let spaceCount = 0;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+
+    // Detect paragraph or line breaks
+    if (char === '\n') {
+      if (spaceCount >= 3) {
+        result += '     '; // 5 spaces = paragraph
+      } else {
+        result += '   ';   // 3 spaces = new line
       }
-      document.getElementById('result').innerText = result.trim();
+      spaceCount = 0;
+      continue;
     }
+
+    if (char === ' ') {
+      spaceCount++;
+      continue;
+    }
+
+    // Add appropriate spacing before the next character
+    if (spaceCount === 1) {
+      result += ' '; // letter space
+    } else if (spaceCount === 2) {
+      result += '  '; // word space
+    } else if (spaceCount >= 3) {
+      result += '   '; // line break
+    }
+    spaceCount = 0;
+
+    if (symbolMap[char.toUpperCase()]) {
+      result += symbolMap[char.toUpperCase()];
+    } else if (/[\.,!?'"“”‘’]/.test(char)) {
+      result += `{${char}}`; // actual punctuation wrapped
+    } else {
+      result += `{${char}}`; // unknown characters wrapped
+    }
+  }
+
+  document.getElementById('result').innerText = result.trim();
+}
+
 
     function translateToEnglish() {
       const text = document.getElementById('input').value;
