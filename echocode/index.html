@@ -1,120 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Echo Code Translator</title>
   <style>
     body {
       font-family: 'Courier New', monospace;
-      background-color: #eee;
+      background-color: #f1f1f1;
       padding: 20px;
     }
     h1 {
-      font-size: 2.5rem;
+      font-size: 36px;
+    }
+    label {
+      font-weight: bold;
+      font-size: 18px;
     }
     textarea {
       width: 100%;
       height: 120px;
-      font-size: 1.2rem;
-      padding: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      margin-bottom: 10px;
     }
     button {
-      font-size: 1.2rem;
-      margin: 10px 10px 10px 0;
-      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      padding: 10px 15px;
     }
     #output {
       margin-top: 20px;
-      font-size: 1.5rem;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
-
   <h1>Echo Code Translator</h1>
-  <label for="inputText"><strong>Enter Text:</strong></label><br/>
-  <textarea id="inputText"></textarea><br/>
-
+  <label for="inputText">Enter Text:</label>
+  <textarea id="inputText" placeholder="Enter your message here..."></textarea><br>
   <button onclick="translateToEcho()">Translate to Echo Code</button>
   <button onclick="translateToEnglish()">Translate to English</button>
   <button onclick="clearText()">Clear</button>
-  <button onclick="exportCode()">Export</button>
+  <button onclick="exportOutput()">Export</button>
 
-  <div id="output"></div>
+  <div id="output" style="display: none;">
+    <strong>Echo Output:</strong>
+    <div id="echoResult" style="margin-top:10px;"></div>
+  </div>
 
   <script>
     const symbolMap = {
-      A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[",
-      H: ")", I: "!", J: "`", K: "/", L: "@", M: "-", N: ",",
-      O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$",
-      V: "<", W: '"', X: "#", Y: "_", Z: "%",
+      A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: "-", N: ",",
+      O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
 
-    const reverseMap = Object.fromEntries(
-      Object.entries(symbolMap).map(([key, val]) => [val, key])
-    );
-
-    function escapeSymbol(sym) {
-      if (sym === '"') return '&quot;';
-      if (sym === "'") return '&#39;';
-      return sym;
+    const reverseSymbolMap = {};
+    for (const [key, value] of Object.entries(symbolMap)) {
+      reverseSymbolMap[value] = key;
     }
 
     function translateToEcho() {
-      const input = document.getElementById('inputText').value.toUpperCase();
-      const result = [];
+      const input = document.getElementById('inputText').value;
+      let output = '';
 
-      for (let char of input) {
-        if (char >= 'A' && char <= 'Z') {
-          result.push(escapeSymbol(symbolMap[char]));
+      for (let char of input.toUpperCase()) {
+        if (symbolMap[char]) {
+          output += `'${symbolMap[char]}' `;
         } else if (char === ' ') {
-          result.push(',');
+          output += '{:} ';
         } else {
-          result.push(`{${escapeSymbol(char)}}`);
+          output += `{${char}} `;
         }
       }
 
-      document.getElementById('output').innerHTML = result.join(' ');
+      displayOutput(output.trim());
     }
 
     function translateToEnglish() {
-      const input = document.getElementById('inputText').value.trim();
-      const parts = input.split(/\s+/);
-      const result = [];
+      const input = document.getElementById('inputText').value;
+      const tokens = input.match(/'[^']'|{\S+}/g);
+      let output = '';
 
-      for (let part of parts) {
-        if (part === ',') {
-          result.push(' ');
-        } else if (part.startsWith('{') && part.endsWith('}')) {
-          result.push(part.slice(1, -1));
-        } else {
-          const decoded = Object.entries(symbolMap).find(([_, sym]) => {
-            return escapeSymbol(sym) === part || sym === part;
-          });
-          result.push(decoded ? decoded[0] : '?');
+      if (!tokens) {
+        displayOutput('');
+        return;
+      }
+
+      for (let token of tokens) {
+        if (token.startsWith("'") && token.endsWith("'")) {
+          const symbol = token[1];
+          output += reverseSymbolMap[symbol] || '';
+        } else if (token === '{:}') {
+          output += ' ';
+        } else if (token.startsWith('{') && token.endsWith('}')) {
+          output += token.slice(1, -1); // literal
         }
       }
 
-      document.getElementById('output').innerText = result.join('');
+      displayOutput(output);
     }
 
     function clearText() {
       document.getElementById('inputText').value = '';
-      document.getElementById('output').innerHTML = '';
+      document.getElementById('echoResult').innerText = '';
+      document.getElementById('output').style.display = 'none';
     }
 
-    function exportCode() {
-      const content = document.getElementById('output').innerText;
-      const blob = new Blob([content], {type: 'text/plain'});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "echo_code.txt";
+    function displayOutput(text) {
+      document.getElementById('echoResult').innerText = text;
+      document.getElementById('output').style.display = 'block';
+    }
+
+    function exportOutput() {
+      const text = document.getElementById('echoResult').innerText;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'echo_output.txt';
       link.click();
-      URL.revokeObjectURL(url);
     }
   </script>
-
 </body>
 </html>
