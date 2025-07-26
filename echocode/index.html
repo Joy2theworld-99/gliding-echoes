@@ -62,7 +62,7 @@
 
   <script>
     const symbolMap = {
-      A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: "'", J: '`',
+      A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: "!", J: '`',
       K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
       S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
     };
@@ -73,7 +73,7 @@
     }, {});
 
     function wrapSymbol(sym) {
-      return ['!', '.', ',', '?', ':', ';'].includes(sym) ? `{${sym}}` : sym;
+      return ['!', '.', ',', '?', ':', ';', '''].includes(sym) ? `{${sym}}` : sym;
     }
 
     function unwrapSymbol(sym) {
