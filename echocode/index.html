@@ -98,30 +98,35 @@
   document.getElementById('result').innerText = result.trim();
 }
 
-
 function translateToEnglish() {
   const text = document.getElementById('input').value.trim();
-  const tokens = text.match(/\{.*?\}|[^\s]/g) || [];
+
+  // Match all grouped symbols (like {!}) or individual characters
+  const tokens = text.match(/\{[^}]+\}|[^\s]/g) || [];
   let result = '';
 
   for (let token of tokens) {
-    // Ignore visual symbols like brackets, quotes, commas
+    // Ignore visual characters
     if (['[', ']', '"', ','].includes(token)) {
       continue;
     }
 
-    // Translate symbols wrapped in {} (e.g., {!})
+    // Handle grouped symbols like {!}
     if (token.startsWith('{') && token.endsWith('}')) {
       const key = token.slice(1, -1);
       result += reverseMap[key] || '?';
-    } 
-    // Translate single characters in the map (e.g., *)
+    }
+    // Handle single-symbol codes
     else if (reverseMap[token]) {
       result += reverseMap[token];
     }
-    // Otherwise, treat it as a space
-    else {
+    // If it's a space-like token, insert space
+    else if (token === ' ') {
       result += ' ';
+    }
+    // Otherwise treat as unknown
+    else {
+      result += '?';
     }
   }
 
