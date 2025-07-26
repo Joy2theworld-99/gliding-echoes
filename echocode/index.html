@@ -38,100 +38,109 @@
 
   <h1>EchoCode Translator</h1>
 
-  <label for="inputText">Enter English Text:</label>
+  <label for="inputText">Enter English Text or EchoCode:</label>
   <textarea id="inputText" placeholder="Type something like 'Lio is here!'"></textarea>
 
   <br>
-  <button onclick="translate()">Translate</button>
-  <button onclick="reverseTranslate()">Reverse</button>
-  <button onclick="copyOutput()">Copy</button>
-  <button onclick="exportOutput()">Export</button>
+  <button id="translateBtn">Translate</button>
+  <button id="reverseBtn">Reverse</button>
+  <button id="copyBtn">Copy</button>
+  <button id="exportBtn">Export</button>
+  <button id="clearBtn">Clear</button>
 
   <h2>EchoCode Output:</h2>
   <div id="outputBox"></div>
 
   <script>
-    const letterMap = {
-      A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: '!',
-      J: '`', K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
-      S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      const letterMap = {
+        A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: '!',
+        J: '`', K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
+        S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
+      };
 
-    const reverseLetterMap = Object.fromEntries(
-      Object.entries(letterMap).map(([k, v]) => [v, k])
-    );
+      const reverseLetterMap = Object.fromEntries(
+        Object.entries(letterMap).map(([k, v]) => [v, k])
+      );
 
-    const punctuationMap = {
-      '.': '{.}', ',': '{,}', '!': '{!}', '?': '{?}', "'": "{'}",
-      ':': '{:}', ';': '{;}', '-': '{-}'
-    };
+      const punctuationMap = {
+        '.': '{.}', ',': '{,}', '!': '{!}', '?': '{?}', "'": "{'}",
+        ':': '{:}', ';': '{;}', '-': '{-}'
+      };
 
-    const reversePunctMap = Object.fromEntries(
-      Object.entries(punctuationMap).map(([k, v]) => [v, k])
-    );
+      const reversePunctMap = Object.fromEntries(
+        Object.entries(punctuationMap).map(([k, v]) => [v, k])
+      );
 
-    function translate() {
-      const input = document.getElementById("inputText").value;
-      let result = '';
+      const input = document.getElementById("inputText");
+      const output = document.getElementById("outputBox");
 
-      for (let char of input) {
-        if (char === ' ') {
-          result += '  '; // Double space between words
-        } else {
-          const upper = char.toUpperCase();
-          if (letterMap[upper]) {
-            result += letterMap[upper] + ' ';
-          } else if (punctuationMap[char]) {
-            result += punctuationMap[char] + ' ';
+      document.getElementById("translateBtn").onclick = () => {
+        const text = input.value;
+        let result = '';
+
+        for (let char of text) {
+          if (char === ' ') {
+            result += '  ';
           } else {
-            result += char + ' '; // Leave unknowns untouched
+            const upper = char.toUpperCase();
+            if (letterMap[upper]) {
+              result += letterMap[upper] + ' ';
+            } else if (punctuationMap[char]) {
+              result += punctuationMap[char] + ' ';
+            } else {
+              result += char + ' ';
+            }
           }
         }
-      }
 
-      document.getElementById("outputBox").textContent = result.trim();
-    }
+        output.textContent = result.trim();
+      };
 
-    function reverseTranslate() {
-      const input = document.getElementById("inputText").value.trim();
-      const parts = input.split(/\s+/);
-      let result = '';
+      document.getElementById("reverseBtn").onclick = () => {
+        const text = input.value.trim();
+        const parts = text.split(/\s+/);
+        let result = '';
 
-      for (let part of parts) {
-        if (reverseLetterMap[part]) {
-          result += reverseLetterMap[part];
-        } else if (reversePunctMap[part]) {
-          result += reversePunctMap[part];
-        } else if (part === '') {
-          result += ' '; // Double space becomes one space
-        } else {
-          result += part; // Pass through unknowns
+        for (let part of parts) {
+          if (reverseLetterMap[part]) {
+            result += reverseLetterMap[part];
+          } else if (reversePunctMap[part]) {
+            result += reversePunctMap[part];
+          } else if (part === '') {
+            result += ' ';
+          } else {
+            result += part;
+          }
         }
-      }
 
-      document.getElementById("outputBox").textContent = result;
-    }
+        output.textContent = result;
+      };
 
-    function copyOutput() {
-      const output = document.getElementById("outputBox").textContent;
-      navigator.clipboard.writeText(output)
-        .then(() => alert("Copied to clipboard!"))
-        .catch(err => alert("Failed to copy: " + err));
-    }
+      document.getElementById("copyBtn").onclick = () => {
+        const text = output.textContent;
+        navigator.clipboard.writeText(text)
+          .then(() => alert("Copied to clipboard!"))
+          .catch(err => alert("Failed to copy: " + err));
+      };
 
-    function exportOutput() {
-      const text = document.getElementById("outputBox").textContent;
-      const blob = new Blob([text], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
+      document.getElementById("exportBtn").onclick = () => {
+        const text = output.textContent;
+        const blob = new Blob([text], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "echocode.txt";
+        a.click();
+        URL.revokeObjectURL(url);
+      };
 
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "echocode.txt";
-      a.click();
-      URL.revokeObjectURL(url);
-    }
+      document.getElementById("clearBtn").onclick = () => {
+        input.value = '';
+        output.textContent = '';
+      };
+    });
   </script>
 </body>
 </html>
-
 
