@@ -73,7 +73,7 @@
     }, {});
 
     function wrapSymbol(sym) {
-      return ['!', '.', ',', '?', ':', ';', '''].includes(sym) ? `{${sym}}` : sym;
+      return ['!', '.', ',', '?', ':', ';'].includes(sym) ? `{${sym}}` : sym;
     }
 
     function unwrapSymbol(sym) {
