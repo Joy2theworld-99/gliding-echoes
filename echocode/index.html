@@ -93,38 +93,45 @@
     }
 
     function translateToEnglish() {
-      const text = document.getElementById('input').value;
+  const text = document.getElementById('input').value;
 
-      // Tokenize everything including wrapped punctuation and spaces
-      const tokens = text.match(/\{\S+?\}|[^\s]/g) || [];
-      let result = '';
-      let spaceBuffer = '';
+  const tokens = text.split(/(\s+)/); // Keep spaces in results
+  let result = '';
+  let spaceBuffer = '';
 
-      for (let token of tokens) {
-        if (token === ' ') {
-          spaceBuffer += ' ';
-          continue;
-        }
-
-        // Add space if there's a buffer
-        if (spaceBuffer.length === 1) result += ''; // letter spacing
-        else if (spaceBuffer.length === 2) result += ' '; // word
-        else if (spaceBuffer.length >= 3) result += '\n'; // new line
-        spaceBuffer = '';
-
-        // Wrapped characters like {!}
-        if (/^\{.*\}$/.test(token)) {
-          const inner = token.slice(1, -1);
-          result += inner;
-        } else if (reverseMap[token]) {
-          result += reverseMap[token];
-        } else {
-          result += token;
-        }
-      }
-
-      document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
+  for (let token of tokens) {
+    if (token.trim() === '') {
+      spaceBuffer += token;
+      continue;
     }
+
+    // Add spacing before this token, based on buffer
+    if (spaceBuffer.length === 1) {
+      result += ''; // letter spacing = no extra space
+    } else if (spaceBuffer.length === 2) {
+      result += ' '; // word
+    } else if (spaceBuffer.length >= 3) {
+      result += '\n'; // line break or paragraph
+    }
+    spaceBuffer = '';
+
+    // Decode wrapped characters (e.g., {!})
+    if (/^\{(.+?)\}$/.test(token)) {
+      const match = token.match(/^\{(.+?)\}$/);
+      result += match[1]; // add actual character
+    }
+    // Decode normal echo symbols
+    else if (reverseMap[token]) {
+      result += reverseMap[token];
+    }
+    // If unmatched, preserve it as-is (failsafe)
+    else {
+      result += token;
+    }
+  }
+
+  document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
+}
 
     function clearText() {
       document.getElementById('input').value = '';
