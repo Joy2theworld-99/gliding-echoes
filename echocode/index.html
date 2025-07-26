@@ -1,133 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Echo Code Translator</title>
   <style>
     body {
-      font-family: 'Courier New', Courier, monospace;
-      background-color: #f0f0f0;
-      padding: 40px;
+      font-family: monospace;
+      background: #f0f0f0;
+      padding: 20px;
     }
     h1 {
-      font-size: 36px;
+      font-size: 2.5em;
     }
     textarea {
       width: 100%;
       height: 120px;
-      font-size: 18px;
-      padding: 10px;
+      font-family: monospace;
+      font-size: 1.2em;
+      margin-bottom: 10px;
     }
     button {
-      padding: 10px 20px;
-      margin: 10px 5px;
-      font-size: 16px;
-      border: 1px solid black;
+      font-size: 1em;
+      margin: 5px;
+      padding: 8px 14px;
     }
     #output {
-      font-size: 24px;
       margin-top: 20px;
-      padding: 10px;
       background: white;
+      padding: 10px;
+      font-size: 1.2em;
+      white-space: pre-wrap;
+      word-wrap: break-word;
       border: 1px solid #ccc;
     }
-    span[data-tooltip] {
+    .hover-symbol {
       position: relative;
       cursor: help;
     }
-    span[data-tooltip]:hover::after {
-      content: attr(data-tooltip);
+    .hover-symbol:hover::after {
+      content: attr(data-letter);
       position: absolute;
-      top: 1.5em;
-      left: 0;
+      bottom: 120%;
       background: black;
       color: white;
-      padding: 3px 6px;
-      font-size: 14px;
+      font-size: 0.9em;
+      padding: 2px 6px;
+      border-radius: 3px;
       white-space: nowrap;
-      z-index: 10;
     }
   </style>
 </head>
 <body>
-  <h1>Echo Code Translator</h1>
-  <label for="inputText">Enter Text:</label><br />
-  <textarea id="inputText"></textarea><br />
-  <button onclick="toEchoCode()">Translate to Echo Code</button>
-  <button onclick="toEnglish()">Translate to English</button>
-  <button onclick="clearText()">Clear</button>
-  <button onclick="exportResult()">Export</button>
-  <div id="output"></div>
 
-  <script>
-    const symbolMap = {
-      A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: "!", J: '`',
-      K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
-      S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
-    };
+<h1>Echo Code Translator</h1>
+<label for="inputText"><strong>Enter Text:</strong></label>
+<textarea id="inputText" placeholder="Type here..."></textarea>
 
-    const reverseMap = Object.entries(symbolMap).reduce((acc, [key, val]) => {
-      acc[val] = key;
-      return acc;
-    }, {});
+<br>
 
-    function wrapSymbol(sym) {
-      return ['!', '.', ',', '?', ':', ';'].includes(sym) ? `{${sym}}` : sym;
-    }
+<button onclick="translateToEcho()">Translate to Echo Code</button>
+<button onclick="translateToEnglish()">Translate to English</button>
+<button onclick="clearText()">Clear</button>
+<button onclick="exportText()">Export</button>
 
-    function unwrapSymbol(sym) {
-      const match = sym.match(/^\{(.+)\}$/);
-      return match ? match[1] : sym;
-    }
+<div id="output"></div>
 
-    function toEchoCode() {
-      const input = document.getElementById('inputText').value.toUpperCase();
-      let result = '';
-      for (const char of input) {
-        if (symbolMap[char]) {
-          result += wrapSymbol(symbolMap[char]) + ' ';
-        } else if ([' ', '\n'].includes(char)) {
-          result += char;
-        } else {
-          result += wrapSymbol(char) + ' ';
-        }
+<script>
+  const symbolMap = {
+    A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: '!',
+    J: '`', K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
+    S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
+  };
+
+  const reverseMap = Object.entries(symbolMap).reduce((acc, [key, value]) => {
+    acc[value] = key;
+    return acc;
+  }, {});
+
+  const punctuationToWrap = ['.', ',', '?', '!', ':', ';', '-', "'", '"', '`', '’', '“', '”', '(', ')', '[', ']', '{', '}'];
+
+  function translateToEcho() {
+    const input = document.getElementById('inputText').value;
+    let output = '';
+
+    for (let char of input) {
+      const upperChar = char.toUpperCase();
+
+      if (symbolMap[upperChar]) {
+        const echoChar = symbolMap[upperChar];
+        output += `<span class="hover-symbol" data-letter="${upperChar}">${echoChar}</span> `;
+      } else if (punctuationToWrap.includes(char) && !Object.values(symbolMap).includes(char)) {
+        output += `<span class="hover-symbol" data-letter="Punctuation">{${char}}</span> `;
+      } else if (char === ' ') {
+        output += '  ';
+      } else {
+        output += char + ' ';
       }
-      document.getElementById('output').innerText = result.trim();
     }
 
-    function toEnglish() {
-      const input = document.getElementById('inputText').value;
-      const chunks = input.match(/\{[^}]+\}|[^\s]+/g);
-      let result = '';
-      if (!chunks) return;
-      for (const token of chunks) {
-        const sym = unwrapSymbol(token);
-        if (reverseMap[sym]) {
-          result += reverseMap[sym];
-        } else if ([' ', '\n'].includes(token)) {
-          result += token;
-        } else {
-          result += sym;
-        }
+    document.getElementById('output').innerHTML = output.trim();
+  }
+
+  function translateToEnglish() {
+    const input = document.getElementById('inputText').value;
+    const tokens = input.match(/\{\S\}|\S/g) || [];
+    let output = '';
+
+    for (let token of tokens) {
+      if (token.startsWith('{') && token.endsWith('}')) {
+        output += token[1]; // punctuation
+      } else if (reverseMap[token]) {
+        output += reverseMap[token];
+      } else if (token === ' ') {
+        output += ' ';
+      } else {
+        output += token;
       }
-      document.getElementById('output').innerText = result;
     }
 
-    function clearText() {
-      document.getElementById('inputText').value = '';
-      document.getElementById('output').innerText = '';
-    }
+    document.getElementById('output').textContent = output;
+  }
 
-    function exportResult() {
-      const output = document.getElementById('output').innerText;
-      const blob = new Blob([output], { type: 'text/plain' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'echo_code_output.txt';
-      a.click();
-    }
-  </script>
+  function clearText() {
+    document.getElementById('inputText').value = '';
+    document.getElementById('output').textContent = '';
+  }
+
+  function exportText() {
+    const text = document.getElementById('output').textContent;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'echo_code.txt';
+    link.click();
+  }
+</script>
+
 </body>
 </html>
-
