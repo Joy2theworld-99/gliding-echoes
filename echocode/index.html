@@ -1,131 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>EchoCode Translator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 2rem;
-      background: #eee;
-    }
-    textarea, pre {
-      width: 100%;
-      font-size: 1.1rem;
-      padding: 1rem;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    button {
-      padding: 0.6rem 1.2rem;
-      margin-right: 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
+      background: #f0f0f0;
+      padding: 30px;
     }
     h1 {
-      margin-bottom: 0.5rem;
+      font-size: 2em;
+      margin-bottom: 10px;
     }
-    label {
-      font-weight: bold;
+    textarea, input[type="text"] {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 10px;
+      font-size: 1.1em;
     }
-    #output {
-      background-color: #fff;
+    button {
+      margin: 5px;
+      padding: 8px 14px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    #outputBox {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 40px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
+
   <h1>EchoCode Translator</h1>
+
   <label for="inputText">Enter English Text:</label>
-  <textarea id="inputText" rows="6"></textarea>
-  <div>
-    <button onclick="translate()">Translate</button>
-    <button onclick="reverseTranslate()">Reverse</button>
-    <button onclick="copyOutput()">Copy</button>
-    <button onclick="exportOutput()">Export</button>
-  </div>
+  <textarea id="inputText" placeholder="Type something like 'Lio is here!'"></textarea>
+
+  <br>
+  <button onclick="translate()">Translate</button>
+  <button onclick="reverseTranslate()">Reverse</button>
+  <button onclick="copyOutput()">Copy</button>
+  <button onclick="exportOutput()">Export</button>
+
   <h2>EchoCode Output:</h2>
-  <pre id="output"></pre>
+  <div id="outputBox"></div>
 
   <script>
-    const symbolMap = {
+    const letterMap = {
       A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: '!',
       J: '`', K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
       S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
     };
 
-    const punctuationMap = {
-      '.': '{.}',
-      ',': '{,}',
-      '!': '{!}',
-      '?': '{?}',
-      '\'': '{\'}',
-      ':': '{:}',
-      ';': '{;}',
-      '-': '{-}'
-    };
-
-    const reverseSymbolMap = Object.fromEntries(
-      Object.entries(symbolMap).map(([k, v]) => [v, k])
+    const reverseLetterMap = Object.fromEntries(
+      Object.entries(letterMap).map(([k, v]) => [v, k])
     );
 
-    const reversePunctuationMap = Object.fromEntries(
+    const punctuationMap = {
+      '.': '{.}', ',': '{,}', '!': '{!}', '?': '{?}', "'": "{'}",
+      ':': '{:}', ';': '{;}', '-': '{-}'
+    };
+
+    const reversePunctMap = Object.fromEntries(
       Object.entries(punctuationMap).map(([k, v]) => [v, k])
     );
 
     function translate() {
-      const text = document.getElementById('inputText').value;
-      const lines = text.split(/\n+/);
-      const translated = lines.map(line => {
-        return line.split(' ').map(word => {
-          return word.split('').map(char => {
-            const upper = char.toUpperCase();
-            if (symbolMap[upper]) return symbolMap[upper];
-            if (punctuationMap[char]) return punctuationMap[char];
-            return char;
-          }).join(' ');
-        }).join('  ');
-      }).join('\n');
+      const input = document.getElementById("inputText").value;
+      let result = '';
 
-      document.getElementById('output').textContent = translated;
+      for (let char of input) {
+        if (char === ' ') {
+          result += '  '; // Double space between words
+        } else {
+          const upper = char.toUpperCase();
+          if (letterMap[upper]) {
+            result += letterMap[upper] + ' ';
+          } else if (punctuationMap[char]) {
+            result += punctuationMap[char] + ' ';
+          } else {
+            result += char + ' '; // Leave unknowns untouched
+          }
+        }
+      }
+
+      document.getElementById("outputBox").textContent = result.trim();
     }
 
     function reverseTranslate() {
-      const text = document.getElementById('output').textContent.trim();
-      const lines = text.split('\n');
-      const reversed = lines.map(line => {
-        return line.split('  ').map(word => {
-          const symbols = word.trim().split(' ');
-          return symbols.map(symbol => {
-            if (reversePunctuationMap[symbol]) return reversePunctuationMap[symbol];
-            if (reverseSymbolMap[symbol]) return reverseSymbolMap[symbol];
-            return symbol;
-          }).join('');
-        }).join(' ');
-      }).join('\n');
+      const input = document.getElementById("inputText").value.trim();
+      const parts = input.split(/\s+/);
+      let result = '';
 
-      document.getElementById('inputText').value = reversed;
+      for (let part of parts) {
+        if (reverseLetterMap[part]) {
+          result += reverseLetterMap[part];
+        } else if (reversePunctMap[part]) {
+          result += reversePunctMap[part];
+        } else if (part === '') {
+          result += ' '; // Double space becomes one space
+        } else {
+          result += part; // Pass through unknowns
+        }
+      }
+
+      document.getElementById("outputBox").textContent = result;
     }
 
     function copyOutput() {
-      const output = document.getElementById('output').textContent;
+      const output = document.getElementById("outputBox").textContent;
       navigator.clipboard.writeText(output)
-        .then(() => alert("EchoCode copied to clipboard!"))
-        .catch(err => alert("Copy failed: " + err));
+        .then(() => alert("Copied to clipboard!"))
+        .catch(err => alert("Failed to copy: " + err));
     }
 
     function exportOutput() {
-      const output = document.getElementById('output').textContent;
-      const blob = new Blob([output], { type: 'text/plain' });
+      const text = document.getElementById("outputBox").textContent;
+      const blob = new Blob([text], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'echocode.txt';
-      document.body.appendChild(a);
+      a.download = "echocode.txt";
       a.click();
-      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
   </script>
 </body>
