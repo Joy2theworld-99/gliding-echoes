@@ -99,34 +99,25 @@
 }
 
 function translateToEnglish() {
-  const text = document.getElementById('input').value.trim();
-
-  // Match all grouped symbols (like {!}) or individual characters
-  const tokens = text.match(/\{[^}]+\}|[^\s]/g) || [];
+  const text = document.getElementById('input').value;
+  const tokens = text.match(/\{\!\}|\S/g) || []; // Match {!} or non-space symbols
   let result = '';
 
   for (let token of tokens) {
-    // Ignore visual characters
-    if (['[', ']', '"', ','].includes(token)) {
-      continue;
-    }
+    // Skip junk characters used for visual formatting
+    if (['[', ']', ',', '"'].includes(token)) continue;
 
-    // Handle grouped symbols like {!}
-    if (token.startsWith('{') && token.endsWith('}')) {
-      const key = token.slice(1, -1);
-      result += reverseMap[key] || '?';
-    }
-    // Handle single-symbol codes
+    // If token is {!}, translate as 'I' or '!' depending on your map
+    if (token === '{!}') {
+      result += reverseMap['!'] || '!';
+    } 
+    // If token is mapped, use it
     else if (reverseMap[token]) {
       result += reverseMap[token];
-    }
-    // If it's a space-like token, insert space
+    } 
+    // If token is a space or something unknown, insert space
     else if (token === ' ') {
       result += ' ';
-    }
-    // Otherwise treat as unknown
-    else {
-      result += '?';
     }
   }
 
