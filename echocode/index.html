@@ -25,6 +25,7 @@
       padding: 10px;
       margin-top: 10px;
       font-weight: bold;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -40,89 +41,90 @@
   <button onclick="exportResult()">Export</button>
 
   <div id="result"><strong>Echo Output:</strong></div>
-  
+
   <script>
     const symbolMap = {
       A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: "-", N: ",",
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
 
-   const reverseMap = Object.fromEntries(
-      Object.entries(symbolMap).map(([k, v]) => [v, k])
-    );
+    const reverseMap = Object.fromEntries(Object.entries(symbolMap).map(([k, v]) => [v, k]));
 
     function translateToEcho() {
-  const text = document.getElementById('input').value;
-  let result = '';
-  let prevWasSpace = false;
-  let spaceCount = 0;
+      const text = document.getElementById('input').value;
+      let result = '';
+      let spaceCount = 0;
 
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
 
-    // Detect paragraph or line breaks
-    if (char === '\n') {
-      if (spaceCount >= 3) {
-        result += '     '; // 5 spaces = paragraph
-      } else {
-        result += '   ';   // 3 spaces = new line
+        if (char === '\n') {
+          if (spaceCount >= 3) {
+            result += '     '; // paragraph
+          } else {
+            result += '   '; // newline
+          }
+          spaceCount = 0;
+          continue;
+        }
+
+        if (char === ' ') {
+          spaceCount++;
+          continue;
+        }
+
+        // Add spacing
+        if (spaceCount === 1) result += ' ';       // letter
+        else if (spaceCount === 2) result += '  '; // word
+        else if (spaceCount >= 3) result += '   '; // line break
+        spaceCount = 0;
+
+        const upperChar = char.toUpperCase();
+        if (symbolMap[upperChar]) {
+          result += symbolMap[upperChar];
+        } else if (/[\.,!?'"“”‘’]/.test(char)) {
+          result += `{${char}}`;
+        } else {
+          result += `{${char}}`;
+        }
       }
-      spaceCount = 0;
-      continue;
+
+      document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
     }
 
-    if (char === ' ') {
-      spaceCount++;
-      continue;
+    function translateToEnglish() {
+      const text = document.getElementById('input').value;
+
+      // Tokenize everything including wrapped punctuation and spaces
+      const tokens = text.match(/\{\S+?\}|[^\s]/g) || [];
+      let result = '';
+      let spaceBuffer = '';
+
+      for (let token of tokens) {
+        if (token === ' ') {
+          spaceBuffer += ' ';
+          continue;
+        }
+
+        // Add space if there's a buffer
+        if (spaceBuffer.length === 1) result += ''; // letter spacing
+        else if (spaceBuffer.length === 2) result += ' '; // word
+        else if (spaceBuffer.length >= 3) result += '\n'; // new line
+        spaceBuffer = '';
+
+        // Wrapped characters like {!}
+        if (/^\{.*\}$/.test(token)) {
+          const inner = token.slice(1, -1);
+          result += inner;
+        } else if (reverseMap[token]) {
+          result += reverseMap[token];
+        } else {
+          result += token;
+        }
+      }
+
+      document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
     }
-
-    // Add appropriate spacing before the next character
-    if (spaceCount === 1) {
-      result += ' '; // letter space
-    } else if (spaceCount === 2) {
-      result += '  '; // word space
-    } else if (spaceCount >= 3) {
-      result += '   '; // line break
-    }
-    spaceCount = 0;
-
-    if (symbolMap[char.toUpperCase()]) {
-      result += symbolMap[char.toUpperCase()];
-    } else if (/[\.,!?'"“”‘’]/.test(char)) {
-      result += `{${char}}`; // actual punctuation wrapped
-    } else {
-      result += `{${char}}`; // unknown characters wrapped
-    }
-  }
-
-  document.getElementById('result').innerText = result.trim();
-}
-
-function translateToEnglish() {
-  const text = document.getElementById('input').value;
-  const tokens = text.match(/\{\!\}|\S/g) || []; // Match {!} or non-space symbols
-  let result = '';
-
-  for (let token of tokens) {
-    // Skip junk characters used for visual formatting
-    if (['[', ']', ',', '"'].includes(token)) continue;
-
-    // If token is {!}, translate as 'I' or '!' depending on your map
-    if (token === '{!}') {
-      result += reverseMap['!'] || '!';
-    } 
-    // If token is mapped, use it
-    else if (reverseMap[token]) {
-      result += reverseMap[token];
-    } 
-    // If token is a space or something unknown, insert space
-    else if (token === ' ') {
-      result += ' ';
-    }
-  }
-
-  document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
-}
 
     function clearText() {
       document.getElementById('input').value = '';
