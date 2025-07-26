@@ -105,14 +105,19 @@
 
  function translateToEnglish() {
   const text = document.getElementById('input').value;
-  const tokens = text.match(/\{.*?\}|\S+/g) || [];
+  const tokens = text.match(/\{.*?\}|\S/g) || [];
   let result = '';
 
   for (let token of tokens) {
     if (token === '/' && !reverseMap[token]) {
       result += ' ';
     } else if (token.startsWith('{') && token.endsWith('}')) {
-      result += token.slice(1, -1);
+      const inner = token.slice(1, -1);
+      if (reverseMap[inner]) {
+        result += reverseMap[inner];
+      } else {
+        result += '?';
+      }
     } else if (reverseMap[token]) {
       result += reverseMap[token];
     } else {
