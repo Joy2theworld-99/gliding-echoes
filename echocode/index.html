@@ -5,9 +5,9 @@
   <title>Echo Code Translator</title>
   <style>
     body {
-      font-family: monospace;
-      background: #f0f0f0;
-      padding: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      background: #f1f1f1;
+      padding: 30px;
     }
     h1 {
       font-size: 2.5em;
@@ -15,126 +15,123 @@
     textarea {
       width: 100%;
       height: 120px;
-      font-family: monospace;
       font-size: 1.2em;
-      margin-bottom: 10px;
+      margin-top: 10px;
+      padding: 10px;
+      box-sizing: border-box;
     }
     button {
+      margin: 10px 5px;
+      padding: 10px 20px;
       font-size: 1em;
-      margin: 5px;
-      padding: 8px 14px;
     }
     #output {
       margin-top: 20px;
-      background: white;
       padding: 10px;
-      font-size: 1.2em;
-      white-space: pre-wrap;
-      word-wrap: break-word;
+      font-size: 1.5em;
+      background: #fff;
+      min-height: 60px;
       border: 1px solid #ccc;
     }
     .hover-symbol {
       position: relative;
-      cursor: help;
+      cursor: pointer;
     }
-    .hover-symbol:hover::after {
+    .hover-symbol::after {
       content: attr(data-letter);
       position: absolute;
-      bottom: 120%;
-      background: black;
+      bottom: 100%;
+      left: 0;
+      background: #333;
       color: white;
-      font-size: 0.9em;
-      padding: 2px 6px;
-      border-radius: 3px;
+      padding: 2px 5px;
+      font-size: 0.75em;
       white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .hover-symbol:hover::after {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
+  <h1>Echo Code Translator</h1>
+  <label for="inputText"><strong>Enter Text:</strong></label>
+  <textarea id="inputText" placeholder="Type English here..."></textarea><br>
+  <button onclick="translateToEcho()">Translate to Echo Code</button>
+  <button onclick="translateToEnglish()">Translate to English</button>
+  <button onclick="clearText()">Clear</button>
+  <button onclick="exportOutput()">Export</button>
+  <div id="output"></div>
 
-<h1>Echo Code Translator</h1>
-<label for="inputText"><strong>Enter Text:</strong></label>
-<textarea id="inputText" placeholder="Type here..."></textarea>
+  <script>
+    const symbolMap = {
+      A: "&", B: "#", C: "(", D: "]", E: "=", F: "^", G: "[",
+      H: ")", I: "!", J: "`", K: "/", L: "@", M: "$", N: ",",
+      O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "<",
+      V: "|", W: '"', X: "%", Y: "_", Z: ":"
+    };
 
-<br>
+    const reverseSymbolMap = Object.entries(symbolMap).reduce((obj, [k, v]) => {
+      obj[v] = k;
+      return obj;
+    }, {});
 
-<button onclick="translateToEcho()">Translate to Echo Code</button>
-<button onclick="translateToEnglish()">Translate to English</button>
-<button onclick="clearText()">Clear</button>
-<button onclick="exportText()">Export</button>
+    const punctuationToWrap = ['.', ',', '?', '!', ':', ';', "'", '"', '(', ')'];
 
-<div id="output"></div>
+    function translateToEcho() {
+      const input = document.getElementById('inputText').value;
+      let output = '';
 
-<script>
-  const symbolMap = {
-    A: '&', B: ':', C: '(', D: ']', E: '=', F: '^', G: '[', H: ')', I: '!',
-    J: '`', K: '/', L: '@', M: '-', N: ',', O: '*', P: ';', Q: '?', R: '>',
-    S: '~', T: '+', U: '$', V: '<', W: '"', X: '#', Y: '_', Z: '%'
-  };
+      for (let char of input) {
+        const upperChar = char.toUpperCase();
+        const isEchoSymbol = symbolMap[upperChar];
+        const isPunctuation = punctuationToWrap.includes(char);
 
-  const reverseMap = Object.entries(symbolMap).reduce((acc, [key, value]) => {
-    acc[value] = key;
-    return acc;
-  }, {});
-
-  const punctuationToWrap = ['.', ',', '?', '!', ':', ';', '-', "'", '"', '`', '’', '“', '”', '(', ')', '[', ']', '{', '}'];
-
-  function translateToEcho() {
-    const input = document.getElementById('inputText').value;
-    let output = '';
-
-    for (let char of input) {
-      const upperChar = char.toUpperCase();
-
-      if (symbolMap[upperChar]) {
-        const echoChar = symbolMap[upperChar];
-        output += `<span class="hover-symbol" data-letter="${upperChar}">${echoChar}</span> `;
-      } else if (punctuationToWrap.includes(char) && !Object.values(symbolMap).includes(char)) {
-        output += `<span class="hover-symbol" data-letter="Punctuation">{${char}}</span> `;
-      } else if (char === ' ') {
-        output += '  ';
-      } else {
-        output += char + ' ';
+        if (isEchoSymbol) {
+          const echoChar = symbolMap[upperChar];
+          output += `<span class="hover-symbol" data-letter="${upperChar}">${echoChar}</span> `;
+        } else if (isPunctuation) {
+          output += `<span class="hover-symbol" data-letter="Punctuation">{${char}}</span> `;
+        } else if (char === ' ') {
+          output += '  ';
+        } else {
+          output += char + ' ';
+        }
       }
+
+      document.getElementById('output').innerHTML = output.trim();
     }
 
-    document.getElementById('output').innerHTML = output.trim();
-  }
+    function translateToEnglish() {
+      const input = document.getElementById('inputText').value.trim();
+      let output = '';
 
-  function translateToEnglish() {
-    const input = document.getElementById('inputText').value;
-    const tokens = input.match(/\{\S\}|\S/g) || [];
-    let output = '';
-
-    for (let token of tokens) {
-      if (token.startsWith('{') && token.endsWith('}')) {
-        output += token[1]; // punctuation
-      } else if (reverseMap[token]) {
-        output += reverseMap[token];
-      } else if (token === ' ') {
-        output += ' ';
-      } else {
-        output += token;
+      for (let char of input) {
+        if (reverseSymbolMap[char]) {
+          output += reverseSymbolMap[char];
+        } else {
+          output += char;
+        }
       }
+
+      document.getElementById('output').innerText = output;
     }
 
-    document.getElementById('output').textContent = output;
-  }
+    function clearText() {
+      document.getElementById('inputText').value = '';
+      document.getElementById('output').innerHTML = '';
+    }
 
-  function clearText() {
-    document.getElementById('inputText').value = '';
-    document.getElementById('output').textContent = '';
-  }
-
-  function exportText() {
-    const text = document.getElementById('output').textContent;
-    const blob = new Blob([text], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'echo_code.txt';
-    link.click();
-  }
-</script>
-
+    function exportOutput() {
+      const text = document.getElementById('output').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Echo code copied to clipboard!");
+      });
+    }
+  </script>
 </body>
 </html>
+
