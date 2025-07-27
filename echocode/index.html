@@ -33,7 +33,13 @@ textarea, input, button {
       margin: 5px;
       font-size: 16px;
     }
-
+/* Optional: Make buttons inline on desktop */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
    #result {
   background: #fff;
   padding: 1em;
@@ -42,7 +48,13 @@ textarea, input, button {
   word-break: break-word;
   border: 1px solid #ccc;
 }
-
+.button-row button {
+  flex: 1 1 auto;
+  min-width: 150px;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 16px;
+}
     #result strong {
       color: #555;
       display: block;
@@ -90,12 +102,11 @@ textarea, input, button {
     }
 
 /* Stack buttons on mobile */
+/* On mobile, stack buttons full width */
 @media (max-width: 600px) {
   .button-row {
-    display: flex;
     flex-direction: column;
   }
-
       button {
   margin: 5px 0;
   padding: 10px;
@@ -104,7 +115,15 @@ textarea, input, button {
   .button-row button {
     width: 100%;
   }
-
+  /* Optional spacing around top headings */
+h1, h2, h3, h4, h5 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+/* Fix header word-wrap issue */
+th {
+  white-space: nowrap;
+}
       table, th, td {
         font-size: 0.85rem;
       }
@@ -115,6 +134,7 @@ textarea, input, button {
 
       textarea {
         font-size: 1rem;
+        padding: 10px;
       }
     }
   </style>
