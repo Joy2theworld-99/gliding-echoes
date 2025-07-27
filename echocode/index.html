@@ -12,7 +12,7 @@
 
 textarea, input, button {
   font-family: monospace;
-  font-size: 16px;
+  font-size: 18px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -70,18 +70,19 @@ button {
   display: block;
   margin-bottom: 6px;
 }
-
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 table {
   width: 100%;
-  overflow-x: auto;
-  display: block;
+  min-width: 500px;
 }
 
 th, td {
   padding: 6px 8px;
   text-align: left;
   word-break: break-word;
-  white-space: nowrap;
 }
 
 .key-section-title {
@@ -115,7 +116,7 @@ th, td {
 /* On mobile, stack buttons and shrink fonts */
 @media (max-width: 600px) {
   th {
-    white-space: normal !important;
+    white-space: normal;
     font-size: 0.9rem;
   }
 td {
@@ -165,7 +166,7 @@ td {
 • Do not combine multiple Echo symbols without spacing or it will result in an error
         </pre>
       </div>
-
+<div class="table-wrapper">
       <div class="key-section-title">
         <h2>🔑 Echo Code Key (A–Z)</h2>
         <table>
@@ -183,7 +184,8 @@ td {
           <tr><td>I</td><td>*</td><td></td><td>R</td><td>></td><td></td><td></td><td></td></tr>
         </table>
       </div>
-
+ </div>
+      <div class="table-wrapper">
       <div class="key-section-title">🛠 System Symbols</div>
       <table>
         <tr><th>Function</th><th>Symbol</th><th>Notes</th></tr>
@@ -197,6 +199,7 @@ td {
         <tr><td>Letter break</td><td>1 space</td><td>Always required</td></tr>
       </table>
     </div>
+      </div>
 <div class="button-row">
     <div id="translatorBox">
       <label for="input"><strong>Enter Text:</strong></label><br>
@@ -284,7 +287,7 @@ const reverseMap = {};
       }
     }
 
-    document.getElementById('result').innerText = 'Echo Code Translation:\n' + result.trim();
+    document.getElementById('result').innerHTML = '<strong>Echo Code Translation:</strong><br>' + result.trim().replace(/\n/g, '<br>');
   }
 
  function translateToEnglish() {
