@@ -121,22 +121,12 @@
 // Determine spacing rules
     const spaceCount = spaceBuffer.length;
 
-    if (spaceCount >= 5) {
-      result += '\n\n';
-    } else if (spaceCount >= 3) {
-      result += '\n';
-    } else if (spaceCount >= 2) {
-      result += ' ';
-    }
-
-      const upperChar = char.toUpperCase();
-      if (symbolMap[upperChar]) {
-        result += symbolMap[upperChar];
-      } else if (/[\.,!?'"“”‘’]/.test(char)) {
-        result += `{${char}}`;
-      } else {
-        result += `{${char}}`;
-      }
+if (spaceCount >= 5) {
+  result += '\n\n'; // Paragraph break
+} else if (spaceCount >= 3) {
+  result += '\n'; // Line break
+} else if (spaceCount === 2) {
+  result += ' '; // Word space
     }
 
     document.getElementById('result').innerText = 'Echo Code Translation:\n' + result.trim();
@@ -149,7 +139,14 @@
       alert("⚠️ Translation error:\n\n" + errors.join("\n"));
       return;
     }
+const spaceCount = spaceBuffer.length;
 
+if (spaceCount >= 5) {
+  result += '\n\n'; // Paragraph break
+} else if (spaceCount >= 3) {
+  result += '\n'; // Line break
+} else if (spaceCount === 2) {
+  result += ' '; // Word space
     const lines = text.trim().split("   ");
     let result = '';
 
