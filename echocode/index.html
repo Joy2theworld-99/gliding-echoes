@@ -58,206 +58,126 @@
       A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: ",", N: "-",
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
-const punctuationMap = {
-  "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";", '{"}': '"', "{'}": "'",
-  "{-}": "-", "{(}": "(", "{)}": ")"
-};
-    const lines = text.trim().split("   "); // 3 spaces = line break
-let result = "";
+ const punctuationMap = {
+    "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";", '{"}': '"', "{'}": "'",
+    "{-}": "-", "{(}": "(", "{)}": ")"
+  };
 
-for (let line of lines) {
-  const words = line.trim().split("  "); // 2 spaces = word break
-  let translatedWords = [];
-
-  for (let word of words) {
-    const letters = word.trim().split(" "); // 1 space = letter break
-    let translatedLetters = letters.map(symbol => {
-      if (punctuationMap[symbol]) return punctuationMap[symbol];
-      if (echoToLetter.hasOwnProperty(symbol)) return echoToLetter[symbol];
-      return ""; // invalid or empty
-    });
-    translatedWords.push(translatedLetters.join(""));
-  }
-  result += translatedWords.join(" ") + "\n";
-}
-
-document.getElementById('output').textContent = result.trim();
- function validateEchoInput(input) {
-  const errors = [];
-  const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%'];
-  const allowedSymbols = Object.keys(reverseMap); // includes all legit Echo Code glyphs
-
-  const tokens = input.split(/(\s+)/); // keep spaces
-  const openBrackets = (input.match(/{/g) || []).length;
-  const closeBrackets = (input.match(/}/g) || []).length;
-
-  if (openBrackets !== closeBrackets) {
-    errors.push("Unmatched punctuation brackets detected.");
+  const reverseMap = {};
+  for (const [letter, symbol] of Object.entries(symbolMap)) {
+    reverseMap[symbol] = letter;
   }
 
-  // Check each token (individual symbol or group)
-  for (let token of tokens) {
-    if (!token.trim()) continue; // skip pure whitespace
+  function validateEchoInput(input) {
+    const errors = [];
+    const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%'];
+    const allowedSymbols = Object.values(symbolMap);
 
-    // Check if wrapped in {} — then it’s punctuation, skip
-    if (/^\{.+\}$/.test(token)) continue;
+    const tokens = input.split(/(\s+)/);
+    const openBrackets = (input.match(/{/g) || []).length;
+    const closeBrackets = (input.match(/}/g) || []).length;
 
-    // If token is one of the risky punctuation characters and NOT part of the allowed Echo glyphs, warn
-    if (riskyPunctuation.includes(token) && !allowedSymbols.includes(token)) {
-      errors.push(`Possible punctuation error: wrap "${token}" in { } if it's punctuation`);
+    if (openBrackets !== closeBrackets) {
+      errors.push("Unmatched punctuation brackets detected.");
     }
 
-    // Optional: flag long unbroken strings
-    if (/^[^\s]{6,}$/.test(token)) {
-      errors.push("Spacing warning: Echo symbols should be separated for accurate decoding.");
+    for (let token of tokens) {
+      if (!token.trim()) continue;
+      if (/^\{.+\}$/.test(token)) continue;
+      if (riskyPunctuation.includes(token) && !allowedSymbols.includes(token)) {
+        errors.push(`Wrap "${token}" in { } if it's punctuation.`);
+      }
+      if (/^[^\s]{6,}$/.test(token)) {
+        errors.push("Spacing warning: Echo symbols should be separated.");
+      }
     }
+
+    return errors;
   }
 
-  return errors;
-}
-    
-    const reverseMap = Object.fromEntries(Object.entries(symbolMap).map(([k, v]) => [v, k]));
+  function translateToEcho() {
+    const text = document.getElementById('input').value;
+    let result = '';
+    let spaceCount = 0;
 
-    function translateToEcho() {
-      const text = document.getElementById('input').value;
-      let result = '';
-      let spaceCount = 0;
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
 
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-
-        if (char === '\n') {
-          if (spaceCount >= 3) {
-            result += '     '; // paragraph
-          } else {
-            result += '   '; // newline
-          }
-          spaceCount = 0;
-          continue;
-        }
-
-        if (char === ' ') {
-          spaceCount++;
-          continue;
-        }
-
-        // Add spacing
-        if (spaceCount === 1) result += ' ';       // letter
-        else if (spaceCount === 2) result += '  '; // word
-        else if (spaceCount >= 3) result += '   '; // line break
+      if (char === '\n') {
+        result += '   '; // line break
         spaceCount = 0;
-
-        const upperChar = char.toUpperCase();
-        if (symbolMap[upperChar]) {
-          result += symbolMap[upperChar];
-        } else if (/[\.,!?'"“”‘’]/.test(char)) {
-          result += `{${char}}`;
-        } else {
-          result += `{${char}}`;
-        }
+        continue;
       }
 
-      document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
+      if (char === ' ') {
+        spaceCount++;
+        continue;
+      }
+
+      if (spaceCount === 1) result += ' ';
+      else if (spaceCount === 2) result += '  ';
+      else if (spaceCount >= 3) result += '   ';
+      spaceCount = 0;
+
+      const upperChar = char.toUpperCase();
+      if (symbolMap[upperChar]) {
+        result += symbolMap[upperChar];
+      } else if (/[\.,!?'"“”‘’]/.test(char)) {
+        result += `{${char}}`;
+      } else {
+        result += `{${char}}`;
+      }
     }
 
-function translateToEnglish() {
-  const text = document.getElementById('input').value;
-
-  // ✅ ADD VALIDATION HERE
-  const errors = validateEchoInput(text);
-  if (errors.length > 0) {
-    alert("⚠️ Translation error:\n\n" + errors.join("\n"));
-    return;
+    document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
   }
 
-  const tokens = text.split(/(\s+)/); // Keep spaces in results
-  let result = '';
-  let spaceBuffer = '';
-
-  for (let token of tokens) {
-    if (token.trim() === '') {
-      spaceBuffer += token;
-      continue;
+  function translateToEnglish() {
+    const text = document.getElementById('input').value;
+    const errors = validateEchoInput(text);
+    if (errors.length > 0) {
+      alert("⚠️ Translation error:\n\n" + errors.join("\n"));
+      return;
     }
 
-    // Add spacing before this token, based on buffer
-    if (spaceBuffer.length === 1) {
-      result += ''; // letter spacing = no extra space
-    } else if (spaceBuffer.length === 2) {
-      result += ' '; // word
-    } else if (spaceBuffer.length >= 3) {
-      result += '\n'; // line break or paragraph
-    }
-    spaceBuffer = '';
+    const lines = text.trim().split("   ");
+    let result = '';
 
-    // Decode wrapped characters (e.g., {!})
-    if (/^\{(.+?)\}$/.test(token)) {
-      const match = token.match(/^\{(.+?)\}$/);
-      result += match[1]; // add actual character
+    for (let line of lines) {
+      const words = line.trim().split("  ");
+      let translatedWords = [];
+
+      for (let word of words) {
+        const letters = word.trim().split(" ");
+        let translatedLetters = letters.map(symbol => {
+          if (punctuationMap[symbol]) return punctuationMap[symbol];
+          if (reverseMap.hasOwnProperty(symbol)) return reverseMap[symbol];
+          return '';
+        });
+        translatedWords.push(translatedLetters.join(""));
+      }
+      result += translatedWords.join(" ") + "\n";
     }
-    // Decode normal echo symbols
-    else if (reverseMap[token]) {
-      result += reverseMap[token];
-    }
-    // If unmatched, preserve it as-is (failsafe)
-    else {
-      result += token;
-    }
+
+    document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
   }
 
-  document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
-}
-function validateEchoInput(text) {
-    // Check for unmatched brackets
-    const openBrackets = (text.match(/{/g) || []).length;
-    const closeBrackets = (text.match(/}/g) || []).length;
-    if (openBrackets !== closeBrackets) return 'Unmatched punctuation brackets detected.';
-
-    // Check for symbol spacing
-    const invalidCombo = /[~*=@^><]{2,}/g;
-    if (invalidCombo.test(text)) return 'Spacing warning: Echo symbols should be separated for accurate decoding.';
-
-    return null;
-  }
-function clearOutput() {
-    document.getElementById('inputText').value = '';
-    document.getElementById('outputText').innerText = '...';
+  function clearText() {
+    document.getElementById('input').value = '';
+    document.getElementById('result').innerText = 'Echo Output:';
   }
 
-    function exportOutput() {
-    const content = document.getElementById('outputText').innerText;
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  function exportResult() {
+    const text = document.getElementById('result').innerText.replace('Echo Output:\n', '');
+    const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'echo_output.txt';
-    a.click();
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'echo_output.txt';
+    link.click();
     URL.revokeObjectURL(url);
   }
-    
-    function clearText() {
-      document.getElementById('input').value = '';
-      document.getElementById('result').innerText = 'Echo Output:';
-    }
-
-    function exportResult() {
-      const text = document.getElementById('result').innerText.replace('Echo Output:\n', '');
-      const blob = new Blob([text], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'echo_output.txt';
-      link.click();
-      URL.revokeObjectURL(url);
-    }
-    function convertToEcho(text) {
-    return '[Mock Echo Code for: ' + text + ']';
-  }
-
-  function convertToEnglish(text) {
-    return '[Mock English from Echo Code: ' + text + ']';
-  }
-  </script>
+</script>
 
 </body>
 </html>
