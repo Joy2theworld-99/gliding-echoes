@@ -58,7 +58,30 @@
       A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: ",", N: "-",
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
+const punctuationMap = {
+  "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";", '{"}': '"', "{'}": "'",
+  "{-}": "-", "{(}": "(", "{)}": ")"
+};
+    const lines = text.trim().split("   "); // 3 spaces = line break
+let result = "";
 
+for (let line of lines) {
+  const words = line.trim().split("  "); // 2 spaces = word break
+  let translatedWords = [];
+
+  for (let word of words) {
+    const letters = word.trim().split(" "); // 1 space = letter break
+    let translatedLetters = letters.map(symbol => {
+      if (punctuationMap[symbol]) return punctuationMap[symbol];
+      if (echoToLetter.hasOwnProperty(symbol)) return echoToLetter[symbol];
+      return ""; // invalid or empty
+    });
+    translatedWords.push(translatedLetters.join(""));
+  }
+  result += translatedWords.join(" ") + "\n";
+}
+
+document.getElementById('output').textContent = result.trim();
  function validateEchoInput(input) {
   const errors = [];
   const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%'];
