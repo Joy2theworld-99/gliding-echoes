@@ -128,8 +128,15 @@
       document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
     }
 
-    function translateToEnglish() {
+function translateToEnglish() {
   const text = document.getElementById('input').value;
+
+  // ✅ ADD VALIDATION HERE
+  const errors = validateEchoInput(text);
+  if (errors.length > 0) {
+    alert("⚠️ Translation error:\n\n" + errors.join("\n"));
+    return;
+  }
 
   const tokens = text.split(/(\s+)/); // Keep spaces in results
   let result = '';
@@ -168,6 +175,7 @@
 
   document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
 }
+
     
     function clearText() {
       document.getElementById('input').value = '';
