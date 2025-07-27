@@ -5,173 +5,175 @@
   <meta charset="UTF-8" />
   <title>Echo Code Translator</title>
   <style>
-body {
-  font-size: 1rem;
-  padding: 10px;
-  margin: 0;
-  font-family: monospace;
-  box-sizing: border-box;
-  background-color: #f4f4f4;
-}
+    body {
+      font-size: 1rem;
+      padding: 10px;
+      margin: 0;
+      font-family: monospace;
+      box-sizing: border-box;
+      background-color: #f4f4f4;
+    }
 
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 1rem;
-}
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 1rem;
+    }
 
-textarea {
-  width: 100%;
-  height: 120px;
-  font-family: monospace;
-  font-size: 1rem;
-  box-sizing: border-box;
-}
+    textarea {
+      width: 100%;
+      height: 120px;
+      font-family: monospace;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
 
-button {
-  padding: 10px 16px;
-  margin: 5px 5px 5px 0;
-  font-size: 1rem;
-  width: auto;
-  min-width: 140px;
-}
+    button {
+      padding: 10px 16px;
+      margin: 5px 5px 5px 0;
+      font-size: 1rem;
+      width: auto;
+      min-width: 140px;
+    }
 
-#result {
-  background-color: #fff;
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 1rem;
-  white-space: pre-wrap;
-  line-height: 1.6;
-}
+    #result {
+      background-color: #fff;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 1rem;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
 
-#result strong {
-  color: #555;
-  display: block;
-  margin-bottom: 6px;
-}
+    #result strong {
+      color: #555;
+      display: block;
+      margin-bottom: 6px;
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
-}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
 
-th, td {
-  padding: 6px 8px;
-  text-align: left;
-  word-break: break-word;
-}
+    th, td {
+      padding: 6px 8px;
+      text-align: left;
+      word-break: break-word;
+    }
 
-.key-section-title {
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: 12px 0 8px;
-  color: #333;
-}
+    .key-section-title {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin: 12px 0 8px;
+      color: #333;
+    }
 
-#echoKeyContainer {
-  background-color: #f7f7f7;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 24px;
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
-}
+    #echoKeyContainer {
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+    }
 
-#rulesSection {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
+    #rulesSection {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
 
-#translatorBox {
-  margin-top: 32px;
-}
+    #translatorBox {
+      margin-top: 32px;
+    }
 
-@media (max-width: 600px) {
-  body {
-    font-size: 0.95rem;
-  }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.95rem;
+      }
 
-  button {
-    font-size: 0.95rem;
-    width: 100%;
-  }
+      button {
+        font-size: 0.95rem;
+        width: 100%;
+      }
 
-  table, th, td {
-    font-size: 0.85rem;
-  }
+      table, th, td {
+        font-size: 0.85rem;
+      }
 
-  .key-section-title {
-    font-size: 1rem;
-  }
+      .key-section-title {
+        font-size: 1rem;
+      }
 
-  textarea {
-    font-size: 1rem;
-  }
-}
+      textarea {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
 <body>
   <div class="container">
-    
-  <h1>Echo Code Translator</h1>
-<div id="echoKeyContainer">
-  <div id="rulesSection">
-    <pre><strong>Echo Code Entry Rules:</strong>
+    <h1>Echo Code Translator</h1>
+
+    <div id="echoKeyContainer">
+      <div id="rulesSection">
+        <pre><strong>Echo Code Entry Rules:</strong>
 • Use only valid Echo Code symbols (e.g., ~ * @ -)
 • <strong>Wrap ALL true punctuation in { }</strong> – e.g., {?} for a question mark
 • When entering Echo Code: Always use <strong>ONE</strong> space to separate letters, <strong>TWO</strong> spaces to separate words or symbol groups, <strong>THREE</strong> spaces to separate lines and <strong>FIVE</strong> spaces to separate paragraphs
 • Do not combine multiple Echo symbols without spacing or it will result in an error
-    </pre>
+        </pre>
+      </div>
+
+      <div class="key-section-title">
+        <h2>🔑 Echo Code Key (A–Z)</h2>
+        <table>
+          <tr>
+            <th>Letter</th><th>Symbol</th><th></th><th>Letter</th><th>Symbol</th><th></th><th>Letter</th><th>Symbol</th>
+          </tr>
+          <tr><td>A</td><td>~</td><td></td><td>J</td><td>`</td><td></td><td>S</td><td>~</td></tr>
+          <tr><td>B</td><td>+</td><td></td><td>K</td><td>/</td><td></td><td>T</td><td>@</td></tr>
+          <tr><td>C</td><td>(</td><td></td><td>L</td><td>@</td><td></td><td>U</td><td>$</td></tr>
+          <tr><td>D</td><td>]</td><td></td><td>M</td><td>=</td><td></td><td>V</td><td>^</td></tr>
+          <tr><td>E</td><td>=</td><td></td><td>N</td><td>,</td><td></td><td>W</td><td>"</td></tr>
+          <tr><td>F</td><td>^</td><td></td><td>O</td><td>*</td><td></td><td>X</td><td>#</td></tr>
+          <tr><td>G</td><td>[</td><td></td><td>P</td><td>;</td><td></td><td>Y</td><td>_</td></tr>
+          <tr><td>H</td><td>)</td><td></td><td>Q</td><td>?</td><td></td><td>Z</td><td>%</td></tr>
+          <tr><td>I</td><td>*</td><td></td><td>R</td><td>></td><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+
+      <div class="key-section-title">🛠 System Symbols</div>
+      <table>
+        <tr><th>Function</th><th>Symbol</th><th>Notes</th></tr>
+        <tr><td>Period</td><td>{.}</td><td>Wrap in braces</td></tr>
+        <tr><td>Comma</td><td>{,}</td><td>Wrap in braces</td></tr>
+        <tr><td>Exclamation</td><td>{!}</td><td>Wrap in braces</td></tr>
+        <tr><td>Question</td><td>{?}</td><td>Wrap in braces</td></tr>
+        <tr><td>Paragraph break</td><td>5 spaces</td><td></td></tr>
+        <tr><td>New line</td><td>3 spaces</td><td></td></tr>
+        <tr><td>Word break</td><td>2 spaces</td><td></td></tr>
+        <tr><td>Letter break</td><td>1 space</td><td>Always required</td></tr>
+      </table>
+    </div>
+
+    <div id="translatorBox">
+      <label for="input"><strong>Enter Text:</strong></label><br>
+      <textarea id="input"></textarea><br>
+
+      <button onclick="translateToEcho()">Translate to Echo Code</button>
+      <button onclick="translateToEnglish()">Translate to English</button>
+      <button onclick="clearText()">Clear</button>
+      <button onclick="exportResult()">Export</button>
+    </div>
+
+    <div id="result"><strong>Echo Code or English Translation:</strong></div>
   </div>
   
-<div class="key-section-title">
-  <h2>🔑 Echo Code Key (A–Z)</h2>
-  <table>
-    <tr>
-      <th>Letter</th><th>Symbol</th>
-      <th></th>
-      <th>Letter</th><th>Symbol</th>
-      <th></th>
-      <th>Letter</th><th>Symbol</th>
-    </tr>
-    <tr><td>A</td><td>~</td>  <td></td> <td>J</td><td>`</td>   <td></td> <td>S</td><td>~</td></tr>
-    <tr><td>B</td><td>+</td>  <td></td> <td>K</td><td>/</td>   <td></td> <td>T</td><td>@</td></tr>
-    <tr><td>C</td><td>(</td>  <td></td> <td>L</td><td>@</td>   <td></td> <td>U</td><td>$</td></tr>
-    <tr><td>D</td><td>]</td>  <td></td> <td>M</td><td>=</td>   <td></td> <td>V</td><td>^</td></tr>
-    <tr><td>E</td><td>=</td>  <td></td> <td>N</td><td>,</td>   <td></td> <td>W</td><td>"</td></tr>
-    <tr><td>F</td><td>^</td>  <td></td> <td>O</td><td>*</td>   <td></td> <td>X</td><td>#</td></tr>
-    <tr><td>G</td><td>[</td>  <td></td> <td>P</td><td>;</td>   <td></td> <td>Y</td><td>_</td></tr>
-    <tr><td>H</td><td>)</td>  <td></td> <td>Q</td><td>?</td>   <td></td> <td>Z</td><td>%</td></tr>
-    <tr><td>I</td><td>*</td>  <td></td> <td>R</td><td>></td>   <td></td> <td></td><td></td></tr>
-  </table>
-</div>
-  <div class="key-section-title">🛠 System Symbols</div>
-  <table>
-    <tr><th>Function</th><th>Symbol</th><th>Notes</th></tr>
-    <tr><td>Period</td><td>{.}</td><td>Wrap in braces</td></tr>
-    <tr><td>Comma</td><td>{,}</td><td>Wrap in braces</td></tr>
-    <tr><td>Exclamation</td><td>{!}</td><td>Wrap in braces</td></tr>
-    <tr><td>Question</td><td>{?}</td><td>Wrap in braces</td></tr>
-    <tr><td>Paragraph break</td><td>5 spaces</td><td></td></tr>
-    <tr><td>New line</td><td>3 spaces</td><td></td></tr>
-    <tr><td>Word break</td><td>2 spaces</td><td></td></tr>
-    <tr><td>Letter break</td><td>1 space</td><td>Always required</td></tr>
-  </table>
-</div>
-  <div id="translatorBox">
-  <label for="input"><strong>Enter Text:</strong></label><br>
-  <textarea id="input"></textarea><br>
-
-  <button onclick="translateToEcho()">Translate to Echo Code</button>
-  <button onclick="translateToEnglish()">Translate to English</button>
-  <button onclick="clearText()">Clear</button>
-  <button onclick="exportResult()">Export</button>
-</div>
-  <div id="result"><strong>Echo Code or English Translation:</strong></div>
-
   <script>
     const symbolMap = {
       A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: ",", N: "-",
@@ -307,7 +309,5 @@ const reverseMap = {};
     URL.revokeObjectURL(url);
   }
 </script>
-
 </body>
-    </div>
 </html>
