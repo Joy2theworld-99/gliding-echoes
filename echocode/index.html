@@ -5,8 +5,7 @@
   <meta charset="UTF-8" />
   <title>Echo Code Translator</title>
   <style>
-    
-   body {
+body {
   font-size: 1rem;
   padding: 10px;
   margin: 0;
@@ -31,9 +30,10 @@ textarea {
 
 button {
   padding: 10px 16px;
-  margin: 5px 0;
+  margin: 5px 5px 5px 0;
   font-size: 1rem;
-  width: 100%;
+  width: auto;
+  min-width: 140px;
 }
 
 #result {
@@ -83,6 +83,8 @@ th, td {
   border-bottom: 1px solid #ddd;
   padding-bottom: 12px;
   margin-bottom: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 #translatorBox {
@@ -96,6 +98,7 @@ th, td {
 
   button {
     font-size: 0.95rem;
+    width: 100%;
   }
 
   table, th, td {
@@ -110,11 +113,9 @@ th, td {
     font-size: 1rem;
   }
 }
-
-  </style>
-</head>
 <body>
-
+  <div class="container">
+    
   <h1>Echo Code Translator</h1>
 <div id="echoKeyContainer">
   <div id="rulesSection">
@@ -306,6 +307,6 @@ const reverseMap = {};
     URL.revokeObjectURL(url);
   }
 </script>
-
+</div>
 </body>
 </html>
