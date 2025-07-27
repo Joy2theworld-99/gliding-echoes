@@ -251,47 +251,49 @@ const reverseMap = {};
     document.getElementById('result').innerText = 'Echo Code Translation:\n' + result.trim();
   }
 
-  function translateToEnglish() {
-    const text = document.getElementById('input').value;
-    const errors = validateEchoInput(text);
-    if (errors.length > 0) {
-      alert("⚠️ Translation error:\n\n" + errors.join("\n"));
-      return;
+ function translateToEnglish() {
+  const text = document.getElementById('input').value;
+  const errors = validateEchoInput(text);
+  if (errors.length > 0) {
+    alert("⚠️ Translation error:\n\n" + errors.join("\n"));
+    return;
+  }
+
+  const tokens = text.split(/(\s+)/); // split by symbols *and* whitespace
+  let result = '';
+  let spaceBuffer = '';
+
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+
+    if (token.trim() === '') {
+      // Accumulate space buffer to check spacing rules
+      spaceBuffer += token;
+      continue;
     }
 
-    const tokens = text.split(/(\s+)/);
-    let result = '';
-    let spaceBuffer = '';
+    // Handle what the previous spacing meant
+    const spaceCount = spaceBuffer.length;
+    if (spaceCount >= 5) {
+      result += '\n\n'; // paragraph break
+    } else if (spaceCount >= 3) {
+      result += '\n';   // line break
+    } else if (spaceCount === 2) {
+      result += ' ';    // word break
+    } // no space or 1 space = letter break, so no change
+    spaceBuffer = ''; // reset for next token
 
-    for (let i = 0; i < tokens.length; i++) {
-      const token = tokens[i];
-
-      if (token.trim() === '') {
-        spaceBuffer += token;
-        continue;
-      }
-
-      // Handle spacing logic
-      const spaceCount = spaceBuffer.length;
-      if (spaceCount >= 5) {
-        result += '\n\n';
-      } else if (spaceCount >= 3) {
-        result += '\n';
-      } else if (spaceCount === 2) {
-        result += ' ';
-      }
-      spaceBuffer = '';
-
-      if (punctuationMap[token]) {
-        result += punctuationMap[token];
-      } else if (reverseMap[token]) {
-        result += reverseMap[token];
-      } else {
-        result += ''; // Unknown token — silently ignore
-      }
+    // Decode the token
+    if (punctuationMap[token]) {
+      result += punctuationMap[token];
+    } else if (reverseMap[token]) {
+      result += reverseMap[token];
+    } else {
+      result += ''; // unknown token, skip silently
     }
+  }
 
-    document.getElementById('result').innerText = 'English Translation:\n' + result.trim();
+  document.getElementById('result').innerText = 'English Translation:\n' + result.trim();
   }
 
   function clearText() {
