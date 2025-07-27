@@ -33,53 +33,50 @@
   display: block;
   margin-bottom: 6px;
 }
-    .echo-key {
-    font-family: monospace;
-    font-size: 20px;
-    background: #f8f8f8;
-    padding: 20px;
-    margin-top: 30px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-  }
+  #echoKeyContainer {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+}
 
-  .echo-key h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
+/* Section headings (like "Echo Code Key" and "System Symbols") */
+.key-section-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  color: #333;
+}
 
-  .echo-key table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
+/* Light border between Rules and Key Tables */
+#rulesSection {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
 
-  .echo-key th, .echo-key td {
-    padding: 8px 12px;
-    text-align: center;
-    border: 1px solid #ddd;
-  }
-
-  .echo-key .section-title {
-    font-weight: bold;
-    margin-top: 20px;
-    font-size: 22px;
-  }
+/* Space above input field */
+#translatorBox {
+  margin-top: 32px;
+}
   </style>
 </head>
 <body>
 
   <h1>Echo Code Translator</h1>
-<div id="echo-rules" style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #ccc; background: #f7f7f7;">
-  <strong>Echo Code Entry Rules:</strong>
-  <ul style="margin-top: 0.5rem;">
-    <li>Use only valid Echo Code symbols (e.g., ~ * @ -)</li>
-    <li><strong>Wrap ALL true punctuation in { }</strong> — e.g., <code>{?}</code> for a question mark</li>
-    <li>When entering Echo Code: Always use <b>ONE</b> space to separate letters, <b>TWO</b> spaces to separate words or symbol groups, <b>THREE</b> spaces to separate lines and <b>FIVE</b> spaces to separate paragraphs</li>
-    <li>Do not combine multiple Echo symbols without spacing or it will result in an error</li>
-  </ul>
-</div>
-<div class="echo-key">
+<div id="echoKeyContainer">
+  <div id="rulesSection">
+    <pre><strong>Echo Code Entry Rules:</strong>
+• Use only valid Echo Code symbols (e.g., ~ * @ -)
+• <strong>Wrap ALL true punctuation in { }</strong> – e.g., {?} for a question mark
+• When entering Echo Code: Always use <strong>ONE</strong> space to separate letters, <strong>TWO</strong> spaces to separate words or symbol groups, <strong>THREE</strong> spaces to separate lines and <strong>FIVE</strong> spaces to separate paragraphs
+• Do not combine multiple Echo symbols without spacing or it will result in an error
+    </pre>
+  </div>
+  
+<div class="key-section-title">
   <h2>🔑 Echo Code Key (A–Z)</h2>
   <table>
     <tr>
@@ -99,8 +96,8 @@
     <tr><td>H</td><td>)</td>  <td></td> <td>Q</td><td>?</td>   <td></td> <td>Z</td><td>%</td></tr>
     <tr><td>I</td><td>*</td>  <td></td> <td>R</td><td>></td>   <td></td> <td></td><td></td></tr>
   </table>
-
-  <div class="section-title">✨ System Symbols</div>
+</div>
+  <div class="key-section-title">🛠 System Symbols</div>
   <table>
     <tr><th>Function</th><th>Symbol</th><th>Notes</th></tr>
     <tr><td>Period</td><td>{.}</td><td>Wrap in braces</td></tr>
@@ -113,7 +110,7 @@
     <tr><td>Letter break</td><td>1 space</td><td>Always required</td></tr>
   </table>
 </div>
-  
+  <div id="translatorBox">
   <label for="input"><strong>Enter Text:</strong></label><br>
   <textarea id="input"></textarea><br>
 
@@ -121,7 +118,7 @@
   <button onclick="translateToEnglish()">Translate to English</button>
   <button onclick="clearText()">Clear</button>
   <button onclick="exportResult()">Export</button>
-
+</div>
   <div id="result"><strong>Echo Code or English Translation:</strong></div>
 
   <script>
