@@ -55,11 +55,14 @@ button {
 
 #result {
   background: #fff;
-  padding: 1em;
+  padding: 16px;
   margin-top: 1em;
   white-space: pre-wrap;
   word-break: break-word;
   border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  min-height: 60px;
 }
 
 #result strong {
@@ -70,8 +73,8 @@ button {
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  display: block;
 }
 
 th, td {
@@ -111,10 +114,15 @@ th, td {
 
 /* On mobile, stack buttons and shrink fonts */
 @media (max-width: 600px) {
-  .button-row {
-    flex-direction: column;
+  th {
+    white-space: normal !important;
+    font-size: 0.9rem;
   }
-
+td {
+    font-size: 0.85rem;
+    word-break: break-word;
+  }
+}
   button {
     margin: 5px 0;
     padding: 10px;
