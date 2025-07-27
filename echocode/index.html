@@ -118,11 +118,16 @@
         spaceCount++;
         continue;
       }
+// Determine spacing rules
+    const spaceCount = spaceBuffer.length;
 
-      if (spaceCount === 1) result += ' ';
-      else if (spaceCount === 2) result += '  ';
-      else if (spaceCount >= 3) result += '   ';
-      spaceCount = 0;
+    if (spaceCount >= 5) {
+      result += '\n\n';
+    } else if (spaceCount >= 3) {
+      result += '\n';
+    } else if (spaceCount >= 2) {
+      result += ' ';
+    }
 
       const upperChar = char.toUpperCase();
       if (symbolMap[upperChar]) {
