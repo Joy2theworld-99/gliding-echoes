@@ -58,32 +58,6 @@
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
 
-    function validateEchoInput(input) {
-  const errors = [];
-
-  // Rule 1: Check for punctuation without brackets
-  const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%'];
-  for (let char of riskyPunctuation) {
-    if (input.includes(char) && !input.includes(`{${char}}`)) {
-      errors.push(`Possible punctuation error: wrap "${char}" in { } if it's punctuation`);
-    }
-  }
-
-  // Rule 2: Check for long unspaced strings
-  if (/[\S]{6,}/.test(input)) {
-    errors.push("Spacing warning: Echo symbols should be separated for accurate decoding.");
-  }
-
-  // Rule 3: Unmatched brackets
-  const openBrackets = (input.match(/{/g) || []).length;
-  const closeBrackets = (input.match(/}/g) || []).length;
-  if (openBrackets !== closeBrackets) {
-    errors.push("Unmatched punctuation brackets detected.");
-  }
-
-  return errors;
-}
-    
     const reverseMap = Object.fromEntries(Object.entries(symbolMap).map(([k, v]) => [v, k]));
 
     function translateToEcho() {
@@ -168,7 +142,32 @@
 
   document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
 }
+    function validateEchoInput(input) {
+  const errors = [];
 
+  // Rule 1: Check for punctuation without brackets
+  const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%'];
+  for (let char of riskyPunctuation) {
+    if (input.includes(char) && !input.includes(`{${char}}`)) {
+      errors.push(`Possible punctuation error: wrap "${char}" in { } if it's punctuation`);
+    }
+  }
+
+  // Rule 2: Check for long unspaced strings
+  if (/[\S]{6,}/.test(input)) {
+    errors.push("Spacing warning: Echo symbols should be separated for accurate decoding.");
+  }
+
+  // Rule 3: Unmatched brackets
+  const openBrackets = (input.match(/{/g) || []).length;
+  const closeBrackets = (input.match(/}/g) || []).length;
+  if (openBrackets !== closeBrackets) {
+    errors.push("Unmatched punctuation brackets detected.");
+  }
+
+  return errors;
+}
+    
     function clearText() {
       document.getElementById('input').value = '';
       document.getElementById('result').innerText = 'Echo Output:';
