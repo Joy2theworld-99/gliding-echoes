@@ -33,6 +33,38 @@
   display: block;
   margin-bottom: 6px;
 }
+    .echo-key {
+    font-family: monospace;
+    font-size: 20px;
+    background: #f8f8f8;
+    padding: 20px;
+    margin-top: 30px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+  }
+
+  .echo-key h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .echo-key table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .echo-key th, .echo-key td {
+    padding: 8px 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  .echo-key .section-title {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 22px;
+  }
   </style>
 </head>
 <body>
@@ -46,6 +78,40 @@
     <li>When entering Echo Code: Always use <b>ONE</b> space to separate letters, <b>TWO</b> spaces to separate words or symbol groups, <b>THREE</b> spaces to separate lines and <b>FIVE</b> spaces to separate paragraphs</li>
     <li>Do not combine multiple Echo symbols without spacing or it will result in an error</li>
   </ul>
+</div>
+<div class="echo-key">
+  <h2>🔑 Echo Code Key (A–Z)</h2>
+  <table>
+    <tr>
+      <th>Letter</th><th>Symbol</th>
+      <th></th>
+      <th>Letter</th><th>Symbol</th>
+      <th></th>
+      <th>Letter</th><th>Symbol</th>
+    </tr>
+    <tr><td>A</td><td>~</td>  <td></td> <td>J</td><td>`</td>   <td></td> <td>S</td><td>~</td></tr>
+    <tr><td>B</td><td>+</td>  <td></td> <td>K</td><td>/</td>   <td></td> <td>T</td><td>@</td></tr>
+    <tr><td>C</td><td>(</td>  <td></td> <td>L</td><td>@</td>   <td></td> <td>U</td><td>$</td></tr>
+    <tr><td>D</td><td>]</td>  <td></td> <td>M</td><td>=</td>   <td></td> <td>V</td><td>^</td></tr>
+    <tr><td>E</td><td>=</td>  <td></td> <td>N</td><td>,</td>   <td></td> <td>W</td><td>"</td></tr>
+    <tr><td>F</td><td>^</td>  <td></td> <td>O</td><td>*</td>   <td></td> <td>X</td><td>#</td></tr>
+    <tr><td>G</td><td>[</td>  <td></td> <td>P</td><td>;</td>   <td></td> <td>Y</td><td>_</td></tr>
+    <tr><td>H</td><td>)</td>  <td></td> <td>Q</td><td>?</td>   <td></td> <td>Z</td><td>%</td></tr>
+    <tr><td>I</td><td>*</td>  <td></td> <td>R</td><td>></td>   <td></td> <td></td><td></td></tr>
+  </table>
+
+  <div class="section-title">✨ System Symbols</div>
+  <table>
+    <tr><th>Function</th><th>Symbol</th><th>Notes</th></tr>
+    <tr><td>Period</td><td>{.}</td><td>Wrap in braces</td></tr>
+    <tr><td>Comma</td><td>{,}</td><td>Wrap in braces</td></tr>
+    <tr><td>Exclamation</td><td>{!}</td><td>Wrap in braces</td></tr>
+    <tr><td>Question</td><td>{?}</td><td>Wrap in braces</td></tr>
+    <tr><td>Paragraph break</td><td>5 spaces</td><td></td></tr>
+    <tr><td>New line</td><td>3 spaces</td><td></td></tr>
+    <tr><td>Word break</td><td>2 spaces</td><td></td></tr>
+    <tr><td>Letter break</td><td>1 space</td><td>Always required</td></tr>
+  </table>
 </div>
   
   <label for="input"><strong>Enter Text:</strong></label><br>
