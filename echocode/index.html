@@ -58,27 +58,35 @@
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
 
-    function validateEchoInput(input) {
+ function validateEchoInput(input) {
   const errors = [];
-
-  // Rule 1: Check for punctuation without brackets
   const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%'];
-  for (let char of riskyPunctuation) {
-    if (input.includes(char) && !input.includes(`{${char}}`)) {
-      errors.push(`Possible punctuation error: wrap "${char}" in { } if it's punctuation`);
-    }
-  }
+  const allowedSymbols = Object.keys(reverseMap); // includes all legit Echo Code glyphs
 
-  // Rule 2: Check for long unspaced strings
-  if (/[\S]{6,}/.test(input)) {
-    errors.push("Spacing warning: Echo symbols should be separated for accurate decoding.");
-  }
-
-  // Rule 3: Unmatched brackets
+  const tokens = input.split(/(\s+)/); // keep spaces
   const openBrackets = (input.match(/{/g) || []).length;
   const closeBrackets = (input.match(/}/g) || []).length;
+
   if (openBrackets !== closeBrackets) {
     errors.push("Unmatched punctuation brackets detected.");
+  }
+
+  // Check each token (individual symbol or group)
+  for (let token of tokens) {
+    if (!token.trim()) continue; // skip pure whitespace
+
+    // Check if wrapped in {} — then it’s punctuation, skip
+    if (/^\{.+\}$/.test(token)) continue;
+
+    // If token is one of the risky punctuation characters and NOT part of the allowed Echo glyphs, warn
+    if (riskyPunctuation.includes(token) && !allowedSymbols.includes(token)) {
+      errors.push(`Possible punctuation error: wrap "${token}" in { } if it's punctuation`);
+    }
+
+    // Optional: flag long unbroken strings
+    if (/^[^\s]{6,}$/.test(token)) {
+      errors.push("Spacing warning: Echo symbols should be separated for accurate decoding.");
+    }
   }
 
   return errors;
