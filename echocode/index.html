@@ -184,7 +184,33 @@ function translateToEnglish() {
 
   document.getElementById('result').innerText = 'Echo Output:\n' + result.trim();
 }
+function validateEchoInput(text) {
+    // Check for unmatched brackets
+    const openBrackets = (text.match(/{/g) || []).length;
+    const closeBrackets = (text.match(/}/g) || []).length;
+    if (openBrackets !== closeBrackets) return 'Unmatched punctuation brackets detected.';
 
+    // Check for symbol spacing
+    const invalidCombo = /[~*=@^><]{2,}/g;
+    if (invalidCombo.test(text)) return 'Spacing warning: Echo symbols should be separated for accurate decoding.';
+
+    return null;
+  }
+function clearOutput() {
+    document.getElementById('inputText').value = '';
+    document.getElementById('outputText').innerText = '...';
+  }
+
+    function exportOutput() {
+    const content = document.getElementById('outputText').innerText;
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'echo_output.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
     
     function clearText() {
       document.getElementById('input').value = '';
@@ -201,6 +227,13 @@ function translateToEnglish() {
       link.click();
       URL.revokeObjectURL(url);
     }
+    function convertToEcho(text) {
+    return '[Mock Echo Code for: ' + text + ']';
+  }
+
+  function convertToEnglish(text) {
+    return '[Mock English from Echo Code: ' + text + ']';
+  }
   </script>
 
 </body>
