@@ -67,8 +67,7 @@
     "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";", '{"}': '"', "{'}": "'",
     "{-}": "-", "{(}": "(", "{)}": ")"
   };
-
-  const reverseMap = {};
+const reverseMap = {};
   for (const [letter, symbol] of Object.entries(symbolMap)) {
     reverseMap[symbol] = letter;
   }
@@ -101,32 +100,35 @@
   }
 
   function translateToEcho() {
-    const text = document.getElementById('input').value;
+    const text = document.getElementById('input').value.toUpperCase();
     let result = '';
-    let spaceCount = 0;
+    let previousChar = '';
 
     for (let i = 0; i < text.length; i++) {
       const char = text[i];
 
       if (char === '\n') {
-        result += '   '; // line break
-        spaceCount = 0;
+        // Check if it's a double newline for paragraph
+        if (text[i + 1] === '\n') {
+          result += '     '; // paragraph = 5 spaces
+          i++; // skip second newline
+        } else {
+          result += '   '; // line = 3 spaces
+        }
         continue;
       }
 
       if (char === ' ') {
-        spaceCount++;
+        result += '  '; // word space = 2 spaces
         continue;
       }
-// Determine spacing rules
-    const spaceCount = spaceBuffer.length;
 
-if (spaceCount >= 5) {
-  result += '\n\n'; // Paragraph break
-} else if (spaceCount >= 3) {
-  result += '\n'; // Line break
-} else if (spaceCount === 2) {
-  result += ' '; // Word space
+      if (Object.values(punctuationMap).includes(char)) {
+        const match = Object.keys(punctuationMap).find(k => punctuationMap[k] === char);
+        result += match + ' ';
+      } else if (symbolMap[char]) {
+        result += symbolMap[char] + ' ';
+      }
     }
 
     document.getElementById('result').innerText = 'Echo Code Translation:\n' + result.trim();
@@ -139,31 +141,37 @@ if (spaceCount >= 5) {
       alert("⚠️ Translation error:\n\n" + errors.join("\n"));
       return;
     }
-const spaceCount = spaceBuffer.length;
 
-if (spaceCount >= 5) {
-  result += '\n\n'; // Paragraph break
-} else if (spaceCount >= 3) {
-  result += '\n'; // Line break
-} else if (spaceCount === 2) {
-  result += ' '; // Word space
-    const lines = text.trim().split("   ");
+    const tokens = text.split(/(\s+)/);
     let result = '';
+    let spaceBuffer = '';
 
-    for (let line of lines) {
-      const words = line.trim().split("  ");
-      let translatedWords = [];
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
 
-      for (let word of words) {
-        const letters = word.trim().split(" ");
-        let translatedLetters = letters.map(symbol => {
-          if (punctuationMap[symbol]) return punctuationMap[symbol];
-          if (reverseMap.hasOwnProperty(symbol)) return reverseMap[symbol];
-          return '';
-        });
-        translatedWords.push(translatedLetters.join(""));
+      if (token.trim() === '') {
+        spaceBuffer += token;
+        continue;
       }
-      result += translatedWords.join(" ") + "\n";
+
+      // Handle spacing logic
+      const spaceCount = spaceBuffer.length;
+      if (spaceCount >= 5) {
+        result += '\n\n';
+      } else if (spaceCount >= 3) {
+        result += '\n';
+      } else if (spaceCount === 2) {
+        result += ' ';
+      }
+      spaceBuffer = '';
+
+      if (punctuationMap[token]) {
+        result += punctuationMap[token];
+      } else if (reverseMap[token]) {
+        result += reverseMap[token];
+      } else {
+        result += ''; // Unknown token — silently ignore
+      }
     }
 
     document.getElementById('result').innerText = 'English Translation:\n' + result.trim();
