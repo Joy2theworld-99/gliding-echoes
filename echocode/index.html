@@ -349,11 +349,11 @@ const reverseMap = {};
       result += '\n'; // line
     } else if (spaceCount === 2) {
       result += ' '; // word
-    } // 1 space = letter break, so no need to add anything
+    } // 1 space = letter break — no need to add anything
 
     spaceBuffer = ''; // reset
 
-    // Now decode the token
+    // Decode the token
     if (wrappedPunctuationMap[token]) {
       result += wrappedPunctuationMap[token];
     } else if (reverseMap[token]) {
@@ -367,10 +367,22 @@ const reverseMap = {};
     '<strong>Translation Output:</strong><br>' +
     result.trim().replace(/\n/g, '<br>');
 }
-  }
 
-  document.getElementById('result').innerHTML = '<strong>Translation Output:</strong><br>' + result.trim().replace(/\n/g, '<br>');
-  }
+function clearText() {
+  document.getElementById('input').value = '';
+  document.getElementById('result').innerText = 'Translation Output:';
+}
+
+function exportResult() {
+  const text = document.getElementById('result').innerText.replace('Translation Output:\n', '');
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'echo_output.txt';
+  link.click();
+  URL.revokeObjectURL(url);
+}
 
   function clearText() {
     document.getElementById('input').value = '';
