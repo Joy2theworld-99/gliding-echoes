@@ -247,7 +247,7 @@ const reverseMap = {};
     reverseMap[symbol] = letter;
   }
 
-  function validateEchoInput(input) {
+ function validateEchoInput(input) {
   const errors = [];
   const riskyPunctuation = Object.keys(punctuationMap);
   const allowedSymbols = Object.values(symbolMap);
@@ -264,20 +264,26 @@ const reverseMap = {};
     if (!token.trim()) continue;
 
     const isWrapped = /^\{[^}]+\}$/.test(token);
-    const isSingleCharPunctuation = riskyPunctuation.includes(token);
-    const isAllowedSymbol = allowedSymbols.includes(token);
+    const unwrappedChar = token.replace(/[{}]/g, '');
 
-    // If the token is punctuation but NOT wrapped, throw an error
+    const isAllowedWrappedPunctuation = Object.keys(wrappedPunctuationMap).includes(token);
+    const isAllowedSymbol = allowedSymbols.includes(token);
+    const isSingleCharPunctuation = riskyPunctuation.includes(token);
+
+    // ✅ Skip valid wrapped punctuation
+    if (isAllowedWrappedPunctuation) continue;
+
+    // ❌ If it's risky and not wrapped
     if (isSingleCharPunctuation && !isWrapped) {
       errors.push(`Wrap "${token}" in { } if it's punctuation.`);
     }
 
-    // If it contains an opening { but isn't properly wrapped, flag it
+    // ❌ If it starts with { but isn’t valid wrapped punctuation
     if (token.includes('{') && !isWrapped) {
       errors.push(`Improper punctuation formatting near: "${token}" — wrap entire symbol in { }`);
     }
 
-    // Enforce max run length for unbroken symbol strings
+    // ❌ Enforce spacing between symbols (if someone types ~!@# with no spacing)
     if (!isWrapped && /^[^\s]{6,}$/.test(token)) {
       errors.push("Spacing warning: Echo symbols should be separated.");
     }
