@@ -162,12 +162,13 @@ th, td {
     <h1>Echo Code Translator</h1>
         <p><strong>Echo Code Entry Rules:</strong></p>
  <p>• Use only valid Echo Code symbols (e.g., ~ * @ -)</p>
- <p>• <strong>Wrap ALL true punctuation in { }</strong> – e.g., {?} for a question mark</p>
+ <p>• <strong>Wrap ALL true punctuation in { } - even if that symbol is not part of Echo Code</strong> – e.g., {?} for a question mark</p>
  <p>• Always use <strong>ONE</strong> space to separate letters</p>
  <p>• Always use <strong>TWO</strong> spaces to separate words or symbol groups</p>
  <p>• Always use <strong>THREE</strong> spaces to separate lines</p>
  <p>• Always use <strong>FIVE</strong> spaces to separate paragraphs</p>
  <p>• Do not combine multiple Echo symbols without spacing or it will result in an error</p>
+ <p>• Only Echo Code symbols should be unwrapped (no { } )— unwrapped punctuation will trigger errors</p>
          <div class="container">
            <div id="echoKeyContainer">
       <div id="rulesSection">
@@ -208,7 +209,7 @@ th, td {
                </div>
 <div class="button-row">
     <div id="translatorBox">
-      <label for="input"><strong>Enter Text:</strong></label><br>
+      <label for="input"><strong>Enter Text/Symbols to be Translated:</strong></label><br>
       <textarea id="input"></textarea><br>
 
       <button onclick="translateToEcho()">Translate to Echo Code</button>
@@ -217,7 +218,7 @@ th, td {
       <button onclick="exportResult()">Export</button>
     </div>
 </div>
-    <div id="result"><strong>Echo Code or English Translation:</strong></div>
+    <div id="result"><strong>Translation Output:</strong></div>
   </div>
   
   <script>
@@ -226,8 +227,8 @@ th, td {
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
  const punctuationMap = {
-    "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";", '{"}': '"', "{'}": "'",
-    "{-}": "-", "{(}": "(", "{)}": ")"
+    "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
+  '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
   };
 const reverseMap = {};
   for (const [letter, symbol] of Object.entries(symbolMap)) {
@@ -254,7 +255,7 @@ const reverseMap = {};
         errors.push(`Wrap "${token}" in { } if it's punctuation.`);
       }
       if (/^[^\s]{6,}$/.test(token)) {
-        errors.push("Spacing warning: Echo symbols should be separated.");
+        errors.push("Spacing warning: Echo symbols should be separated by one space between each symbol.");
       }
     }
 
@@ -293,7 +294,7 @@ const reverseMap = {};
       }
     }
 
-    document.getElementById('result').innerHTML = '<strong>Echo Code Translation:</strong><br>' + result.trim().replace(/\n/g, '<br>');
+    document.getElementById('result').innerHTML = '<strong>Translation Output:</strong><br>' + result.trim().replace(/\n/g, '<br>');
   }
 
  function translateToEnglish() {
@@ -338,16 +339,16 @@ const reverseMap = {};
     }
   }
 
-  document.getElementById('result').innerHTML = '<strong>English Translation:</strong><br>' + result.trim().replace(/\n/g, '<br>');
+  document.getElementById('result').innerHTML = '<strong>Translation Output:</strong><br>' + result.trim().replace(/\n/g, '<br>');
   }
 
   function clearText() {
     document.getElementById('input').value = '';
-    document.getElementById('result').innerText = 'Echo Code or English Translation:';
+    document.getElementById('result').innerText = 'Translation Output:';
   }
 
   function exportResult() {
-    const text = document.getElementById('result').innerText.replace('Echo Code or English Translation:\n', '');
+    const text = document.getElementById('result').innerText.replace('Translation Output:\n', '');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
