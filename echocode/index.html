@@ -236,12 +236,12 @@ const wrappedPunctuationMap = {
   "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
   '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
 };
-
 // English → Echo
 const punctuationMap = {};
 for (const [wrapped, char] of Object.entries(wrappedPunctuationMap)) {
   punctuationMap[char] = wrapped;
 }
+
 const reverseMap = {};
   for (const [letter, symbol] of Object.entries(symbolMap)) {
     reverseMap[symbol] = letter;
@@ -263,21 +263,22 @@ const reverseMap = {};
   for (let token of tokens) {
     if (!token.trim()) continue;
 
-    // Accept valid wrapped punctuation
-    if (/^\{[^}]+\}$/.test(token)) continue;
+    const isWrapped = /^\{[^}]+\}$/.test(token);
+    const isSingleCharPunctuation = riskyPunctuation.includes(token);
+    const isAllowedSymbol = allowedSymbols.includes(token);
 
-    // Check for risky unwrapped punctuation
-    if (riskyPunctuation.includes(token) && !allowedSymbols.includes(token)) {
+    // If the token is punctuation but NOT wrapped, throw an error
+    if (isSingleCharPunctuation && !isWrapped) {
       errors.push(`Wrap "${token}" in { } if it's punctuation.`);
     }
 
-    // Check for incorrect formatting like partial wrapping
-    if (token.includes('{') && !/^\{[^}]+\}$/.test(token)) {
+    // If it contains an opening { but isn't properly wrapped, flag it
+    if (token.includes('{') && !isWrapped) {
       errors.push(`Improper punctuation formatting near: "${token}" — wrap entire symbol in { }`);
     }
 
-    // Echo symbol run-ons
-    if (/^[^\s]{6,}$/.test(token)) {
+    // Enforce max run length for unbroken symbol strings
+    if (!isWrapped && /^[^\s]{6,}$/.test(token)) {
       errors.push("Spacing warning: Echo symbols should be separated.");
     }
   }
