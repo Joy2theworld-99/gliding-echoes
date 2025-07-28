@@ -236,6 +236,10 @@ const wrappedPunctuationMap = {
   "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
   '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
 };
+    const echoCodeLetters = [
+  '@', '#', '=', '^', '[', ')', '!', '$', '/', ',', '*', ';', '?', '>', '~', '+', ':', '%', '}', '`', '_', '"', '-'
+];
+
 // English → Echo
 const punctuationMap = {};
 for (const [wrapped, char] of Object.entries(wrappedPunctuationMap)) {
@@ -246,7 +250,24 @@ const reverseMap = {};
   for (const [letter, symbol] of Object.entries(symbolMap)) {
     reverseMap[symbol] = letter;
   }
+function isPunctuation(symbol) {
+  // Only treat as punctuation if not part of Echo Code letters
+  return !echoCodeLetters.includes(symbol);
+}
 
+function validateInput(inputText) {
+  const errors = [];
+
+  const symbols = inputText.split('');
+  for (const symbol of symbols) {
+    if ((symbol === '-' || symbol === '"') && isPunctuation(symbol)) {
+      errors.push(`Wrap "${symbol}" in { } if it's punctuation.`);
+    }
+  }
+
+  return errors;
+}
+    
  function validateEchoInput(input) {
   const errors = [];
   const riskyPunctuation = Object.keys(punctuationMap);
