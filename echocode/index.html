@@ -295,9 +295,13 @@ function validateInput(inputText) {
     if (isAllowedWrappedPunctuation) continue;
 
     // ❌ If it's risky and not wrapped
-    if (isSingleCharPunctuation && !isWrapped) {
-      errors.push(`Wrap "${token}" in { } if it's punctuation.`);
-    }
+  const isSingleCharPunctuation = riskyPunctuation.includes(token);
+  const isEchoLetter = Object.values(symbolMap).includes(token);
+
+// ✅ Only trigger error if it's not part of Echo Code letters
+if (isSingleCharPunctuation && !isWrapped && !isEchoLetter) {
+  errors.push(`Wrap "${token}" in { } if it's punctuation.`);
+}
 
     // ❌ If it starts with { but isn’t valid wrapped punctuation
     if (token.includes('{') && !isWrapped) {
