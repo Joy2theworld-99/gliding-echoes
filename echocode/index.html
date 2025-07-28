@@ -217,8 +217,8 @@ th, td {
       <br>
       <textarea id="input"></textarea><br>
 
-      <button onclick="translateToEcho()">Translate to Echo Code</button>
-      <button onclick="translateToEnglish()">Translate to English</button>
+      <button id="toEcho" onclick="translateToEcho()">Translate to Echo Code</button>
+      <button id="toEnglish" onclick="translateToEnglish()">Translate to English</button>
       <button onclick="clearText()">Clear</button>
       <button onclick="exportResult()">Export</button>
     </div>
@@ -227,12 +227,11 @@ th, td {
   </div>
   <!--ADD NEW SCRIPT-->
 <script>
-  const inputField = document.getElementById('inputText');
-  const output = document.getElementById('output');
+  const inputField = document.getElementById('input');
+  const output = document.getElementById('result');
   const btnToEcho = document.getElementById('toEcho');
   const btnToEnglish = document.getElementById('toEnglish');
 
-  // Define Echo Code symbol pattern (only Echo-valid characters)
   function isEchoCode(input) {
     const echoSymbols = /^[!@#$%^&*()_+=\[\];:,.<>\/?`~{}\s"'-]*$/;
     return echoSymbols.test(input.trim());
@@ -243,44 +242,35 @@ th, td {
     return lettersOnly.test(input.trim());
   }
 
-  btnToEcho.addEventListener('click', () => {
+  btnToEcho.addEventListener('click', (e) => {
     const input = inputField.value.trim();
     if (!input) {
-      output.textContent = 'Please enter something to translate.';
+      output.innerHTML = '<strong>Translation Output:</strong><br>Please enter something to translate.';
+      e.preventDefault();
       return;
     }
     if (isEchoCode(input)) {
-      output.textContent = 'Input appears to already be in Echo Code.\nTry using "Translate to English" instead.';
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Echo Code.<br>Try using "Translate to English" instead.';
+      e.preventDefault();
       return;
     }
-    // ⬇️ Replace with your actual Echo Code conversion function
-    const echoResult = translateToEnglish();
-    output.textContent = echoResult;
+    translateToEcho(); // call actual function
   });
 
-  btnToEnglish.addEventListener('click', () => {
+  btnToEnglish.addEventListener('click', (e) => {
     const input = inputField.value.trim();
     if (!input) {
-      output.textContent = 'Please enter something to translate.';
+      output.innerHTML = '<strong>Translation Output:</strong><br>Please enter something to translate.';
+      e.preventDefault();
       return;
     }
     if (isEnglish(input)) {
-      output.textContent = 'Input appears to already be in English.\nTry using "Translate to Echo Code" instead.';
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate to Echo Code" instead.';
+      e.preventDefault();
       return;
     }
-    // ⬇️ Replace with your actual English conversion function
-    const englishResult = translateToEcho();
-    output.textContent = englishResult;
+    translateToEnglish(); // call actual function
   });
-
-  // Stub conversion functions for demo — replace these with your real logic
-  function convertToEchoCode(text) {
-    return 'ECHO: ' + text; // replace with actual logic
-  }
-
-  function convertToEnglish(code) {
-    return 'ENGLISH: ' + code; // replace with actual logic
-  }
 </script>
   
 <script>
