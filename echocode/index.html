@@ -226,53 +226,38 @@ th, td {
     <div id="result"><strong>Translation Output:</strong></div>
   </div>
   
-  <script>
-    const symbolMap = {
-      A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: ",", N: "-",
-      O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
-    };
-  // Echo → English
+<script>
+const symbolMap = {
+  A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@",
+  M: ",", N: "-", O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"',
+  X: "#", Y: "_", Z: "%"
+};
+
 const wrappedPunctuationMap = {
   "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
   '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
 };
-    const echoCodeLetters = [
-  '@', '#', '=', '^', '[', ')', '!', '$', '/', ',', '*', ';', '?', '>', '~', '+', ':', '%', '}', '`', '_', '"', '-'
-];
 
-// English → Echo
 const punctuationMap = {};
 for (const [wrapped, char] of Object.entries(wrappedPunctuationMap)) {
   punctuationMap[char] = wrapped;
 }
 
 const reverseMap = {};
-  for (const [letter, symbol] of Object.entries(symbolMap)) {
-    reverseMap[symbol] = letter;
-  }
-function isPunctuation(symbol) {
-  // Only treat as punctuation if not part of Echo Code letters
-  return !echoCodeLetters.includes(symbol);
+for (const [letter, symbol] of Object.entries(symbolMap)) {
+  reverseMap[symbol] = letter;
 }
-    function isEchoLetter(symbol) {
-  return Object.values(symbolMap).includes(symbol);
-}
-<!--
-function validateInput(inputText) {
-  const errors = [];
 
-  const symbols = inputText.split('');
-  for (const symbol of symbols) {
-    if ((symbol === '-' || symbol === '"') && isPunctuation(symbol)) {
-      errors.push(`Wrap "${symbol}" in { } if it's punctuation.`);
-    }-->
-  }
+// All valid Echo Code letters (from symbolMap)
+const echoCodeLetters = Object.values(symbolMap);
 
-  return errors;
+function isEchoLetter(symbol) {
+  return echoCodeLetters.includes(symbol);
 }
-    
+
 function validateEchoInput(input) {
   const errors = [];
+  const riskyPunctuation = Object.keys(punctuationMap);
   const tokens = input.split(/(\s+)/);
 
   const openBrackets = (input.match(/{/g) || []).length;
@@ -287,30 +272,20 @@ function validateEchoInput(input) {
 
     const isWrapped = /^\{[^}]+\}$/.test(token);
     const unwrappedChar = token.replace(/[{}]/g, '');
+    const isAllowedWrappedPunctuation = wrappedPunctuationMap[token];
+    const isAllowedSymbol = echoCodeLetters.includes(token);
+    const isSingleCharPunctuation = riskyPunctuation.includes(token);
 
-    const isAllowedWrappedPunctuation = Object.keys(wrappedPunctuationMap).includes(token);
-    const isEchoSymbol = Object.values(symbolMap).includes(token);
-
-    // ✅ Skip valid wrapped punctuation
     if (isAllowedWrappedPunctuation) continue;
 
-    // ❌ Flag if a symbol looks like punctuation and isn’t Echo Code or wrapped
-    const riskyPunctuation = ['.', '!', '?', ',', ':', ';', '"', "'", '(', ')', '-'];
-
-    if (
-      riskyPunctuation.includes(token) &&
-      !isWrapped &&
-      !isEchoSymbol
-    ) {
+    if (isSingleCharPunctuation && !isWrapped && !isAllowedSymbol) {
       errors.push(`Wrap "${token}" in { } if it's punctuation.`);
     }
 
-    // ❌ Improper wrapped formatting
     if (token.includes('{') && !isWrapped) {
       errors.push(`Improper punctuation formatting near: "${token}" — wrap entire symbol in { }`);
     }
 
-    // ❌ No spacing between symbols
     if (!isWrapped && /^[^\s]{6,}$/.test(token)) {
       errors.push("Spacing warning: Echo symbols should be separated.");
     }
@@ -319,42 +294,39 @@ function validateEchoInput(input) {
   return errors;
 }
 
-  function translateToEcho() {
-    const text = document.getElementById('input').value.toUpperCase();
-    let result = '';
-    let previousChar = '';
+function translateToEcho() {
+  const text = document.getElementById('input').value.toUpperCase();
+  let result = '';
 
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
 
-      if (char === '\n') {
-        // Check if it's a double newline for paragraph
-        if (text[i + 1] === '\n') {
-          result += '     '; // paragraph = 5 spaces
-          i++; // skip second newline
-        } else {
-          result += '   '; // line = 3 spaces
-        }
-        continue;
+    if (char === '\n') {
+      if (text[i + 1] === '\n') {
+        result += '     ';
+        i++;
+      } else {
+        result += '   ';
       }
-
-      if (char === ' ') {
-        result += '  '; // word space = 2 spaces
-        continue;
-      }
-
-      if (Object.values(punctuationMap).includes(char)) {
-        const match = Object.keys(punctuationMap).find(k => punctuationMap[k] === char);
-        result += match + ' ';
-      } else if (symbolMap[char]) {
-        result += symbolMap[char] + ' ';
-      }
+      continue;
     }
 
-    document.getElementById('result').innerHTML = '<strong>Translation Output:</strong><br>' + result.trim().replace(/\n/g, '<br>');
+    if (char === ' ') {
+      result += '  ';
+      continue;
+    }
+
+    if (punctuationMap[char]) {
+      result += punctuationMap[char] + ' ';
+    } else if (symbolMap[char]) {
+      result += symbolMap[char] + ' ';
+    }
   }
 
- function translateToEnglish() {
+  document.getElementById('result').innerHTML = '<strong>Translation Output:</strong><br>' + result.trim().replace(/\n/g, '<br>');
+}
+
+function translateToEnglish() {
   const text = document.getElementById('input').value;
   const errors = validateEchoInput(text);
   if (errors.length > 0) {
@@ -362,37 +334,33 @@ function validateEchoInput(input) {
     return;
   }
 
-  const tokens = text.split(/(\s+)/); // includes whitespace tokens
+  const tokens = text.split(/(\s+)/);
   let result = '';
   let spaceBuffer = '';
 
-  for (let i = 0; i < tokens.length; i++) {
-    const token = tokens[i];
-
+  for (let token of tokens) {
     if (token.trim() === '') {
       spaceBuffer += token;
       continue;
     }
 
-    // Handle spacing logic
     const spaceCount = spaceBuffer.length;
     if (spaceCount >= 5) {
-      result += '\n\n'; // paragraph
+      result += '\n\n';
     } else if (spaceCount >= 3) {
-      result += '\n'; // line
+      result += '\n';
     } else if (spaceCount === 2) {
-      result += ' '; // word
-    } // 1 space = letter break — no need to add anything
+      result += ' ';
+    }
 
-    spaceBuffer = ''; // reset
+    spaceBuffer = '';
 
-    // Decode the token
     if (wrappedPunctuationMap[token]) {
       result += wrappedPunctuationMap[token];
     } else if (reverseMap[token]) {
       result += reverseMap[token];
     } else {
-      result += '[?]'; // fallback for unknown symbol
+      result += '[?]';
     }
   }
 
@@ -416,7 +384,7 @@ function exportResult() {
   link.click();
   URL.revokeObjectURL(url);
 }
-
 </script>
+
 </body>
 </html>
