@@ -254,7 +254,10 @@ function isPunctuation(symbol) {
   // Only treat as punctuation if not part of Echo Code letters
   return !echoCodeLetters.includes(symbol);
 }
-
+    function isEchoLetter(symbol) {
+  return Object.values(symbolMap).includes(symbol);
+}
+<!--
 function validateInput(inputText) {
   const errors = [];
 
@@ -262,7 +265,7 @@ function validateInput(inputText) {
   for (const symbol of symbols) {
     if ((symbol === '-' || symbol === '"') && isPunctuation(symbol)) {
       errors.push(`Wrap "${symbol}" in { } if it's punctuation.`);
-    }
+    }-->
   }
 
   return errors;
@@ -289,7 +292,8 @@ function validateInput(inputText) {
 
     const isAllowedWrappedPunctuation = Object.keys(wrappedPunctuationMap).includes(token);
     const isAllowedSymbol = allowedSymbols.includes(token);
-    const isSingleCharPunctuation = riskyPunctuation.includes(token);
+    const isSingleCharPunctuation = riskyPunctuation.includes(token) && !isEchoLetter(token);
+
 
     // ✅ Skip valid wrapped punctuation
     if (isAllowedWrappedPunctuation) continue;
