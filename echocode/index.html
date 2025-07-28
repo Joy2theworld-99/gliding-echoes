@@ -271,10 +271,8 @@ function validateInput(inputText) {
   return errors;
 }
     
- function validateEchoInput(input) {
+function validateEchoInput(input) {
   const errors = [];
-  const riskyPunctuation = Object.keys(punctuationMap);
-  const allowedSymbols = Object.values(symbolMap);
   const tokens = input.split(/(\s+)/);
 
   const openBrackets = (input.match(/{/g) || []).length;
@@ -291,28 +289,28 @@ function validateInput(inputText) {
     const unwrappedChar = token.replace(/[{}]/g, '');
 
     const isAllowedWrappedPunctuation = Object.keys(wrappedPunctuationMap).includes(token);
-    const isAllowedSymbol = allowedSymbols.includes(token);
-    const isSingleCharPunctuation = riskyPunctuation.includes(token) && !isEchoLetter(token);
-
+    const isEchoSymbol = Object.values(symbolMap).includes(token);
 
     // ✅ Skip valid wrapped punctuation
     if (isAllowedWrappedPunctuation) continue;
 
-    // ❌ If it's risky and not wrapped
-  const isSingleCharPunctuation = riskyPunctuation.includes(token);
-  const isEchoLetter = Object.values(symbolMap).includes(token);
+    // ❌ Flag if a symbol looks like punctuation and isn’t Echo Code or wrapped
+    const riskyPunctuation = ['.', '!', '?', ',', ':', ';', '"', "'", '(', ')', '-'];
 
-// ✅ Only trigger error if it's not part of Echo Code letters
-if (isSingleCharPunctuation && !isWrapped && !isEchoLetter) {
-  errors.push(`Wrap "${token}" in { } if it's punctuation.`);
-}
+    if (
+      riskyPunctuation.includes(token) &&
+      !isWrapped &&
+      !isEchoSymbol
+    ) {
+      errors.push(`Wrap "${token}" in { } if it's punctuation.`);
+    }
 
-    // ❌ If it starts with { but isn’t valid wrapped punctuation
+    // ❌ Improper wrapped formatting
     if (token.includes('{') && !isWrapped) {
       errors.push(`Improper punctuation formatting near: "${token}" — wrap entire symbol in { }`);
     }
 
-    // ❌ Enforce spacing between symbols (if someone types ~!@# with no spacing)
+    // ❌ No spacing between symbols
     if (!isWrapped && /^[^\s]{6,}$/.test(token)) {
       errors.push("Spacing warning: Echo symbols should be separated.");
     }
@@ -419,21 +417,6 @@ function exportResult() {
   URL.revokeObjectURL(url);
 }
 
-  function clearText() {
-    document.getElementById('input').value = '';
-    document.getElementById('result').innerText = 'Translation Output:';
-  }
-
-  function exportResult() {
-    const text = document.getElementById('result').innerText.replace('Translation Output:\n', '');
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'echo_output.txt';
-    link.click();
-    URL.revokeObjectURL(url);
-  }
 </script>
 </body>
 </html>
