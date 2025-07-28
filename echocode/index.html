@@ -231,15 +231,17 @@ th, td {
       A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: ",", N: "-",
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
-    // For Echo → English
+  // Echo → English
 const wrappedPunctuationMap = {
   "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
   '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
- // For English → Echo
+};
+
+// English → Echo
 const punctuationMap = {};
 for (const [wrapped, char] of Object.entries(wrappedPunctuationMap)) {
   punctuationMap[char] = wrapped;
-  }
+}
 const reverseMap = {};
   for (const [letter, symbol] of Object.entries(symbolMap)) {
     reverseMap[symbol] = letter;
