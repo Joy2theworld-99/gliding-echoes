@@ -168,7 +168,7 @@ th, td {
  <p>• Always use <strong>THREE</strong> spaces to separate lines</p>
  <p>• Always use <strong>FIVE</strong> spaces to separate paragraphs</p>
  <p>• Do not combine multiple Echo symbols without spacing or it will result in an error</p>
- <p>• Only Echo Code symbols should be unwrapped (no { } )— unwrapped punctuation will trigger errors</p>
+ <p>• Only Echo Code symbols should be unwrapped - no " { } " - unwrapped punctuation will create translation errors</p>
          <div class="container">
            <div id="echoKeyContainer">
       <div id="rulesSection">
@@ -199,6 +199,10 @@ th, td {
         <tr><td>Comma</td><td>{,}</td><td>Wrap in braces</td></tr>
         <tr><td>Exclamation</td><td>{!}</td><td>Wrap in braces</td></tr>
         <tr><td>Question</td><td>{?}</td><td>Wrap in braces</td></tr>
+        <tr><td>Apostrophe/Single Quote</td><td>{'}</td><td>Wrap in braces</td></tr>
+        <tr><td>Colon</td><td>{:}</td><td>Wrap in braces</td></tr>
+        <tr><td>Semi-Colon</td><td>{;}</td><td>Wrap in braces</td></tr>
+        <tr><td>Double Quote</td><td>{"}</td><td>Wrap in braces</td></tr>
         <tr><td>Paragraph break</td><td>5 spaces</td><td></td></tr>
         <tr><td>New line</td><td>3 spaces</td><td></td></tr>
         <tr><td>Word break</td><td>2 spaces</td><td></td></tr>
@@ -237,7 +241,7 @@ const reverseMap = {};
 
   function validateEchoInput(input) {
     const errors = [];
-    const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%'];
+    const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%', "'", ":", ";"];
     const allowedSymbols = Object.values(symbolMap);
 
     const tokens = input.split(/(\s+)/);
