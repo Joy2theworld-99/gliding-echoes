@@ -254,7 +254,7 @@ th, td {
       return;
     }
     // ⬇️ Replace with your actual Echo Code conversion function
-    const echoResult = isEchoCode(input);
+    const echoResult = translateToEnglish();
     output.textContent = echoResult;
   });
 
@@ -269,7 +269,7 @@ th, td {
       return;
     }
     // ⬇️ Replace with your actual English conversion function
-    const englishResult = isEnglish(input);
+    const englishResult = translateToEcho();
     output.textContent = englishResult;
   });
 
