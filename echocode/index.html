@@ -331,7 +331,7 @@ const reverseMap = {};
       result += '\n';   // line break
     } else if (spaceCount === 2) {
       result += ' ';    // word break
-      else if (spaceCount === 1) {
+    } else if (spaceCount === 1) {
       result += ' ';    // letter break
     } // no space or 1 space = letter break, so no change
     spaceBuffer = ''; // reset for next token
