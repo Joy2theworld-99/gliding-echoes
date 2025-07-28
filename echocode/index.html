@@ -266,12 +266,12 @@ const reverseMap = {};
     const isWrapped = /^\{[^}]+\}$/.test(token);
     const isSingleCharPunctuation = riskyPunctuation.includes(token);
     const isAllowedSymbol = allowedSymbols.includes(token);
-<!--
+
     // If the token is punctuation but NOT wrapped, throw an error
     if (isSingleCharPunctuation && !isWrapped) {
       errors.push(`Wrap "${token}" in { } if it's punctuation.`);
     }
--->
+
     // If it contains an opening { but isn't properly wrapped, flag it
     if (token.includes('{') && !isWrapped) {
       errors.push(`Improper punctuation formatting near: "${token}" — wrap entire symbol in { }`);
