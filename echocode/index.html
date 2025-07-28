@@ -163,7 +163,7 @@ th, td {
         <p><strong>Echo Code Entry Rules:</strong></p>
  <p>• Use only valid Echo Code symbols (e.g., ~ * @ -)</p>
  <p>• <strong>Wrap ALL true punctuation in { } - even if that symbol is not part of Echo Code</strong> – e.g., {?} for a question mark</p>
- <p>• Always use <strong>ONE</strong> space to separate letters</p>
+ <p>• Always use <strong>ONE</strong> space to separate letters (if no spaces are used between letters, translation will be incorrect</p>
  <p>• Always use <strong>TWO</strong> spaces to separate words or symbol groups</p>
  <p>• Always use <strong>THREE</strong> spaces to separate lines</p>
  <p>• Always use <strong>FIVE</strong> spaces to separate paragraphs</p>
@@ -332,7 +332,7 @@ const reverseMap = {};
     } else if (spaceCount === 2) {
       result += ' ';    // word break
     } else if (spaceCount === 1) {
-      result += ' ';    // letter break
+      result += '';    // letter break
     } // no space or 1 space = letter break, so no change
     spaceBuffer = ''; // reset for next token
 
