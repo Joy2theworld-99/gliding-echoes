@@ -231,41 +231,57 @@ th, td {
       A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@", M: ",", N: "-",
       O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"', X: "#", Y: "_", Z: "%"
     };
- const punctuationMap = {
-    "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
+    // For Echo → English
+const wrappedPunctuationMap = {
+  "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
   '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
-  };
+ // For English → Echo
+const punctuationMap = {};
+for (const [wrapped, char] of Object.entries(wrappedPunctuationMap)) {
+  punctuationMap[char] = wrapped;
+  }
 const reverseMap = {};
   for (const [letter, symbol] of Object.entries(symbolMap)) {
     reverseMap[symbol] = letter;
   }
 
   function validateEchoInput(input) {
-    const errors = [];
-    const riskyPunctuation = ['!', '?', '.', ',', '-', '"', '%', "'", ":", ";"];
-    const allowedSymbols = Object.values(symbolMap);
+  const errors = [];
+  const riskyPunctuation = Object.keys(punctuationMap);
+  const allowedSymbols = Object.values(symbolMap);
+  const tokens = input.split(/(\s+)/);
 
-    const tokens = input.split(/(\s+)/);
-    const openBrackets = (input.match(/{/g) || []).length;
-    const closeBrackets = (input.match(/}/g) || []).length;
+  const openBrackets = (input.match(/{/g) || []).length;
+  const closeBrackets = (input.match(/}/g) || []).length;
 
-    if (openBrackets !== closeBrackets) {
-      errors.push("Unmatched punctuation brackets detected.");
-    }
-
-    for (let token of tokens) {
-      if (!token.trim()) continue;
-      if (/^\{.+\}$/.test(token)) continue;
-      if (riskyPunctuation.includes(token) && !allowedSymbols.includes(token)) {
-        errors.push(`Wrap "${token}" in { } if it's punctuation.`);
-      }
-      if (/^[^\s]{6,}$/.test(token)) {
-        errors.push("Spacing warning: Echo symbols should be separated by one space between each symbol.");
-      }
-    }
-
-    return errors;
+  if (openBrackets !== closeBrackets) {
+    errors.push("Unmatched punctuation brackets detected.");
   }
+
+  for (let token of tokens) {
+    if (!token.trim()) continue;
+
+    // Accept valid wrapped punctuation
+    if (/^\{[^}]+\}$/.test(token)) continue;
+
+    // Check for risky unwrapped punctuation
+    if (riskyPunctuation.includes(token) && !allowedSymbols.includes(token)) {
+      errors.push(`Wrap "${token}" in { } if it's punctuation.`);
+    }
+
+    // Check for incorrect formatting like partial wrapping
+    if (token.includes('{') && !/^\{[^}]+\}$/.test(token)) {
+      errors.push(`Improper punctuation formatting near: "${token}" — wrap entire symbol in { }`);
+    }
+
+    // Echo symbol run-ons
+    if (/^[^\s]{6,}$/.test(token)) {
+      errors.push("Spacing warning: Echo symbols should be separated.");
+    }
+  }
+
+  return errors;
+}
 
   function translateToEcho() {
     const text = document.getElementById('input').value.toUpperCase();
