@@ -329,7 +329,7 @@ const reverseMap = {};
     return;
   }
 
-  const tokens = text.split(/(\s+)/); // split by symbols *and* whitespace
+  const tokens = text.split(/(\s+)/); // includes whitespace tokens
   let result = '';
   let spaceBuffer = '';
 
@@ -337,25 +337,35 @@ const reverseMap = {};
     const token = tokens[i];
 
     if (token.trim() === '') {
-      // Accumulate space buffer to check spacing rules
       spaceBuffer += token;
       continue;
     }
 
-    // Handle what the previous spacing meant
+    // Handle spacing logic
     const spaceCount = spaceBuffer.length;
     if (spaceCount >= 5) {
-      result += '\n\n'; // paragraph break
+      result += '\n\n'; // paragraph
     } else if (spaceCount >= 3) {
-      result += '\n';   // line break
+      result += '\n'; // line
     } else if (spaceCount === 2) {
-      result += ' ';    // word break
-    } // no space or 1 space = letter break, so no change
-    spaceBuffer = ''; // reset for next token
+      result += ' '; // word
+    } // 1 space = letter break, so no need to add anything
 
-    // Decode the token
+    spaceBuffer = ''; // reset
+
+    // Now decode the token
     if (wrappedPunctuationMap[token]) {
-  result += wrappedPunctuationMap[token];
+      result += wrappedPunctuationMap[token];
+    } else if (reverseMap[token]) {
+      result += reverseMap[token];
+    } else {
+      result += '[?]'; // fallback for unknown symbol
+    }
+  }
+
+  document.getElementById('result').innerHTML =
+    '<strong>Translation Output:</strong><br>' +
+    result.trim().replace(/\n/g, '<br>');
 }
   }
 
