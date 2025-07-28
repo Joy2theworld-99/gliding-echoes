@@ -225,6 +225,63 @@ th, td {
 </div>
     <div id="result"><strong>Translation Output:</strong></div>
   </div>
+  <!--ADD NEW SCRIPT-->
+<script>
+  const inputField = document.getElementById('inputText');
+  const output = document.getElementById('output');
+  const btnToEcho = document.getElementById('toEcho');
+  const btnToEnglish = document.getElementById('toEnglish');
+
+  // Define Echo Code symbol pattern (only Echo-valid characters)
+  function isEchoCode(input) {
+    const echoSymbols = /^[!@#$%^&*()_+=\[\];:,.<>\/?`~{}\s"'-]*$/;
+    return echoSymbols.test(input.trim());
+  }
+
+  function isEnglish(input) {
+    const lettersOnly = /^[A-Za-z\s.,!?'"()-]*$/;
+    return lettersOnly.test(input.trim());
+  }
+
+  btnToEcho.addEventListener('click', () => {
+    const input = inputField.value.trim();
+    if (!input) {
+      output.textContent = 'Please enter something to translate.';
+      return;
+    }
+    if (isEchoCode(input)) {
+      output.textContent = 'Input appears to already be in Echo Code.\nTry using "Translate to English" instead.';
+      return;
+    }
+    // ⬇️ Replace with your actual Echo Code conversion function
+    const echoResult = isEnglish(input);
+    output.textContent = echoResult;
+  });
+
+  btnToEnglish.addEventListener('click', () => {
+    const input = inputField.value.trim();
+    if (!input) {
+      output.textContent = 'Please enter something to translate.';
+      return;
+    }
+    if (isEnglish(input)) {
+      output.textContent = 'Input appears to already be in English.\nTry using "Translate to Echo Code" instead.';
+      return;
+    }
+    // ⬇️ Replace with your actual English conversion function
+    const englishResult = isEchoCode(input);
+    output.textContent = englishResult;
+  });
+
+  // Stub conversion functions for demo — replace these with your real logic
+  function convertToEchoCode(text) {
+    return 'ECHO: ' + text; // replace with actual logic
+  }
+
+  function convertToEnglish(code) {
+    return 'ENGLISH: ' + code; // replace with actual logic
+  }
+</script>
   
 <script>
 const symbolMap = {
