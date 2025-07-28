@@ -354,13 +354,9 @@ const reverseMap = {};
     spaceBuffer = ''; // reset for next token
 
     // Decode the token
-    if (punctuationMap[token]) {
-      result += punctuationMap[token];
-    } else if (reverseMap[token]) {
-      result += reverseMap[token];
-    } else {
-      result += ''; // unknown token, skip silently
-    }
+    if (wrappedPunctuationMap[token]) {
+  result += wrappedPunctuationMap[token];
+}
   }
 
   document.getElementById('result').innerHTML = '<strong>Translation Output:</strong><br>' + result.trim().replace(/\n/g, '<br>');
