@@ -201,13 +201,15 @@ th, td {
     
     <ul style="line-height: 1.6;">
       <li><strong>Valid Glyphra Symbols</strong>: Only use approved symbols — &, :, (, ], =, ^, [, ), !, `, /, @, ,, -, *, ;, ?, >, ~, +, $, <, ", #, _, %</li>
+      <li><strong>Note:</strong>Curly brackets { } are not part of Glyphra — they’re only used to wrap punctuation characters.</li>
       <li><strong>Punctuation Wrapping</strong>: All punctuation must be enclosed in <code>{ }</code> with 1 space after the final Glyphra symbol</li>
+       <li>E.g., {!} is valid only if it follows a space — never attach directly to a Glyphra character.</li>
       <li><strong>Spacing Rules:</strong>
         <ul>
-          <li>1 space between symbols</li>
+          <li><strong>1 space between symbols</li>
           <li>2 spaces between words</li>
           <li>3 spaces = new line</li>
-          <li>5 spaces = paragraph</li>
+          <li>5 spaces = paragraph<</strong>/li>
         </ul>
       </li>
       <li><strong>No raw punctuation or spacing errors</strong></li>
@@ -218,14 +220,16 @@ th, td {
       <p style="font-weight: bold; background-color: #dff0d8; padding: 0.5em; border-left: 6px solid green;">✅ Exception — Technical Terms Stay As-Is</p>
       <ul>
         <li>For technical terms (e.g., <em>URLs, email addresses, filenames</em>), Glyphra spacing and wrapping rules are <strong>waived</strong></li>
-        <li>These should be written in standard format to ensure web and system compatibility</li>
+        <li>Write in standard format to preserve web and system compatibility.</li>
         <li>Example: <code>glidingechoes.com</code> is allowed <em>as-is</em></li>
       </ul>
     </div>
 
     <div style="margin-top: 1.5rem;">
       <p style="font-weight: bold; background-color: #ffe4cc; padding: 0.5em; border-left: 6px solid orange;">🟧 Correct written example:</p>
+      <div style="background-color: #f4f4f4; padding: 0.75rem; font-family: monospace; border: 1px solid #ccc; border-radius: 6px; display: inline-block;">
       <code>{{[@]}} * < = _  * $ {!}</code>
+         </div>
       <p style="font-style: italic;">("Love you!" — each symbol has 1 space between them, words are separated by 2 spaces, punctuation appears after 1 space)</p>
     </div>
 
