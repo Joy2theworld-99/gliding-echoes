@@ -195,9 +195,10 @@ th, td {
 <h3>✍️ Written Input — Glyphra (Pronunciation: GLIF-rah)</h3>
 
     <section>
- <div class="accordion">
+<div class="accordion">
   <button class="accordion-toggle">🧩 Rule Block #1: Glyphra Spacing & Punctuation</button>
   <div class="accordion-content">
+    
     <ul style="line-height: 1.6;">
       <li><strong>Valid Glyphra Symbols</strong>: Only use approved symbols — &, :, (, ], =, ^, [, ), !, `, /, @, ,, -, *, ;, ?, >, ~, +, $, <, ", #, _, %</li>
       <li><strong>Punctuation Wrapping</strong>: All punctuation must be enclosed in <code>{ }</code> with 1 space after the final Glyphra symbol</li>
@@ -211,24 +212,25 @@ th, td {
       </li>
       <li><strong>No raw punctuation or spacing errors</strong></li>
     </ul>
-  </div>
 
-      
-  <div style="margin-top: 1.5em;">
-    <p style="font-weight: bold; margin-bottom: 0.5em;">✅ <strong>Exception — Technical Terms Stay As-Is</strong></p>
-    <ul style="line-height: 1.6;">
-      <li>For technical terms (e.g., <em>URLs</em>, <em>email addresses</em>, <em>filenames</em>), Glyphra spacing and wrapping rules are <strong>waived</strong></li>
-      <li>These should be written in standard format to ensure web and system compatibility</li>
-      <li>Example: <code>glidingechoes.com</code> is allowed <em>as-is</em></li>
-    </ul>
-  </div>
-</section>
-    
-<p><strong>✴️ Correct written example:</strong><br>
-<code>{[@]} * < =  _ * $ {!}</code><br>
-<em>(“Love you!” — each symbol has 1 space between them, words are separated by 2 spaces, punctuation appears after 1 space)</em></p>
-
+    <!-- ✅ Keep these inside accordion-content -->
+    <div style="margin-top: 1.5rem;">
+      <p style="font-weight: bold; background-color: #dff0d8; padding: 0.5em; border-left: 6px solid green;">✅ Exception — Technical Terms Stay As-Is</p>
+      <ul>
+        <li>For technical terms (e.g., <em>URLs, email addresses, filenames</em>), Glyphra spacing and wrapping rules are <strong>waived</strong></li>
+        <li>These should be written in standard format to ensure web and system compatibility</li>
+        <li>Example: <code>glidingechoes.com</code> is allowed <em>as-is</em></li>
+      </ul>
     </div>
+
+    <div style="margin-top: 1.5rem;">
+      <p style="font-weight: bold; background-color: #ffe4cc; padding: 0.5em; border-left: 6px solid orange;">🟧 Correct written example:</p>
+      <code>{{[@]}} * < = _  * $ {!}</code>
+      <p style="font-style: italic;">("Love you!" — each symbol has 1 space between them, words are separated by 2 spaces, punctuation appears after 1 space)</p>
+    </div>
+
+  </div>
+</div>
     
 <h3>🔊 Spoken Output — Chantra (Pronunciation: SHAHN-trah)</h3>
 <section>
