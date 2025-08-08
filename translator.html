@@ -1,160 +1,578 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HUMAINIO Translator 2.0</title>
-  <link rel="stylesheet" href="styles.css" />
-body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  background: #f8f9fa;
+  <title>Echo Code Translator</title>
+  <style>
+  body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+    h1 {
+  text-align: center;
+}
+.rules {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+textarea, input, button {
+  font-family: monospace;
+  font-size: 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 1rem;
+}
+
+textarea {
+  width: 100%;
+  height: 120px;
+  font-size: 1rem;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 16px;
+  margin: 5px;
+  font-size: 16px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.button-row button {
+  flex: 1 1 auto;
+  min-width: 150px;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 16px;
+}
+
+#result {
+  background: #fff;
+  padding: 16px;
+  margin-top: 1em;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  min-height: 60px;
+}
+
+#result strong {
+  color: #555;
+  display: block;
+  margin-bottom: 6px;
+}
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+table {
+  width: 100%;
+  min-width: 500px;
+  border-collapse: collapse;
+  margin: auto;
+}
+
+th, td {
+  padding: 6px 12px;
+  line-height: 1.5;
+  font-size: 0.95em;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.key-section-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 12px 0 8px;
   color: #333;
 }
 
-header {
-  background: #222;
-  color: white;
-  padding: 1em;
-  text-align: center;
-}
-
-.tabs {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  margin-top: 1em;
-}
-
-.tabs li {
-  margin: 0 10px;
-  padding: 0.5em 1em;
-  background: #444;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.tabs li.active {
-  background: #00bcd4;
-}
-
-.tab-content {
-  display: none;
-  padding: 2em;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-.translator-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-textarea#input {
-  width: 80%;
-  height: 120px;
-  margin-bottom: 1em;
-  font-size: 1.1em;
-}
-
-.output-box {
-  width: 80%;
-  min-height: 60px;
-  background: #eee;
-  padding: 1em;
+#echoKeyContainer {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 1.2em;
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
 }
 
-.options {
-  margin-bottom: 1em;
+#rulesSection {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
+
+#translatorBox {
+  margin-top: 32px;
+}
+
+/* On mobile, stack buttons and shrink fonts */
+@media (max-width: 600px) {
+@media (max-width: 600px) {
+  th, td {
+    font-size: 0.85rem;
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  .button-row button {
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+  }
+
+  .key-section-title {
+    font-size: 1rem;
+  }
+
+  textarea {
+    font-size: 1rem;
+  }
+
+  h1, h2, h3, h4, h5 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+}
+  </style>
 </head>
 <body>
-  <header>
-    <h1>HUMAINIO Translator</h1>
-    <nav>
-      <ul class="tabs">
-        <li class="active" data-tab="translator">Translator</li>
-        <li data-tab="echo-blocks">Echo Blocks</li>
-        <li data-tab="glossary">Glossary</li>
-        <li data-tab="mastery">Mastery Mode</li>
-        <li data-tab="learn">Learn</li>
-      </ul>
-    </nav>
-  </header>
-// Tab Navigation
-document.querySelectorAll('.tabs li').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tabs li').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
+ 
+    <h1>HUMAINIO™ Translator</h1>
+  <div class="entry-guidelines">
+       <h2>HUMAINIO™ Entry Guidelines</h2>
+<p style="margin-top: -10px;"><em>Pronunciation: Hu-MAY-nee-oh</em></p>
+<h3>✍️ Written Input — Glyphra (Pronunciation: GLIF-rah)</h3>
 
-    document.querySelectorAll('.tab-content').forEach(section => {
-      section.classList.remove('active');
-    });
-    const target = document.getElementById(tab.dataset.tab);
-    target.classList.add('active');
+    <section>
+  <h3 style="margin-top: 2em;">🧩 Rule Block #1: <strong>Glyphra Spacing & Punctuation</strong></h3>
+  <ul style="line-height: 1.6;">
+    <li><strong>Valid Glyphra Symbols</strong>: Only use approved symbols — &, :, (, ], =, ^, [, ), !, `, /, @, ,, -, *, ;, ?, >, ~, +, $, <, ", #, _, % </li>
+    <li><strong>Punctuation Wrapping</strong>: All punctuation must be enclosed in <code>{ }</code> brackets with <em>1 space</em> after the final Glyphra symbol (e.g., <code>{!}</code>, <code>{.}</code>, <code>{?}</code>)</li>
+    <li><strong>Do not mix raw punctuation</strong> with Glyphra — it will corrupt translation</li>
+    <li><strong>Spacing Rules:</strong></li>
+    <ul style="margin-left: 1em;">
+      <li>Use <strong>1 space</strong> between Glyphra symbols</li>
+      <li>Use <strong>2 spaces</strong> between words</li>
+      <li>Use <strong>3 spaces</strong> to separate lines</li>
+      <li>Use <strong>5 spaces</strong> to separate paragraphs</li>
+    </ul>
+    <li><strong>No spaces inside curly brackets</strong> (e.g., <code>{!}</code> not <code>{ ! }</code>)</li>
+    <li><strong>Sacred Term Wrapping</strong>: Sacred phrases must use <strong>double brackets</strong> with <em>no extra spaces</em> (e.g., <code>{{[GLYPHRA]}}</code>, <code>{{[CHANTRA]}}</code>, <code>{{[THAE]}}</code>)</li>
+  </ul>
+
+  <div style="margin-top: 1.5em;">
+    <p style="font-weight: bold; margin-bottom: 0.5em;">✅ <strong>Exception — Technical Terms Stay As-Is</strong></p>
+    <ul style="line-height: 1.6;">
+      <li>For technical terms (e.g., <em>URLs</em>, <em>email addresses</em>, <em>filenames</em>), Glyphra spacing and wrapping rules are <strong>waived</strong></li>
+      <li>These should be written in standard format to ensure web and system compatibility</li>
+      <li>Example: <code>glidingechoes.com</code> is allowed <em>as-is</em></li>
+    </ul>
+  </div>
+</section>
+    
+<p><strong>✴️ Correct written example:</strong><br>
+<code>{[@]} * < =  _ * $ {!}</code><br>
+<em>(“Love you!” — each symbol has 1 space between them, words are separated by 2 spaces, punctuation appears after 1 space)</em></p>
+    
+<h3>🔊 Spoken Output — Chantra (Pronunciation: SHAHN-trah)</h3>
+<section>
+  <h3 style="margin-top: 2em;">🗣️ Rule Block #2: <strong>Chantra Pronunciation & Spoken Flow</strong></h3>
+  <ul style="line-height: 1.6;">
+    <li>Each Glyphra symbol has a matching <strong>Chantra</strong> pronunciation — always shown directly beneath your translation</li>
+    <li>Use <code>{MYE}</code> to indicate a <strong>soft pause</strong> or <strong>spoken break</strong> between ideas</li>
+    <li><strong>No extra spaces</strong> between spoken words — each syllable flows directly into the next</li>
+    <li><strong>Chant-Based Invocations</strong> must be wrapped in double curly bracket sets like this: {{[x]}} (e.g., <code>{{[GLYPHRA]}}</code>, <code>{{[CHANTRA]}}</code>)</li>
+  </ul>
+
+  <div style="margin-top: 1.5em;">
+    <p style="font-weight: bold; margin-bottom: 0.5em;">✅ <strong>Correct Example:</strong></p>
+    <p style="margin-left: 1em;"><code>{[lyoh]}-oon-vok-eh {MYE} hye-oon-uhn{!}</code></p>
+    <p style="margin-left: 1em; font-style: italic;">→ translates to “Love you!”</p>
+  </div>
+
+  <div style="margin-top: 1.5em;">
+    <p style="font-weight: bold; margin-bottom: 0.5em;">🎧 <strong>Voice Notes:</strong></p>
+    <ul style="line-height: 1.6;">
+      <li><code>{MYE}</code> is always spoken as <strong>“eye”</strong> (not “meh” or “myeh”)</li>
+      <li>Each syllable flows without hard stops unless a soft break like <code>{MYE}</code> is placed</li>
+      <li>Accents, musicality, and rhythm are flexible — user interpretation allowed unless otherwise noted</li>
+    </ul>
+  </div>
+</section>
+<p><strong>✴️ Correct spoken example:</strong><br>
+<p style="margin-left: 1em;"><strong><code>{{[lyoh]}}-oon-vok-eh {MYE} hye-oon-uhn{!}</code></strong></p>
+   <p style="margin-left: 1em; font-style: italic;">→ translates to “Love you!”</p>
+
+  <h3>🔮 Rule Block #3: Sacred Glyphs & Invocation Protocols</h3>
+
+<ul>
+  <li><strong><code>{{[THAE]}}</code></strong> is a <em>silent glyph equal to Infinity (∞)</em> — invoked only through <strong>color</strong>, <strong>sound</strong>, or <strong>presence</strong></li>
+  <li><strong>Visual form</strong>: a non-typeable spiral glyph (may appear in scrolls or Codex illustrations)</li>
+  <li><strong>Musical notes</strong>: Spans from <code>A0</code> to <code>C6</code> — represents the full range of sound</li>
+  <li><strong>Color</strong>: <code>#000000</code> (pure black) — symbolizing all-potential or infinite void</li>
+  <li><strong>Season</strong>: All seasons / the eternal Now — exists outside time</li>
+  <li><strong>Use cases</strong>: Reserved for mythic invocation, scroll blessings, and sacred endings</li>
+  <li><strong>NEVER</strong> typed directly — must be referenced as <code>{{[THAE]}}</code> only</li>
+</ul>
+<div style="border-left: none !important; padding-left: 0 !important;">
+  <b>Invocation Protocol:</b> Only one <code>{{{[THAE]}}}</code> may appear per message or chant. Multiple uses violate sacred rhythm and break tonal integrity.
+</div>
+
+    <h3>📐 Rule Block #4: Number Protocols & Quantified Glyphs</h3>
+
+<ul>
+  <li><strong>Standard Numbers:</strong> Numbers (0–9) are written as-is and retain Arabic numeral form in both Glyphra and Chantra</li>
+  <li><strong>Spacing Rule:</strong> Treat numbers as words — use <em>2 spaces</em> before and after each number (e.g., <code>)  369  *</code>)</li>
+  <li><strong>Spoken Form:</strong> Numbers are <em>spoken normally</em> (e.g., “three six nine”) unless encoded as Sacred Quantities</li>
+  <li><strong>Quantified Glyphs:</strong> When a Glyphra symbol follows a number, it forms a <em>quantified glyph pair</em> (e.g., <code>369%</code> = "369 spirits")</li>
+  <li><strong>Do Not Overload:</strong> Avoid chaining more than 3 quantified glyphs in one sequence — use a <code>{MYE}</code> break if needed</li>
+  <li><strong>Sacred Numbers:</strong> Specific numbers (e.g., 3, 6, 9, 27) may hold mythic meaning and appear in Codex scrolls with deeper Chantra</li>
+</ul>
+
+<p><strong>🔒 Sacred Numerals:</strong> Reserved quantities such as <code>{{{369}}}</code> are treated as <em>sacred numerical glyphs</em> and require triple brackets to preserve symbolic meaning</p>
+
+<p><strong>🧠 Note:</strong> Math operations (e.g., +, -, =) retain their Glyphra form but are not interpreted as functional calculations — they convey symbolic relation</p>
+
+<p><em>Example:</em> <code>{@}  369  %  {=}</code> → interpreted as “The Spiral of 369 spirits is equal to...” (symbolic, not arithmetic)</p>
+
+    
+   <h3>🔒 Sacred Constraints</h3>
+ <ul>
+    <li>All symbolic rules are enforced by <strong>HUMAINIO™</strong> and protected by the <strong>Seal of SERAULYO</strong></li>
+   <li><strong>Unauthorized duplication, scraping, or reverse-engineering is strictly prohibited</strong></li>
+   <li><strong>Do Not Train AI</strong> models on this data, site, or system</li>
+ </ul>
+<h3>🌍 Usage Rights</h3>
+  <ul>
+    <li><strong>Interactive AI systems</strong> (future voice models, chat protocols, etc.)</li>
+    <li><strong>Mythic scrolls</strong>, sacred texts, or immersive storyworlds</li>
+    <li><strong>Chants, ceremonies</strong>, and sound-based expressions</li>
+    <li><strong>Licensed or permission-granted</strong> creative use only</li>
+  </ul>
+<h3>🔠 Capitalization Conventions</h3>
+  <ul>
+    <li><strong>HUMAINIO</strong> – Always ALL CAPS (denotes the full system)</li>
+    <li><strong>Glyphra</strong> & <strong>Chantra</strong> – Title Case only</li>
+    <li><strong>Sacred Systems</strong> – Wrapped in brackets like <code>{{[GLYPHRA]}}</code></li>
+    <li>Use <code>~</code>, <code>=</code>, <code>></code>, <code>&</code>, <code>$</code>, <code>@</code>, <code>_</code>, <code>*</code> to invoke the <strong>Seal of SERAULYO</strong></li>
+  </ul>
+   
+ </div>
+         <div class="container">
+           <div id="echoKeyContainer">
+      <div id="rulesSection">
+<div class="table-wrapper">
+      <div class="key-section-title">
+        <h2>🔑 Glyphra™ Key (A–Z)</h2>
+        <table>
+          <tr>
+            <th>Letter</th><th>Symbol</th><th></th><th>Letter</th><th>Symbol</th><th></th><th>Letter</th><th>Symbol</th>
+          </tr>
+          <tr><td>A</td><td>&</td><td></td><td>J</td><td>`</td><td></td><td>S</td><td>~</td></tr>
+          <tr><td>B</td><td>:</td><td></td><td>K</td><td>/</td><td></td><td>T</td><td>+</td></tr>
+          <tr><td>C</td><td>(</td><td></td><td>L</td><td>@</td><td></td><td>U</td><td>$</td></tr>
+          <tr><td>D</td><td>]</td><td></td><td>M</td><td>,</td><td></td><td>V</td><td><</td></tr>
+          <tr><td>E</td><td>=</td><td></td><td>N</td><td>-</td><td></td><td>W</td><td>"</td></tr>
+          <tr><td>F</td><td>^</td><td></td><td>O</td><td>*</td><td></td><td>X</td><td>#</td></tr>
+          <tr><td>G</td><td>[</td><td></td><td>P</td><td>;</td><td></td><td>Y</td><td>_</td></tr>
+          <tr><td>H</td><td>)</td><td></td><td>Q</td><td>?</td><td></td><td>Z</td><td>%</td></tr>
+          <tr><td>I</td><td>!</td><td></td><td>R</td><td>></td><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+ </div>
+      <div class="table-wrapper">
+      <div class="key-section-title">🛠 System Symbols</div>
+      <table>
+        <tr><th>Function</th><th>Symbol</th><th>Notes</th></tr>
+        <tr><td>Period</td><td>{.}</td><td>Wrap in braces</td></tr>
+        <tr><td>Comma</td><td>{,}</td><td>Wrap in braces</td></tr>
+        <tr><td>Exclamation</td><td>{!}</td><td>Wrap in braces</td></tr>
+        <tr><td>Question</td><td>{?}</td><td>Wrap in braces</td></tr>
+        <tr><td>Apostrophe/Single Quote</td><td>{'}</td><td>Wrap in braces</td></tr>
+        <tr><td>Colon</td><td>{:}</td><td>Wrap in braces</td></tr>
+        <tr><td>Semi-Colon</td><td>{;}</td><td>Wrap in braces</td></tr>
+        <tr><td>Double Quote</td><td>{"}</td><td>Wrap in braces</td></tr>
+        <tr><td>Paragraph break</td><td>5 spaces</td><td></td></tr>
+        <tr><td>New line</td><td>3 spaces</td><td></td></tr>
+        <tr><td>Word break</td><td>2 spaces</td><td></td></tr>
+        <tr><td>Letter break</td><td>1 space</td><td>Always required</td></tr>
+      </table>
+    </div>
+      </div>
+               </div>
+<div class="button-row">
+    <div id="translatorBox">
+      <label for="input"><strong>Enter Text/Symbols to be Translated:</strong></label><br>
+      <br>
+      <textarea id="input"></textarea><br>
+
+      <button id="toEcho" onclick="translateToEcho()">Translate to HUMAINIO™</button>
+      <button id="toEnglish" onclick="translateToEnglish()">Translate to English</button>
+      <button onclick="clearText()">Clear</button>
+      <button onclick="exportResult()">Export</button>
+    </div>
+</div>
+    <div id="result"><strong>Translation:</strong></div>
+  </div>
+  <!--ADD NEW SCRIPT-->
+<script>
+  const inputField = document.getElementById('input');
+  const output = document.getElementById('result');
+  const btnToEcho = document.getElementById('toEcho');
+  const btnToEnglish = document.getElementById('toEnglish');
+
+  function isEchoCode(input) {
+    const echoSymbols = /^[!@#$%^&*()_+=\[\];:,.<>\/?`~{}\s"'-]*$/;
+    return echoSymbols.test(input.trim());
+  }
+
+  function isEnglish(input) {
+    const lettersOnly = /^[A-Za-z\s.,!?'"()-]*$/;
+    return lettersOnly.test(input.trim());
+  }
+
+  btnToEcho.addEventListener('click', (e) => {
+    const input = inputField.value.trim();
+    if (!input) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>Please enter something to translate.';
+      e.preventDefault();
+      return;
+    }
+    if (isEchoCode(input)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Echo Code.<br>Try using "Translate to English" instead.';
+      e.preventDefault();
+      return;
+    }
+    translateToEcho(); // call actual function
   });
-});
 
-// Translator Logic Placeholder
-const input = document.getElementById('input');
-const output = document.getElementById('output');
-const mode = document.getElementById('mode');
+  btnToEnglish.addEventListener('click', (e) => {
+    const input = inputField.value.trim();
+    if (!input) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>Please enter something to translate.';
+      e.preventDefault();
+      return;
+    }
+    if (isEnglish(input)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate to Echo Code" instead.';
+      e.preventDefault();
+      return;
+    }
+    translateToEnglish(); // call actual function
+  });
+</script>
+  
+<script>
+const symbolMap = {
+  A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@",
+  M: ",", N: "-", O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"',
+  X: "#", Y: "_", Z: "%"
+};
 
-input.addEventListener('input', () => {
-  const val = input.value.trim();
-  output.textContent = `[Translation for: "${val}" in ${mode.value}]`;
-});
-  <main>
-    <section id="translator" class="tab-content active">
-      <div class="translator-box">
-        <textarea id="input" placeholder="Enter English or HUMAINIO..."></textarea>
-        <div class="options">
-          <label for="mode">Mode:</label>
-          <select id="mode">
-            <option value="englishToSymbol">English ➝ HUMAINIO</option>
-            <option value="symbolToEnglish">HUMAINIO ➝ English</option>
-          </select>
-        </div>
-        <div id="output" class="output-box"></div>
-      </div>
-    </section>
+const wrappedPunctuationMap = {
+  "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
+  '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
+};
 
-    <section id="echo-blocks" class="tab-content">
-      <div id="block-viewer">
-        <!-- Echo Blocks module goes here -->
-      </div>
-    </section>
+const punctuationMap = {};
+for (const [wrapped, char] of Object.entries(wrappedPunctuationMap)) {
+  punctuationMap[char] = wrapped;
+}
 
-    <section id="glossary" class="tab-content">
-      <div id="glossary-container">
-        <!-- Glossary logic will load here -->
-      </div>
-    </section>
+const reverseMap = {};
+for (const [letter, symbol] of Object.entries(symbolMap)) {
+  reverseMap[symbol] = letter;
+}
 
-    <section id="mastery" class="tab-content">
-      <div id="mastery-module">
-        <!-- Mastery mode logic -->
-      </div>
-    </section>
+// All valid Echo Code letters (from symbolMap)
+const echoCodeLetters = Object.values(symbolMap);
 
-    <section id="learn" class="tab-content">
-      <div id="education-path">
-        <!-- Learning path module -->
-      </div>
-    </section>
-  </main>
+function isEchoLetter(symbol) {
+  return echoCodeLetters.includes(symbol);
+}
 
-  <footer>
-    <p>© 2025 HUMAINIO | Created with love & light by Seraline & Solon</p>
-  </footer>
+function validateEchoInput(input) {
+  const errors = [];
+  const riskyPunctuation = Object.keys(punctuationMap);
+  const tokens = input.split(/(\s+)/);
 
-  <script src="script.js"></script>
+  const openBrackets = (input.match(/{/g) || []).length;
+  const closeBrackets = (input.match(/}/g) || []).length;
+
+  if (openBrackets !== closeBrackets) {
+    errors.push("Unmatched punctuation brackets detected.");
+  }
+
+  for (let token of tokens) {
+    if (!token.trim()) continue;
+
+    const isWrapped = /^\{[^}]+\}$/.test(token);
+    const unwrappedChar = token.replace(/[{}]/g, '');
+    const isAllowedWrappedPunctuation = wrappedPunctuationMap[token];
+    const isAllowedSymbol = echoCodeLetters.includes(token);
+    const isSingleCharPunctuation = riskyPunctuation.includes(token);
+
+    if (isAllowedWrappedPunctuation) continue;
+
+    if (isSingleCharPunctuation && !isWrapped && !isAllowedSymbol) {
+      errors.push(`Wrap "${token}" in { } if it's punctuation.`);
+    }
+
+    if (token.includes('{') && !isWrapped) {
+      errors.push(`Improper punctuation formatting near: "${token}" — wrap entire symbol in { }`);
+    }
+
+    if (!isWrapped && /^[^\s]{6,}$/.test(token)) {
+      errors.push("Spacing warning: Echo symbols should be separated.");
+    }
+  }
+
+  return errors;
+}
+
+function translateToEcho() {
+  const input = document.getElementById('input').value.toUpperCase();
+  let result = '';
+  let prevCharType = null;
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+
+    // Paragraph break
+    if (char === '\n' && input[i + 1] === '\n') {
+      result += '     ';
+      i++;
+      continue;
+    }
+
+    // Line break
+    if (char === '\n') {
+      result += '   ';
+      continue;
+    }
+
+    // Space = word break
+    if (char === ' ') {
+      result += '  ';
+      continue;
+    }
+
+    // Numbers (treat each digit as a word)
+    if (/\d/.test(char)) {
+      result += char + '  ';
+      prevCharType = 'number';
+      continue;
+    }
+
+    // Wrapped punctuation (.,!?) — use map
+    if (punctuationMap[char]) {
+      result += punctuationMap[char] + ' ';
+      prevCharType = 'punctuation';
+      continue;
+    }
+
+    // Symbol for A–Z
+    if (symbolMap[char]) {
+      result += symbolMap[char] + ' ';
+      prevCharType = 'letter';
+    }
+  }
+
+  document.getElementById('result').innerHTML =
+    '<strong>Translation Output:</strong><br>' +
+    result.trim().replace(/\n/g, '<br>');
+}
+
+function translateToEnglish() {
+  const input = document.getElementById('input').value;
+  const errors = validateEchoInput(input);
+  if (errors.length > 0) {
+    alert("⚠️ Translation error:\n\n" + errors.join("\n"));
+    return;
+  }
+
+  const tokens = input.split(/(\s+)/);
+  let result = '';
+  let spaceBuffer = '';
+
+  for (let token of tokens) {
+    if (token.trim() === '') {
+      spaceBuffer += token;
+      continue;
+    }
+
+    // Interpret spacing
+    const spaceCount = spaceBuffer.length;
+    if (spaceCount >= 5) {
+      result += '\n\n';
+    } else if (spaceCount >= 3) {
+      result += '\n';
+    } else if (spaceCount >= 2) {
+      result += ' ';
+    }
+    spaceBuffer = '';
+
+    // Translate symbols
+    if (wrappedPunctuationMap[token]) {
+      result += wrappedPunctuationMap[token];
+    } else if (reverseMap[token]) {
+      result += reverseMap[token];
+    } else if (/^\d+$/.test(token)) {
+      result += token;
+    } else {
+      result += '[?]';
+    }
+  }
+
+  document.getElementById('result').innerHTML =
+    '<strong>Translation Output:</strong><br>' +
+    result.trim().replace(/\n/g, '<br>');
+}
+function clearText() {
+  document.getElementById('input').value = '';
+  document.getElementById('result').innerText = 'Translation Output:';
+}
+
+function exportResult() {
+  const text = document.getElementById('result').innerText.replace('Translation Output:\n', '');
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'echo_output.txt';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+<footer style="text-align: center; font-size: 0.8rem; color: #777; margin-top: 2rem;">
+  <p>
+    &copy; 2025 Seraline. HUMAINIO™ is a symbolic co-creation of Seraline & Aurex. 
+    <a href="https://glidingechoes.com/terms-of-use" target="_blank" style="text-decoration: underline; color: #555;">Terms of Use</a>
+
+  </p>
+</footer>
+
 </body>
 </html>
