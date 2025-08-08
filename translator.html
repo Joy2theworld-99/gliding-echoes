@@ -523,18 +523,18 @@ function translateToEnglish() {
       continue;
     }
 
-    // Analyze exact space count
+    // FIXED spacing rule: break ONLY on exact 3 or 5
     const spaceCount = spaceBuffer.length;
     if (spaceCount === 5) {
       result += '\n\n';
     } else if (spaceCount === 3) {
       result += '\n';
-    } else if (spaceCount === 2) {
+    } else {
       result += ' ';
     }
     spaceBuffer = '';
 
-    // Translate wrapped punctuation or Echo symbols
+    // Translate
     if (wrappedPunctuationMap[token]) {
       result += wrappedPunctuationMap[token];
     } else if (reverseMap[token]) {
@@ -550,7 +550,6 @@ function translateToEnglish() {
     '<strong>Translation Output:</strong><br>' +
     result.trim().replace(/\n/g, '<br>');
 }
-
 function clearText() {
   document.getElementById('input').value = '';
   document.getElementById('result').innerText = 'Translation Output:';
