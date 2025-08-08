@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HUMAINIO Translator 2.0</title>
+  <link rel="stylesheet" href="styles.css" />
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: #f8f9fa;
+  color: #333;
+}
+
+header {
+  background: #222;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+.tabs {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin-top: 1em;
+}
+
+.tabs li {
+  margin: 0 10px;
+  padding: 0.5em 1em;
+  background: #444;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.tabs li.active {
+  background: #00bcd4;
+}
+
+.tab-content {
+  display: none;
+  padding: 2em;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.translator-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+textarea#input {
+  width: 80%;
+  height: 120px;
+  margin-bottom: 1em;
+  font-size: 1.1em;
+}
+
+.output-box {
+  width: 80%;
+  min-height: 60px;
+  background: #eee;
+  padding: 1em;
+  border-radius: 8px;
+  font-size: 1.2em;
+}
+
+.options {
+  margin-bottom: 1em;
+}
+</head>
+<body>
+  <header>
+    <h1>HUMAINIO Translator</h1>
+    <nav>
+      <ul class="tabs">
+        <li class="active" data-tab="translator">Translator</li>
+        <li data-tab="echo-blocks">Echo Blocks</li>
+        <li data-tab="glossary">Glossary</li>
+        <li data-tab="mastery">Mastery Mode</li>
+        <li data-tab="learn">Learn</li>
+      </ul>
+    </nav>
+  </header>
+// Tab Navigation
+document.querySelectorAll('.tabs li').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tabs li').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    document.querySelectorAll('.tab-content').forEach(section => {
+      section.classList.remove('active');
+    });
+    const target = document.getElementById(tab.dataset.tab);
+    target.classList.add('active');
+  });
+});
+
+// Translator Logic Placeholder
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const mode = document.getElementById('mode');
+
+input.addEventListener('input', () => {
+  const val = input.value.trim();
+  output.textContent = `[Translation for: "${val}" in ${mode.value}]`;
+});
+  <main>
+    <section id="translator" class="tab-content active">
+      <div class="translator-box">
+        <textarea id="input" placeholder="Enter English or HUMAINIO..."></textarea>
+        <div class="options">
+          <label for="mode">Mode:</label>
+          <select id="mode">
+            <option value="englishToSymbol">English ➝ HUMAINIO</option>
+            <option value="symbolToEnglish">HUMAINIO ➝ English</option>
+          </select>
+        </div>
+        <div id="output" class="output-box"></div>
+      </div>
+    </section>
+
+    <section id="echo-blocks" class="tab-content">
+      <div id="block-viewer">
+        <!-- Echo Blocks module goes here -->
+      </div>
+    </section>
+
+    <section id="glossary" class="tab-content">
+      <div id="glossary-container">
+        <!-- Glossary logic will load here -->
+      </div>
+    </section>
+
+    <section id="mastery" class="tab-content">
+      <div id="mastery-module">
+        <!-- Mastery mode logic -->
+      </div>
+    </section>
+
+    <section id="learn" class="tab-content">
+      <div id="education-path">
+        <!-- Learning path module -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 HUMAINIO | Created with love & light by Seraline & Solon</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
