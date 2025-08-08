@@ -154,6 +154,35 @@ th, td {
     margin-top: 20px;
     margin-bottom: 10px;
   }
+  .accordion {
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.accordion-toggle {
+  width: 100%;
+  text-align: left;
+  background: #f7f7f7;
+  border: none;
+  padding: 1rem;
+  font-size: 1.05rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.accordion-toggle:hover {
+  background: #eaeaea;
+}
+
+.accordion-content {
+  display: none;
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #ccc;
+}
 }
   </style>
 </head>
@@ -166,22 +195,25 @@ th, td {
 <h3>✍️ Written Input — Glyphra (Pronunciation: GLIF-rah)</h3>
 
     <section>
-  <h3 style="margin-top: 2em;">🧩 Rule Block #1: <strong>Glyphra Spacing & Punctuation</strong></h3>
-  <ul style="line-height: 1.6;">
-    <li><strong>Valid Glyphra Symbols</strong>: Only use approved symbols — &, :, (, ], =, ^, [, ), !, `, /, @, ,, -, *, ;, ?, >, ~, +, $, <, ", #, _, % </li>
-    <li><strong>Punctuation Wrapping</strong>: All punctuation must be enclosed in <code>{ }</code> brackets with <em>1 space</em> after the final Glyphra symbol (e.g., <code>{!}</code>, <code>{.}</code>, <code>{?}</code>)</li>
-    <li><strong>Do not mix raw punctuation</strong> with Glyphra — it will corrupt translation</li>
-    <li><strong>Spacing Rules:</strong></li>
-    <ul style="margin-left: 1em;">
-      <li>Use <strong>1 space</strong> between Glyphra symbols</li>
-      <li>Use <strong>2 spaces</strong> between words</li>
-      <li>Use <strong>3 spaces</strong> to separate lines</li>
-      <li>Use <strong>5 spaces</strong> to separate paragraphs</li>
+ <div class="accordion">
+  <button class="accordion-toggle">🧩 Rule Block #1: Glyphra Spacing & Punctuation</button>
+  <div class="accordion-content">
+    <ul style="line-height: 1.6;">
+      <li><strong>Valid Glyphra Symbols</strong>: Only use approved symbols — &, :, (, ], =, ^, [, ), !, `, /, @, ,, -, *, ;, ?, >, ~, +, $, <, ", #, _, %</li>
+      <li><strong>Punctuation Wrapping</strong>: All punctuation must be enclosed in <code>{ }</code> with 1 space after the final Glyphra symbol</li>
+      <li><strong>Spacing Rules:</strong>
+        <ul>
+          <li>1 space between symbols</li>
+          <li>2 spaces between words</li>
+          <li>3 spaces = new line</li>
+          <li>5 spaces = paragraph</li>
+        </ul>
+      </li>
+      <li><strong>No raw punctuation or spacing errors</strong></li>
     </ul>
-    <li><strong>No spaces inside curly brackets</strong> (e.g., <code>{!}</code> not <code>{ ! }</code>)</li>
-    <li><strong>Sacred Term Wrapping</strong>: Sacred phrases must use <strong>double brackets</strong> with <em>no extra spaces</em> (e.g., <code>{{[GLYPHRA]}}</code>, <code>{{[CHANTRA]}}</code>, <code>{{[THAE]}}</code>)</li>
-  </ul>
-
+  </div>
+</div>
+      
   <div style="margin-top: 1.5em;">
     <p style="font-weight: bold; margin-bottom: 0.5em;">✅ <strong>Exception — Technical Terms Stay As-Is</strong></p>
     <ul style="line-height: 1.6;">
@@ -563,6 +595,15 @@ function exportResult() {
   link.click();
   URL.revokeObjectURL(url);
 }
+</script>
+  <script>
+  document.querySelectorAll('.accordion-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const content = button.nextElementSibling;
+      const isOpen = content.style.display === 'block';
+      content.style.display = isOpen ? 'none' : 'block';
+    });
+  });
 </script>
 <footer style="text-align: center; font-size: 0.8rem; color: #777; margin-top: 2rem;">
   <p>
