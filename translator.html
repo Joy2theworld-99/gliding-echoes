@@ -526,11 +526,12 @@ function translateToEnglish() {
     // FIXED spacing rule: break ONLY on exact 3 or 5
     const spaceCount = spaceBuffer.length;
     if (spaceCount === 5) {
-      result += '\n\n';
-    } else if (spaceCount === 3) {
-      result += '\n';
-    } else {
-      result += ' ';
+  result += '\n\n';
+} else if (spaceCount === 3) {
+  result += '\n';
+} else if (spaceCount === 2) {
+  result += ' ';
+}
     }
     spaceBuffer = '';
 
