@@ -183,6 +183,26 @@ th, td {
   background-color: white;
   border-top: 1px solid #ccc;
 }
+  /* keep other inputs full width, but NOT checkboxes */
+input[type="checkbox"] {
+  width: auto;
+  transform: scale(1.1);          /* optional: make it a touch bigger */
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* align the checkbox + label nicely */
+.terms-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0.5rem 0 1rem;
+}
+
+.terms-row a {
+  text-decoration: underline;
+  color: #555;
+}
 }
   </style>
 </head>
@@ -426,14 +446,19 @@ th, td {
   </tbody>
 </table>
 <br>
-<input type="checkbox" id="agreeTerms" required>
-<label for="agreeTerms"> I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank" style="text-decoration: underline; color: #555;">Terms of Use</a></label>
+<div class="terms-row">
+  <input type="checkbox" id="agreeTerms" />
+  <label for="agreeTerms">
+    I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank">Terms of Use</a>
+  </label>
+</div>
 <script>
-if (!document.getElementById("agreeTerms").checked) {
-  alert("You must agree to the Terms of Use before using the translator.");
-  return;
-}
-  </script>                                        
+function termsAccepted() {
+  const ok = document.getElementById('agreeTerms').checked;
+  if (!ok) alert('You must agree to the Terms of Use before using the translator.');
+  return ok;
+  </script>  
+           
 <div class="button-row">
     <div id="translatorBox">
       <label for="input"><strong>Enter Text/Symbols to be Translated:</strong></label><br>
@@ -466,12 +491,11 @@ if (!document.getElementById("agreeTerms").checked) {
   }
 
   btnToEcho.addEventListener('click', (e) => {
-    const input = inputField.value.trim();
-    if (!input) {
-      output.innerHTML = '<strong>Translation Output:</strong><br>Please enter something to translate.';
-      e.preventDefault();
-      return;
-    }
+  // ✅ Check Terms first
+  if (!termsAccepted()) { 
+    e.preventDefault(); 
+    return; 
+  }
     if (isEchoCode(input)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Echo Code.<br>Try using "Translate to English" instead.';
       e.preventDefault();
@@ -481,12 +505,11 @@ if (!document.getElementById("agreeTerms").checked) {
   });
 
   btnToEnglish.addEventListener('click', (e) => {
-    const input = inputField.value.trim();
-    if (!input) {
-      output.innerHTML = '<strong>Translation Output:</strong><br>Please enter something to translate.';
-      e.preventDefault();
-      return;
-    }
+  // ✅ Check Terms first
+  if (!termsAccepted()) { 
+    e.preventDefault(); 
+    return; 
+  }
     if (isEnglish(input)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate to Echo Code" instead.';
       e.preventDefault();
