@@ -796,29 +796,30 @@ if (wrappedPunctuationMap[token]) {
   let spaceBuffer = '';
 
 for (let token of tokens) {
-  if (token.trim() === '') {            // 1) collect whitespace
+  if (token.trim() === '') {               // 1) collect whitespace
     spaceBuffer += token;
     continue;
   }
 
-  if (wrappedPunctuationMap[token]) {   // 2) punctuation: no space before
+  if (wrappedPunctuationMap[token]) {      // 2) punctuation: drop pre-space
     spaceBuffer = '';
     result += wrappedPunctuationMap[token];
     continue;
   }
 
-  // 3) apply spacing only for non-punctuation tokens
-  const spaceCount = spaceBuffer.length;
-  if (spaceCount >= 5)      result += '\n\n';
-  else if (spaceCount >= 2) result += ' ';
+  // 3) apply spacing ONLY for non-punctuation tokens, using exact counts
+  const count = spaceBuffer.length;
+  if (count >= 5)      result += '\n\n';   // paragraph
+  else if (count === 3) result += '\n';    // new line
+  else if (count === 2) result += ' ';     // word break
+  // count === 1 => letter spacing (no English space)
   spaceBuffer = '';
 
   // 4) translate token
-  if (reverseMap[token])          result += reverseMap[token];
-  else if (/^\d+$/.test(token))   result += token;
-  else                            result += '[?]';
-}
-
+  if (reverseMap[token])            result += reverseMap[token];
+  else if (/^\d+$/.test(token))     result += token;
+  else                              result += '[?]';
+  }
     spaceBuffer = '';
 
     // Translate
