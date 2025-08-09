@@ -532,140 +532,125 @@ button:disabled {
     </div>
   <!--ADD NEW SCRIPT-->
 <script>
-  const inputField = document.getElementById('input');
+ const inputField = document.getElementById('input');
   const output = document.getElementById('result');
-  const btnToEcho = document.getElementById('toEcho');
-  const btnToEnglish = document.getElementById('toEnglish');
-  
+
+  const btnToEcho      = document.getElementById('toEcho');       // English → Glyphra
+  const btnToEnglish   = document.getElementById('toEnglish');    // Glyphra → English
+  const btnToChantra   = document.getElementById('toChantra');    // English → Chantra
+  const btnFromChantra = document.getElementById('fromChantra');  // Chantra → English
+
   // Disable/enable translate buttons based on Terms checkbox
-const agree = document.getElementById('agreeTerms');
-window.translateButtons = [
-  document.getElementById('toEcho'),
-  document.getElementById('toEnglish'),
-  document.getElementById('toChantra'),
-  document.getElementById('fromChantra')
-];
-const translateButtons = window.translateButtons;
+  const agree = document.getElementById('agreeTerms');
+  const translateButtons = [btnToEcho, btnToEnglish, btnToChantra, btnFromChantra];
 
-function setTranslateEnabled(enabled) {
-  translateButtons.forEach(btn => btn && (btn.disabled = !enabled));
-}
+  function setTranslateEnabled(enabled) {
+    translateButtons.forEach(btn => btn && (btn.disabled = !enabled));
+  }
+  document.addEventListener('DOMContentLoaded', () => setTranslateEnabled(agree.checked));
+  agree.addEventListener('change', () => setTranslateEnabled(agree.checked));
 
-// initialize on load
-document.addEventListener('DOMContentLoaded', () => {
-  setTranslateEnabled(agree.checked);
-});
-
-// update on change
-agree.addEventListener('change', () => setTranslateEnabled(agree.checked));
-
-  function isEchoCode(input) {
-    const echoSymbols = /^[!@#$%^&*()_+=\[\];:,.<>\/?`~{}\s"'-]*$/;
-    return echoSymbols.test(input.trim());
+  function termsAccepted() {
+    const ok = agree.checked;
+    if (!ok) alert('You must agree to the Terms of Use before using the translator.');
+    return ok;
   }
 
-  function isEnglish(input) {
-    const lettersOnly = /^[A-Za-z\s.,!?'"()-]*$/;
-    return lettersOnly.test(input.trim());
+  // --- Input type detectors ---
+  function isEchoCode(str) {
+    // Only symbols/spaces/braces → looks like Glyphra
+    return /^[!@#$%^&*()_+\=\[\];:,.<>\/?`~{}\s"'-]*$/.test((str||'').trim());
   }
-function termsAccepted() {
-  const ok = document.getElementById('agreeTerms').checked;
-  if (!ok) alert('You must agree to the Terms of Use before using the translator.');
-  return ok;
-}
-function clearText() {
-  document.getElementById('input').value = '';
-  output.innerHTML = '<strong>Translation Output:</strong>';
-}
+  function isLikelyEnglish(str) {
+    // Plain words/numbers/basic punct and NOT Chantra markers
+    return /^[A-Za-z0-9\s.,!?'"()\-]+$/.test((str||'')) && !/\{MYE\}|\{\[|\]\}/.test(str);
+  }
+  function isChantraWritten(str) {
+    if (!str) return false;
+    if (/\{MYE\}/i.test(str)) return true;           // spoken break
+    if (/\{\[[^\]]+\]\}/.test(str)) return true;     // {[muh]} caps
+    if (/\{[.!?,:;'"()\-]\}/.test(str)) return true; // wrapped punctuation
+
+    // Hyphenated syllables heuristic
+    const syll = [
+      'ahnk','bu','coh','du','ett','fah','gyr','hu','ip','jah','krah','lyoh',
+      'muh','nim','oon','pau','qwah','rhit','shah','tir','uhn','vok','wha',
+      'zhet','hye','zin'
+    ];
+    const re = new RegExp(`\\b(?:${syll.join('|')})(?:-(?:${syll.join('|')}|\\{\\[[^\\]]+\\]\\}))*\\b`, 'i');
+    const hyphens = (str.match(/-/g) || []).length;
+    return re.test(str) || hyphens >= 3;
+  }
+
+  function clearText() {
+    document.getElementById('input').value = '';
+    output.innerHTML = '<strong>Translation Output:</strong>';
+  }
+  window.clearText = clearText; // keep your Clear button working
+
+  // ---------- Button guards ----------
+  // English → Glyphra
   btnToEcho.addEventListener('click', (e) => {
-  if (!termsAccepted()) { e.preventDefault(); return; 
-  }
-    if (isEchoCode(inputField.value)) {
+    if (!termsAccepted()) { e.preventDefault(); return; }
+    const val = inputField.value.trim();
+
+    if (isEchoCode(val)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Glyphra symbols.<br>Try using "Translate Glyphra to English" instead.';
-      e.preventDefault();
-      return;
+      e.preventDefault(); return;
     }
-    translateToEcho(); // call actual function
+    if (isChantraWritten(val)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input looks like Chantra (spoken form).<br>Use "Translate Chantra to English" instead.';
+      e.preventDefault(); return;
+    }
+    if (!isLikelyEnglish(val)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>This doesn’t look like plain English text.';
+      e.preventDefault(); return;
+    }
+    translateToEcho();
   });
 
+  // Glyphra → English
   btnToEnglish.addEventListener('click', (e) => {
-  if (!termsAccepted()) { e.preventDefault(); return; 
-  }
-    if (isEnglish(inputField.value)) {
+    if (!termsAccepted()) { e.preventDefault(); return; }
+    const val = inputField.value.trim();
+
+    if (isLikelyEnglish(val)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate English to Glyphra" instead.';
-      e.preventDefault();
-      return;
+      e.preventDefault(); return;
     }
-    translateToEnglish(); // call actual function
+    if (isChantraWritten(val)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input looks like Chantra (spoken form).<br>Use "Translate Chantra to English" instead.';
+      e.preventDefault(); return;
+    }
+    translateToEnglish();
+  });
 
-const btnToChantra  = document.getElementById('toChantra');
-const btnFromChantra= document.getElementById('fromChantra');
+  // English → Chantra
+  btnToChantra.addEventListener('click', (e) => {
+    if (!termsAccepted()) { e.preventDefault(); return; }
+    const val = inputField.value.trim();
 
-    
-// Is this probably Chantra (spoken) text?
-function isChantraWritten(str) {
-  if (!str) return false;
+    if (isChantraWritten(val)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input looks like it’s already in Chantra.<br>Use “Translate Chantra to English” instead.';
+      e.preventDefault(); return;
+    }
+    if (!isLikelyEnglish(val)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>This doesn’t look like plain English text.';
+      e.preventDefault(); return;
+    }
+    translateToChantra();
+  });
 
-  // obvious Chantra markers
-  if (/\{MYE\}/i.test(str)) return true;          // spoken break
-  if (/\{\[[^\]]+\]\}/.test(str)) return true;    // {[muh]} caps
-  if (/\{[.!?,:;'"()\-]\}/.test(str)) return true;// wrapped punctuation
+  // Chantra → English
+  btnFromChantra.addEventListener('click', (e) => {
+    if (!termsAccepted()) { e.preventDefault(); return; }
+    const val = inputField.value.trim();
 
-  // hyphenated syllables from the Chantra inventory
-  const syll = [
-    'ahnk','bu','coh','du','ett','fah','gyr','hu','ip','jah','krah','lyoh',
-    'muh','nim','oon','pau','qwah','rhit','shah','tir','uhn','vok','wha',
-    'zhet','hye','zin'
-  ];
-  const re = new RegExp(`\\b(?:${syll.join('|')})(?:-(?:${syll.join('|')}|\\{\\[[^\\]]+\\]\\}))*\\b`, 'i');
-
-  // If there are lots of hyphenated syllables, call it Chantra
-  const m = str.match(re);
-  const hyphens = (str.match(/-/g) || []).length;
-  return !!m || hyphens >= 3;
-}
-
-// Is this probably plain English (words/spaces/basic punctuation)?
-function isLikelyEnglish(str) {
-  return /^[A-Za-z0-9\s.,!?'"()\-]+$/.test(str) && !/\{MYE\}|\{\[|\}\]/.test(str);
-}
-// English → Chantra
-btnToChantra.addEventListener('click', (e) => {
-  if (!termsAccepted()) { e.preventDefault(); return; }
-  const val = inputField.value.trim();
-
-  if (isChantraWritten(val)) {
-    output.innerHTML =
-      '<strong>Translation Output:</strong><br>' +
-      'Input looks like it’s already in Chantra (spoken form).<br>' +
-      'Use “Translate Chantra to English” instead.';
-    e.preventDefault();
-    return;
-  }
-  if (!isLikelyEnglish(val)) {
-    output.innerHTML =
-      '<strong>Translation Output:</strong><br>' +
-      'This doesn’t look like plain English text. If it’s Chantra, use “Translate Chantra to English.”';
-    e.preventDefault();
-    return;
-  }
-  translateToChantra();
-});
-
-// Chantra → English
-btnFromChantra.addEventListener('click', (e) => {
-  if (!termsAccepted()) { e.preventDefault(); return; }
-  const val = inputField.value.trim();
-
-  if (!isChantraWritten(val)) {
-    output.innerHTML =
-      '<strong>Translation Output:</strong><br>' +
-      'This doesn’t look like Chantra. If it’s English, use “Translate English to Chantra.”';
-    e.preventDefault();
-    return;
-  }
-  translateFromChantra();
-});
+    if (!isChantraWritten(val)) {
+      output.innerHTML = '<strong>Translation Output:</strong><br>This doesn’t look like Chantra. If it’s English, use “Translate English to Chantra.”';
+      e.preventDefault(); return;
+    }
+    translateFromChantra();
   });
 </script>
   
