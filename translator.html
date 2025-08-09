@@ -1003,9 +1003,32 @@ function translateFromChantra() {
     // normal word
     out.push(chantraWordToEnglish(w));
   }
+// 1) word immediately followed by wrapped punctuation (e.g., nim-oon-wha{.})
+if (endPunctMatch) {
+  const wordPart = endPunctMatch[1];
+  const punctWrapped = endPunctMatch[2];
+  wordPart.split('-').forEach(p => { if (p) current.push(p); });
+  if (current.length) { words.push(current.join('-')); current = []; }
+  const ch = wrapPunctIn[punctWrapped];  // '.', '!' or '?'
+  words.push(ch);
+  if (ch === '.' || ch === '!' || ch === '?') words.push(' ');  // add space only after sentence end
+  continue;
+}
 
-  const final = out.join('').replace(/\s+/g, ' ').trim();
-  output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
+// 2) standalone wrapped punctuation token
+if (wrapPunctIn[tok]) {
+  if (current.length) { words.push(current.join('-')); current = []; }
+  const ch = wrapPunctIn[tok];
+  words.push(ch);
+  if (ch === '.' || ch === '!' || ch === '?') words.push(' ');
+  continue;
+}
+
+// AFTER the for-loop, before building `final`
+if (current.length) words.push(current.join('-'));
+
+const final = out.join('').replace(/\s+/g, ' ').trim();
+output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
 }
 
 </script>
