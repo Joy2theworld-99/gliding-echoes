@@ -425,9 +425,15 @@ th, td {
     <tr><td style="padding: 6px;">9</td><td>noy</td><td>noi</td><td>SPIRIT</td><td>Gold</td></tr>
   </tbody>
 </table>
+<br>
 <input type="checkbox" id="agreeTerms" required>
-<label for="agreeTerms"> I agree to the <a href=""https://glidingechoes.com/terms-of-use" target="_blank">Terms of Use</a></label>
-           
+<label for="agreeTerms"> I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank" style="text-decoration: underline; color: #555;>Terms of Use</a></label>
+<script>
+if (!document.getElementById("agreeTerms").checked) {
+  alert("You must agree to the Terms of Use before using the translator.");
+  return;
+}
+  </script>                                        
 <div class="button-row">
     <div id="translatorBox">
       <label for="input"><strong>Enter Text/Symbols to be Translated:</strong></label><br>
