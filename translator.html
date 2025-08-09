@@ -872,9 +872,10 @@ function translateToChantra() {
   for (const t of tokens) {
     if (t.trim() === '') continue;
 
-    // wrapped punctuation
+    // wrapped punctuation -> push it, and RESET haveWord
     if (wrapPunctOut[t]) {
       out.push(wrapPunctOut[t]);
+      haveWord = false;        // <- key change
       continue;
     }
 
@@ -895,25 +896,21 @@ function translateToChantra() {
     }
   }
 
-  // assemble ONCE (you had two conflicting blocks)
   let final = out.join(' ');
 
-  // normalize {MYE} spacing to exactly one space on each side
+  // normalize {MYE} spacing
   final = final.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
 
-  // remove {MYE} immediately after wrapped punctuation; leave a single space
-final = final.replace(/(\{[.!?,:;]\})\s*\{MYE\}\s*/g, '$1 ');
+  // safety: if any {MYE} snuck in right after punctuation, drop it
+  final = final.replace(/(\{[.!?,:;]\})\s*\{MYE\}\s*/g, '$1 ');
 
-  // remove any space before wrapped punctuation (e.g., "{.}{!}{?}{,}{:}{;}{')}{\"}{)}{(}{-}")
+  // no space before wrapped punctuation
   final = final.replace(/\s+(?=\{[.!?,:;'"()\-]\})/g, '');
 
-  // also make sure there’s no space before plain punctuation, just in case
-  final = final.replace(/\s+([.,!?;:)"'])/g, '$1');
-
+  // tidy
   final = final.replace(/\s+/g, ' ').trim();
 
   output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
-
 }
   /* ===============================
    CHANTRA: CHANTRA → EN
@@ -946,80 +943,69 @@ function translateFromChantra() {
   if (!termsAccepted()) return;
 
   const src = document.getElementById('input').value.trim();
-
   if (!src) {
     output.innerHTML = '<strong>Translation Output:</strong>';
     return;
   }
 
-  // Split on {MYE} for words, keep punctuation tokens
-  // First, normalize spaces around {MYE}
-  const normalized = src.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
+  // 1) Normalize: remove {MYE} directly after wrapped punctuation -> single space
+  // 2) Normalize: standardize {MYE} spacing elsewhere
+  const pre = src.replace(/(\{[.!?,:;]\})\s*\{MYE\}\s*/g, '$1 ');
+  const normalized = pre.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
   const rawTokens = normalized.split(/\s+/);
 
   const words = [];
   let current = [];
 
   for (const tok of rawTokens) {
-    // word immediately followed by wrapped punctuation (e.g., nim-oon-wha{.})
-const endPunctMatch = tok.match(/^(.+?)(\{[.!?,:;'"()\-]\})$/);
-if (endPunctMatch) {
-  const wordPart = endPunctMatch[1];         // e.g., "nim-oon-wha"
-  const punctWrapped = endPunctMatch[2];     // e.g., "{.}"
+    // case: word immediately followed by wrapped punctuation (e.g., nim-oon-wha{.})
+    const endPunctMatch = tok.match(/^(.+?)(\{[.!?,:;'"()\-]\})$/);
+    if (endPunctMatch) {
+      const wordPart = endPunctMatch[1];
+      const punctWrapped = endPunctMatch[2];
+      wordPart.split('-').forEach(p => { if (p) current.push(p); });
+      if (current.length) { words.push(current.join('-')); current = []; }
+      words.push(wrapPunctIn[punctWrapped]); // push raw char like "."
+      continue;
+    }
 
-  // break the wordPart into its hyphen pieces and add to current
-  wordPart.split('-').forEach(p => { if (p) current.push(p); });
+    if (tok === '{MYE}') {
+      if (current.length) { words.push(current.join('-')); current = []; }
+      words.push('{MYE}');
+      continue;
+    }
 
-  // flush the word
-  if (current.length) { words.push(current.join('-')); current = []; }
+    // wrapped punctuation as its own token
+    if (wrapPunctIn[tok]) {
+      if (current.length) { words.push(current.join('-')); current = []; }
+      words.push(wrapPunctIn[tok]); // '.', '!' etc.
+      continue;
+    }
 
-  // then add the punctuation as its raw char (., !, ?, etc.)
-  words.push(wrapPunctIn[punctWrapped]);
-  continue;
-}
-  if (tok === '{MYE}') {
-    if (current.length) { words.push(current.join('-')); current = []; }
-    words.push('{MYE}');
-    continue;
+    // otherwise accumulate parts of a word
+    current.push(tok);
   }
+  if (current.length) words.push(current.join('-'));
 
-  // punctuation: FLUSH current, then push the actual char
-  if (wrapPunctIn[tok]) {
-    if (current.length) { words.push(current.join('-')); current = []; }
-    words.push(wrapPunctIn[tok]); // '.', '!', '?', etc.
-    continue;
-  }
-
-  // otherwise keep building the current word
-  current.push(tok);
-}
-if (current.length) words.push(current.join('-'));
-
-  // Convert each “word” back
+  // Convert each word back
   const out = [];
   for (const w of words) {
-  if (w === '{MYE}') { out.push(' '); continue; }
+    if (w === '{MYE}') { out.push(' '); continue; }
 
-  if ('.!,?:;"\'()-'.includes(w)) {  // raw punctuation char
-    out.push(w);
-    continue;
+    // raw punctuation?
+    if ('.!,?:;"\'()-'.includes(w)) { out.push(w); continue; }
+
+    // numbers by name or digits
+    const numericNameMatch = Object.entries(chantraNumbers).find(([, name]) => name === w);
+    if (/^\d+$/.test(w)) { out.push(w); continue; }
+    if (numericNameMatch) { out.push(numericNameMatch[0]); continue; }
+
+    // normal word
+    out.push(chantraWordToEnglish(w));
   }
 
-  // numbers by name (optional) or digits
-  const numericNameMatch = Object.entries(chantraNumbers).find(([, name]) => name === w);
-  if (/^\d+$/.test(w)) { out.push(w); continue; }
-  if (numericNameMatch) { out.push(numericNameMatch[0]); continue; }
-
-  // normal word
-  out.push(chantraWordToEnglish(w));
-}
-const final = out.join('').replace(/\s+/g, ' ').trim();
-  // normalize: no {MYE} directly after wrapped punctuation
-const pre = src.replace(/(\{[.!?,:;]\})\s*\{MYE\}\s*/g, '$1 ');
-
-// then do your existing normalization on `pre`
-const normalized = pre.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
-output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
+  const final = out.join('').replace(/\s+/g, ' ').trim();
+  output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
 }
 
 </script>
