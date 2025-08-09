@@ -911,29 +911,48 @@ function translateToChantra() {
   .replace(/\s+/g, ' ')
   .trim();
 
+  // glue with spaces between tokens
+  let final = out.join(' ');
+
+  // normalize {MYE} spacing: one space on each side
+  final = final.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
+
+  // remove any space that sneaks in *before* wrapped punctuation (e.g., "{.}", "{!}", "{?}", "{,}", "{:}", "{;}", "{')}", '{"}', "{)}", "{(}", "{-}")
+  final = final.replace(/\s+(?=\{[.!?,:;'"()\-]\})/g, '');
+
+  // tidy extra spaces
+  final = final.replace(/\s+/g, ' ').trim();
+
   output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
+
 }
   /* ===============================
    CHANTRA: CHANTRA → EN
    =============================== */
 
 function chantraWordToEnglish(word) {
-  // If it is a capital wrapper {[token]}
-  const capMatch = word.match(/^\{\[([^\]]+)\]\}$/);
-  if (capMatch) {
-    const token = capMatch[1];           // e.g., 'muh'
+  // If the whole "word" is a single capital wrapper {[...]} (rare case)
+  const wholeCap = word.match(/^\{\[([^\]]+)\]\}$/);
+  if (wholeCap) {
+    const token = wholeCap[1];                // e.g., 'muh'
     const letter = chantraToLetter[token] || '?';
-    return letter; // uppercase letter (already denoted)
+    return letter;                             // returns uppercase A–Z
   }
 
-  // hyphenated syllables
+  // Otherwise, handle hyphenated parts (e.g., {[muh]}-{[ip]}-{[ahnk]})
   const parts = word.split('-').filter(Boolean);
 
   // try to resolve each part back to a letter; otherwise treat as unknown '?'
-  const letters = parts.map(p => chantraToLetter[p] || '?');
-
   // Combine letters into a word
-  return letters.join('');
+  const letters = parts.map(p => {
+    // If this part is a capital wrapper, strip it and decode
+    const m = p.match(/^\{\[([^\]]+)\]\}$/);
+    const key = m ? m[1] : p;                 // 'muh' or 'ett' etc.
+    return chantraToLetter[key] || '?';       // maps syllable → uppercase letter
+  });
+
+  return letters.join('');                     // form the word (caps preserved)
+}
 }
 
 function translateFromChantra() {
