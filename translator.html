@@ -861,7 +861,7 @@ function exportResult() {
         chantraLettersList.push(token);
       }
     }
-
+  }
 
   // hyphen between letters
   return chantraLettersList.filter(Boolean).join('-');
@@ -913,10 +913,11 @@ function translateToChantra() {
   // glue with spaces between tokens
   let final = out.join(' ');
 
-  // normalize {MYE} spacing: one space on each side
+  // normalize {MYE} spacing to exactly one space on each side
   final = final.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
 
-  // remove any space that sneaks in *before* wrapped punctuation (e.g., "{.}", "{!}", "{?}", "{,}", "{:}", "{;}", "{')}", '{"}', "{)}", "{(}", "{-}")
+ // remove any space that sneaks in *before* wrapped punctuation
+  // e.g., "... wha {.}" -> "... wha{.}"
   final = final.replace(/\s+(?=\{[.!?,:;'"()\-]\})/g, '');
 
   // tidy extra spaces
@@ -951,7 +952,6 @@ function chantraWordToEnglish(word) {
   });
 
   return letters.join('');                     // form the word (caps preserved)
-}
 }
 
 function translateFromChantra() {
