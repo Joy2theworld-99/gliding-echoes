@@ -207,6 +207,11 @@ button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+  /* keep full width for everything EXCEPT checkboxes */
+textarea, input:not([type="checkbox"]), button {
+  width: 100%;
+  box-sizing: border-box;
+}
 }
   </style>
 </head>
