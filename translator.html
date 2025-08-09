@@ -538,10 +538,13 @@ button:disabled {
   
   // Disable/enable translate buttons based on Terms checkbox
 const agree = document.getElementById('agreeTerms');
-const translateButtons = [
+window.translateButtons = [
   document.getElementById('toEcho'),
-  document.getElementById('toEnglish')
+  document.getElementById('toEnglish'),
+  document.getElementById('toChantra'),
+  document.getElementById('fromChantra')
 ];
+const translateButtons = window.translateButtons;
 
 function setTranslateEnabled(enabled) {
   translateButtons.forEach(btn => btn && (btn.disabled = !enabled));
@@ -762,8 +765,8 @@ function translateToEcho() {
 }
 // simple word splitter that preserves punctuation tokens
 function tokenizeWords(str) {
-  // split by spaces but keep them so we can detect word boundaries cleanly
-  return str.split(/(\s+)/);
+  // tokens: {[...]} caps, {MYE}, wrapped {x}, numbers, words, single punctuation, whitespace
+  return str.match(/\{\[[^\]]+\]\}|\{MYE\}|\{\W\}|\d+|[A-Za-z]+|[.,!?;:()"'-]|\s+/g) || [];
 }
 // turn an Arabic number string into a chantra phrase
 function numberToChantra(numStr) {
@@ -817,10 +820,6 @@ if (spaceCount >= 5) {
   document.getElementById('result').innerHTML =
     '<strong>Translation Output:</strong><br>' +
     result.trim().replace(/\n/g, '<br>');
-}
-function clearText() {
-  document.getElementById('input').value = '';
-  document.getElementById('result').innerText = 'Translation Output:';
 }
 
 function exportResult() {
@@ -905,11 +904,12 @@ function translateToChantra() {
 
   // glue with spaces between tokens except {MYE} which we want as is
   const final = out
-    .join(' ')
-    .replace(/\s*\{MYE\}\s*/g, ' {MYE} ')
-    .replace(/\s+(\{[^\}]+\})/g, ' $1') // keep wrapped punctuation tight
-    .replace(/\s+/g, ' ')
-    .trim();
+  .join(' ')
+  .replace(/\s*\{MYE\}\s*/g, ' {MYE} ')
+  .replace(/\s+(\{[^\}]+\})/g, ' $1')   // keep wrapped punctuation tight
+  .replace(/\s+([.,!?;:)"\']+)/g, '$1') // no space before plain punctuation
+  .replace(/\s+/g, ' ')
+  .trim();
 
   output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
 }
@@ -1000,30 +1000,6 @@ function translateFromChantra() {
 
   output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
 }
-
-/* ===============================
-   TERMS GATING — include new buttons
-   =============================== */
-(function wireChantraButtons() {
-  const toChantraBtn  = document.getElementById('toChantra');
-  const fromChantraBtn = document.getElementById('fromChantra');
-
-  // extend your existing translateButtons array (if it exists)
-  if (window.translateButtons && Array.isArray(window.translateButtons)) {
-    translateButtons.push(toChantraBtn, fromChantraBtn);
-  }
-
-  // If you’d rather not depend on the array, also mirror disabled state here:
-  const agree = document.getElementById('agreeTerms');
-  function sync() {
-    const enabled = !!agree.checked;
-    toChantraBtn.disabled   = !enabled;
-    fromChantraBtn.disabled = !enabled;
-  }
-  agree.addEventListener('change', sync);
-  document.addEventListener('DOMContentLoaded', sync);
-  sync();
-})();
 
 </script>
   <script>
