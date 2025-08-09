@@ -958,50 +958,44 @@ function translateFromChantra() {
   let current = [];
 
   for (const tok of rawTokens) {
-    if (tok === '{MYE}') {
-      if (current.length) {
-        words.push(current.join('-'));
-        current = [];
-      }
-      words.push('{MYE}');
-      continue;
-    }
-
-    // punctuation unwrapping
-    if (wrapPunctIn[tok]) {
-      words.push(wrapPunctIn[tok]);
-      continue;
-    }
-
-    // Otherwise collect parts for a word (could be {[muh]} etc. or hyphenated)
-    current.push(tok);
+  if (tok === '{MYE}') {
+    if (current.length) { words.push(current.join('-')); current = []; }
+    words.push('{MYE}');
+    continue;
   }
-  if (current.length) words.push(current.join('-'));
+
+  // punctuation: FLUSH current, then push the actual char
+  if (wrapPunctIn[tok]) {
+    if (current.length) { words.push(current.join('-')); current = []; }
+    words.push(wrapPunctIn[tok]); // '.', '!', '?', etc.
+    continue;
+  }
+
+  // otherwise keep building the current word
+  current.push(tok);
+}
+if (current.length) words.push(current.join('-'));
 
   // Convert each “word” back
   const out = [];
   for (const w of words) {
-    if (w === '{MYE}') { out.push(' '); continue; }
-    if (/^\d+$/.test(w)) { out.push(w); continue; } // numeric raw
+  if (w === '{MYE}') { out.push(' '); continue; }
 
-    // if it's a known big number word
-    const numericNameMatch = Object.entries(chantraNumbers).find(([,name]) => name === w);
-    if (numericNameMatch) { out.push(numericNameMatch[0]); continue; }
-
-    // punctuation?
-    if (wrapPunctIn[w]) { out.push(wrapPunctIn[w]); continue; }
-
-    // word: split its hyphens (already handled in chantraWordToEnglish)
-    const english = chantraWordToEnglish(w);
-
-    // restore capitals for {[X]} cases: we only output the letter we resolved (already uppercase)
-    out.push(english);
+  if ('.!,?:;"\'()-'.includes(w)) {  // raw punctuation char
+    out.push(w);
+    continue;
   }
 
-  // collapse spaces
-  const final = out.join('').replace(/\s+/g, ' ').trim();
+  // numbers by name (optional) or digits
+  const numericNameMatch = Object.entries(chantraNumbers).find(([, name]) => name === w);
+  if (/^\d+$/.test(w)) { out.push(w); continue; }
+  if (numericNameMatch) { out.push(numericNameMatch[0]); continue; }
 
-  output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
+  // normal word
+  out.push(chantraWordToEnglish(w));
+}
+const final = out.join('').replace(/\s+/g, ' ').trim();
+output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
 }
 
 </script>
