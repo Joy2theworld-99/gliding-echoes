@@ -785,24 +785,40 @@ function translateToEnglish() {
     alert("⚠️ Translation error:\n\n" + errors.join("\n"));
     return;
   }
-
+// Translate
+if (wrappedPunctuationMap[token]) {
+  // If spaces came right before punctuation, drop them.
+  spaceBuffer = '';  // <-- ensure no printed space before punctuation
+  result += wrappedPunctuationMap[token];
+} else if (reverseMap[token]) {
   const tokens = input.split(/(\s+)/);
   let result = '';
   let spaceBuffer = '';
 
-  for (let token of tokens) {
-    if (token.trim() === '') {
-      spaceBuffer += token;
-      continue;
-    }
+for (let token of tokens) {
+  if (token.trim() === '') {            // 1) collect whitespace
+    spaceBuffer += token;
+    continue;
+  }
 
-    // FIXED spacing rule: break ONLY on exact 3 or 5
-    const spaceCount = spaceBuffer.length;
-if (spaceCount >= 5) {
-  result += '\n\n';
-} else if (spaceCount >= 2) {
-  result += ' ';
+  if (wrappedPunctuationMap[token]) {   // 2) punctuation: no space before
+    spaceBuffer = '';
+    result += wrappedPunctuationMap[token];
+    continue;
+  }
+
+  // 3) apply spacing only for non-punctuation tokens
+  const spaceCount = spaceBuffer.length;
+  if (spaceCount >= 5)      result += '\n\n';
+  else if (spaceCount >= 2) result += ' ';
+  spaceBuffer = '';
+
+  // 4) translate token
+  if (reverseMap[token])          result += reverseMap[token];
+  else if (/^\d+$/.test(token))   result += token;
+  else                            result += '[?]';
 }
+
     spaceBuffer = '';
 
     // Translate
