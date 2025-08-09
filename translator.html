@@ -186,7 +186,7 @@ th, td {
   /* keep other inputs full width, but NOT checkboxes */
 input[type="checkbox"] {
   width: auto;
-  transform: scale(1.1);          /* optional: make it a touch bigger */
+  transform: scale(1.1); 
   margin-right: 8px;
   vertical-align: middle;
 }
@@ -496,17 +496,12 @@ button:disabled {
   }
 function termsAccepted() {
   const ok = document.getElementById('agreeTerms').checked;
-  if (!ok) {
-    alert('You must agree to the Terms of Use before using the translator.');
-  }
+  if (!ok) alert('You must agree to the Terms of Use before using the translator.');
   return ok;
 }
 
   btnToEcho.addEventListener('click', (e) => {
-  // ✅ Check Terms first
-  if (!termsAccepted()) { 
-    e.preventDefault(); 
-    return; 
+  if (!termsAccepted()) { e.preventDefault(); return; 
   }
     if (isEchoCode(input)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Echo Code.<br>Try using "Translate to English" instead.';
@@ -517,10 +512,7 @@ function termsAccepted() {
   });
 
   btnToEnglish.addEventListener('click', (e) => {
-  // ✅ Check Terms first
-  if (!termsAccepted()) { 
-    e.preventDefault(); 
-    return; 
+  if (!termsAccepted()) { e.preventDefault(); return; 
   }
     if (isEnglish(input)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate to Echo Code" instead.';
