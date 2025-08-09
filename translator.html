@@ -958,6 +958,22 @@ function translateFromChantra() {
   let current = [];
 
   for (const tok of rawTokens) {
+    // word immediately followed by wrapped punctuation (e.g., nim-oon-wha{.})
+const endPunctMatch = tok.match(/^(.+?)(\{[.!?,:;'"()\-]\})$/);
+if (endPunctMatch) {
+  const wordPart = endPunctMatch[1];         // e.g., "nim-oon-wha"
+  const punctWrapped = endPunctMatch[2];     // e.g., "{.}"
+
+  // break the wordPart into its hyphen pieces and add to current
+  wordPart.split('-').forEach(p => { if (p) current.push(p); });
+
+  // flush the word
+  if (current.length) { words.push(current.join('-')); current = []; }
+
+  // then add the punctuation as its raw char (., !, ?, etc.)
+  words.push(wrapPunctIn[punctWrapped]);
+  continue;
+}
   if (tok === '{MYE}') {
     if (current.length) { words.push(current.join('-')); current = []; }
     words.push('{MYE}');
