@@ -515,7 +515,7 @@ button:disabled {
 
   <div class="actions">
     <button id="toEcho" onclick="translateToEcho()">Translate English to Glyphra (written symbols)</button>
-    <button id="toEnglish" onclick="translateToEnglish()">Translate Glyphra to English</button>
+    <button id="toEnglish" onclick="translateToEnglish()">Translate Glyphra Symbols to English</button>
     <!-- NEW: English → Chantra -->
   <button id="toChantra" onclick="translateToChantra()">Translate English to Chantra (spoken pronunciation)</button>
   <!-- NEW: Chantra → English -->
@@ -597,9 +597,37 @@ function clearText() {
     }
     translateToEnglish(); // call actual function
 
-    const btnToChantra  = document.getElementById('toChantra');
+const btnToChantra  = document.getElementById('toChantra');
 const btnFromChantra= document.getElementById('fromChantra');
 
+    
+// Is this probably Chantra (spoken) text?
+function isChantraWritten(str) {
+  if (!str) return false;
+
+  // obvious Chantra markers
+  if (/\{MYE\}/i.test(str)) return true;          // spoken break
+  if (/\{\[[^\]]+\]\}/.test(str)) return true;    // {[muh]} caps
+  if (/\{[.!?,:;'"()\-]\}/.test(str)) return true;// wrapped punctuation
+
+  // hyphenated syllables from the Chantra inventory
+  const syll = [
+    'ahnk','bu','coh','du','ett','fah','gyr','hu','ip','jah','krah','lyoh',
+    'muh','nim','oon','pau','qwah','rhit','shah','tir','uhn','vok','wha',
+    'zhet','hye','zin'
+  ];
+  const re = new RegExp(`\\b(?:${syll.join('|')})(?:-(?:${syll.join('|')}|\\{\\[[^\\]]+\\]\\}))*\\b`, 'i');
+
+  // If there are lots of hyphenated syllables, call it Chantra
+  const m = str.match(re);
+  const hyphens = (str.match(/-/g) || []).length;
+  return !!m || hyphens >= 3;
+}
+
+// Is this probably plain English (words/spaces/basic punctuation)?
+function isLikelyEnglish(str) {
+  return /^[A-Za-z0-9\s.,!?'"()\-]+$/.test(str) && !/\{MYE\}|\{\[|\}\]/.test(str);
+}
 btnToChantra.addEventListener('click', (e)=>{
   if (!termsAccepted()){ e.preventDefault(); return; }
   const val = inputField.value;
