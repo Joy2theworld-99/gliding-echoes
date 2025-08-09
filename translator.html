@@ -452,12 +452,8 @@ input[type="checkbox"] {
     I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank">Terms of Use</a>
   </label>
 </div>
-<script>
-function termsAccepted() {
-  const ok = document.getElementById('agreeTerms').checked;
-  if (!ok) alert('You must agree to the Terms of Use before using the translator.');
-  return ok;
-  </script>  
+
+
            
 <div class="button-row">
     <div id="translatorBox">
@@ -489,6 +485,13 @@ function termsAccepted() {
     const lettersOnly = /^[A-Za-z\s.,!?'"()-]*$/;
     return lettersOnly.test(input.trim());
   }
+function termsAccepted() {
+  const ok = document.getElementById('agreeTerms').checked;
+  if (!ok) {
+    alert('You must agree to the Terms of Use before using the translator.');
+  }
+  return ok;
+}
 
   btnToEcho.addEventListener('click', (e) => {
   // ✅ Check Terms first
