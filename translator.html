@@ -514,8 +514,12 @@ button:disabled {
   <textarea id="input"></textarea><br>
 
   <div class="actions">
-    <button id="toEcho" onclick="translateToEcho()">Translate to HUMAINIO™</button>
-    <button id="toEnglish" onclick="translateToEnglish()">Translate to English</button>
+    <button id="toEcho" onclick="translateToEcho()">Translate to Glyphra</button>
+    <button id="toEnglish" onclick="translateToEnglish()">Translate Glyphra to English</button>
+    <!-- NEW: English → Chantra -->
+  <button id="toChantra" onclick="translateToChantra()">Translate English to Chantra (spoken)</button>
+  <!-- NEW: Chantra → English -->
+  <button id="fromChantra" onclick="translateFromChantra()">Translate Chantra to English</button>
     <button onclick="clearText()">Clear</button>
     <button onclick="exportResult()">Export</button>
   </div>
