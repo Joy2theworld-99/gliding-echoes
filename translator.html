@@ -580,7 +580,7 @@ function clearText() {
   if (!termsAccepted()) { e.preventDefault(); return; 
   }
     if (isEchoCode(inputField.value)) {
-      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Echo Code.<br>Try using "Translate to English" instead.';
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Glyphra symbols.<br>Try using "Translate Glyphra to English" instead.';
       e.preventDefault();
       return;
     }
@@ -591,11 +591,45 @@ function clearText() {
   if (!termsAccepted()) { e.preventDefault(); return; 
   }
     if (isEnglish(inputField.value)) {
-      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate to Echo Code" instead.';
+      output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate English to Glyphra" instead.';
       e.preventDefault();
       return;
     }
     translateToEnglish(); // call actual function
+
+    const btnToChantra  = document.getElementById('toChantra');
+const btnFromChantra= document.getElementById('fromChantra');
+
+btnToChantra.addEventListener('click', (e)=>{
+  if (!termsAccepted()){ e.preventDefault(); return; }
+  const val = inputField.value;
+  if (isChantraWritten(val)){
+    output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Chantra.<br>Try using "Translate Chantra to English" instead.';
+    e.preventDefault(); return;
+  }
+  if (isEchoCode(val)){
+    output.innerHTML = '<strong>Translation Output:</strong><br>Input looks like Glyphra symbols.<br>Use "Translate Glyphra to English" first.';
+    e.preventDefault(); return;
+  }
+  // otherwise proceed
+  translateToChantra();
+});
+
+btnFromChantra.addEventListener('click', (e)=>{
+  if (!termsAccepted()){ e.preventDefault(); return; }
+  const val = inputField.value;
+  if (!isChantraWritten(val)){
+    if (isProbablyEnglish(val)){
+      output.innerHTML = '<strong>Translation Output:</strong><br>This looks like English text.<br>Use "Translate English to Chantra" instead.';
+    } else if (isEchoCode(val)){
+      output.innerHTML = '<strong>Translation Output:</strong><br>This looks like Glyphra symbols.<br>Use "Translate Glyphra to English" first.';
+    } else {
+      output.innerHTML = '<strong>Translation Output:</strong><br>I don’t detect Chantra markers ({MYE}, {[x]}, or wrapped punctuation).';
+    }
+    e.preventDefault(); return;
+  }
+  translateFromChantra();
+});
   });
 </script>
   
