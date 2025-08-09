@@ -853,7 +853,6 @@ function exportResult() {
     if (/[A-Za-z]/.test(ch)) {
       const isUpper = ch === ch.toUpperCase();
       const upper = ch.toUpperCase();
-
       const token = chantraLetters[upper] || upper; // fallback to the letter itself if missing
       if (isUpper) {
         // wrap capitals
@@ -862,7 +861,7 @@ function exportResult() {
         chantraLettersList.push(token);
       }
     }
-  }
+
 
   // hyphen between letters
   return chantraLettersList.filter(Boolean).join('-');
