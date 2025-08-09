@@ -535,10 +535,12 @@ button:disabled {
     <button onclick="clearText()">Clear</button>
     <button onclick="exportResult()">Export</button>
   </div>
-</div>
-  <div id="result" class="result-panel">
+
+ <!-- Keep the result panel INSIDE translatorBox -->
+<div id="result" class="result-panel">
   <strong>Translation Output:</strong>
 </div>
+    </div>
   <!--ADD NEW SCRIPT-->
 <script>
   const inputField = document.getElementById('input');
