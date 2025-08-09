@@ -785,58 +785,45 @@ function translateToEnglish() {
     alert("⚠️ Translation error:\n\n" + errors.join("\n"));
     return;
   }
-// Translate
-if (wrappedPunctuationMap[token]) {
-  // If spaces came right before punctuation, drop them.
-  spaceBuffer = '';  // <-- ensure no printed space before punctuation
-  result += wrappedPunctuationMap[token];
-} else if (reverseMap[token]) {
-  const tokens = input.split(/(\s+)/);
+
+  const tokens = input.split(/(\s+)/);    // keep spaces as tokens
   let result = '';
   let spaceBuffer = '';
 
-for (let token of tokens) {
-  if (token.trim() === '') {               // 1) collect whitespace
-    spaceBuffer += token;
-    continue;
-  }
+  for (let token of tokens) {
+    // 1) collect whitespace
+    if (token.trim() === '') {
+      spaceBuffer += token;
+      continue;
+    }
 
-  if (wrappedPunctuationMap[token]) {      // 2) punctuation: drop pre-space
-    spaceBuffer = '';
-    result += wrappedPunctuationMap[token];
-    continue;
-  }
-
-  // 3) apply spacing ONLY for non-punctuation tokens, using exact counts
-  const count = spaceBuffer.length;
-  if (count >= 5)      result += '\n\n';   // paragraph
-  else if (count === 3) result += '\n';    // new line
-  else if (count === 2) result += ' ';     // word break
-  // count === 1 => letter spacing (no English space)
-  spaceBuffer = '';
-
-  // 4) translate token
-  if (reverseMap[token])            result += reverseMap[token];
-  else if (/^\d+$/.test(token))     result += token;
-  else                              result += '[?]';
-  }
-    spaceBuffer = '';
-
-    // Translate
+    // 2) punctuation token like "{.}" "{!}" etc. → no English space before it
     if (wrappedPunctuationMap[token]) {
-      result += wrappedPunctuationMap[token];
-    } else if (reverseMap[token]) {
-      result += reverseMap[token];
+      spaceBuffer = '';                            // drop any pre-space
+      result += wrappedPunctuationMap[token];      // add ".", "!" etc.
+      continue;                                    // next token
+    }
+
+    // 3) apply spacing ONLY before non-punctuation tokens (exact counts)
+    const count = spaceBuffer.length;
+    if (count >= 5)      result += '\n\n';   // paragraph
+    else if (count === 3) result += '\n';    // new line
+    else if (count === 2) result += ' ';     // word break
+    // count === 1 => letter break (no English space)
+    spaceBuffer = '';
+
+    // 4) translate non-punctuation token
+    if (reverseMap[token]) {
+      result += reverseMap[token];           // symbol → letter
     } else if (/^\d+$/.test(token)) {
-      result += token;
+      result += token;                        // numbers pass through
     } else {
-      result += '[?]';
+      result += '[?]';                        // unknown token
     }
   }
 
   document.getElementById('result').innerHTML =
-    '<strong>Translation Output:</strong><br>' +
-    result.trim().replace(/\n/g, '<br>');
+    '<strong>Translation Output:</strong><br>' + result.trim().replace(/\n/g, '<br>');
 }
 
 function exportResult() {
