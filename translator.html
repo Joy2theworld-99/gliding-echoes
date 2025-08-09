@@ -514,7 +514,7 @@ button:disabled {
   <textarea id="input"></textarea><br>
 
   <div class="actions">
-    <button id="toEcho" onclick="translateToEcho()">Translate to Glyphra</button>
+    <button id="toEcho" onclick="translateToEcho()">Translate English to Glyphra</button>
     <button id="toEnglish" onclick="translateToEnglish()">Translate Glyphra to English</button>
     <!-- NEW: English → Chantra -->
   <button id="toChantra" onclick="translateToChantra()">Translate English to Chantra (spoken)</button>
@@ -597,12 +597,56 @@ function clearText() {
 </script>
   
 <script>
+  /* ===============================
+   GLYPHRA: DATA & HELPERS
+   =============================== */
 const symbolMap = {
   A: "&", B: ":", C: "(", D: "]", E: "=", F: "^", G: "[", H: ")", I: "!", J: "`", K: "/", L: "@",
   M: ",", N: "-", O: "*", P: ";", Q: "?", R: ">", S: "~", T: "+", U: "$", V: "<", W: '"',
   X: "#", Y: "_", Z: "%"
 };
-
+  /* ===============================
+   CHANTRA: DATA & HELPERS
+   =============================== */
+const chantraLetters = {
+  A: 'ahnk', B: "bu", C: "coh", D: "du", E: "ett", F: "fah", G: "gyr", H: "hu", I: "ip", J: "jah", K: "krah", L: "lyoh",
+  M: "muh", N: "nim", O: "oon", P: "pau", Q: "qwah", R: "rhit", S: "shah", T: "tir", U: "uhn", V: "vok", W: 'wha',
+  X: "zhet", Y: "hye", Z: "zin", THAE: "{{[THAE]}}"
+};
+  // Reverse for Chantra → English when letters are not wrapped as {[X]}
+const chantraToLetter = Object.fromEntries(
+  Object.entries(chantraLetters).map(([k, v]) => [v, k])
+);
+// Numbers (spoken names) you defined
+const chantraNumbers = {
+  '0': 'zop',
+  '1': 'ohn',
+  '2': 'tuh',
+  '3': 'treh',
+  '4': 'fop',
+  '5': 'vye',
+  '6': 'zix',
+  '7': 'zev',
+  '8': 'oyt',
+  '9': 'noy',
+  '10': 'trah',
+  '11': 'trah-ohn',
+  '20': 'tuh-trah',
+  '100': 'bop',
+  '1000': 'dop',
+  '10000': 'deka',
+  '100000': 'bop-deka',
+  '1000000': 'zov'
+};  
+  // Curly-wrapped punctuation used everywhere
+const wrapPunctOut = {
+  '.': '{.}', ',': '{,}', '!': '{!}', '?': '{?}',
+  ':': '{:}', ';': '{;}', '"': '{"}', "'": "{'}",
+  '(': '{(}', ')': '{)}', '-': '{-}',
+};
+const wrapPunctIn = Object.fromEntries(
+  Object.entries(wrapPunctOut).map(([k, v]) => [v, k])
+);
 const wrappedPunctuationMap = {
   "{.}": ".", "{!}": "!", "{?}": "?", "{,}": ",", "{:}": ":", "{;}": ";",
   '{"}': '"', "{'}": "'", "{-}": "-", "{(}": "(", "{)}": ")"
@@ -716,7 +760,21 @@ function translateToEcho() {
     '<strong>Translation Output:</strong><br>' +
     result.trim().replace(/\n/g, '<br>');
 }
+// simple word splitter that preserves punctuation tokens
+function tokenizeWords(str) {
+  // split by spaces but keep them so we can detect word boundaries cleanly
+  return str.split(/(\s+)/);
+}
+// turn an Arabic number string into a chantra phrase
+function numberToChantra(numStr) {
+  // exact big names
+  if (chantraNumbers[numStr]) return chantraNumbers[numStr];
 
+  // fall back: spell each digit (e.g., 369 -> 'treh {MYE} zix {MYE} noy' but without extra {MYE} inside words)
+  const parts = numStr.split('').map(d => chantraNumbers[d] || d);
+  return parts.join(' {MYE} ');
+}
+  
 function translateToEnglish() {
   const input = document.getElementById('input').value;
   const errors = validateEchoInput(input);
@@ -775,6 +833,198 @@ function exportResult() {
   link.click();
   URL.revokeObjectURL(url);
 }
+/* ===============================
+   CHANTRA: EN → CHANTRA
+   =============================== */
+  function englishWordToChantra(word) {
+  // Capital handling: wrap each capital letter as {[X]}
+  const letters = word.split('');
+  const chantraLettersList = [];
+
+  for (let i = 0; i < letters.length; i++) {
+    const ch = letters[i];
+
+    // numbers inside words -> speak as numbers separately
+    if (/\d/.test(ch)) {
+      chantraLettersList.push(numberToChantra(ch));
+      continue;
+    }
+
+    // letters only
+    if (/[A-Za-z]/.test(ch)) {
+      const isUpper = ch === ch.toUpperCase();
+      const upper = ch.toUpperCase();
+
+      const token = chantraLetters[upper] || upper; // fallback to the letter itself if missing
+      if (isUpper) {
+        // wrap capitals
+        chantraLettersList.push(`{[${token}]}`);
+      } else {
+        chantraLettersList.push(token);
+      }
+    }
+  }
+
+  // hyphen between letters
+  return chantraLettersList.filter(Boolean).join('-');
+}
+
+function translateToChantra() {
+  if (!termsAccepted()) return;
+
+  const src = document.getElementById('input').value;
+  const tokens = tokenizeWords(src);
+  const out = [];
+  let pendingSpace = '';
+
+  for (const t of tokens) {
+    if (t.trim() === '') { pendingSpace += t; continue; }
+
+    // punctuation wrapped
+    if (wrapPunctOut[t]) {
+      out.push(wrapPunctOut[t]);
+      pendingSpace = '';
+      continue;
+    }
+
+    // numbers (whole token)
+    if (/^\d+$/.test(t)) {
+      out.push(numberToChantra(t));
+      pendingSpace = ' '; // a normal word boundary after a number
+      continue;
+    }
+
+    // normal word
+    const chan = englishWordToChantra(t);
+
+    // Between words in CHANTRA, use {MYE}
+    if (out.length > 0) out.push('{MYE}');
+    out.push(chan);
+    pendingSpace = '';
+  }
+
+  // glue with spaces between tokens except {MYE} which we want as is
+  const final = out
+    .join(' ')
+    .replace(/\s*\{MYE\}\s*/g, ' {MYE} ')
+    .replace(/\s+(\{[^\}]+\})/g, ' $1') // keep wrapped punctuation tight
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
+}
+  /* ===============================
+   CHANTRA: CHANTRA → EN
+   =============================== */
+
+function chantraWordToEnglish(word) {
+  // If it is a capital wrapper {[token]}
+  const capMatch = word.match(/^\{\[([^\]]+)\]\}$/);
+  if (capMatch) {
+    const token = capMatch[1];           // e.g., 'muh'
+    const letter = chantraToLetter[token] || '?';
+    return letter; // uppercase letter (already denoted)
+  }
+
+  // hyphenated syllables
+  const parts = word.split('-').filter(Boolean);
+
+  // try to resolve each part back to a letter; otherwise treat as unknown '?'
+  const letters = parts.map(p => chantraToLetter[p] || '?');
+
+  // Combine letters into a word
+  return letters.join('');
+}
+
+function translateFromChantra() {
+  if (!termsAccepted()) return;
+
+  const src = document.getElementById('input').value.trim();
+
+  if (!src) {
+    output.innerHTML = '<strong>Translation Output:</strong>';
+    return;
+  }
+
+  // Split on {MYE} for words, keep punctuation tokens
+  // First, normalize spaces around {MYE}
+  const normalized = src.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
+  const rawTokens = normalized.split(/\s+/);
+
+  const words = [];
+  let current = [];
+
+  for (const tok of rawTokens) {
+    if (tok === '{MYE}') {
+      if (current.length) {
+        words.push(current.join('-'));
+        current = [];
+      }
+      words.push('{MYE}');
+      continue;
+    }
+
+    // punctuation unwrapping
+    if (wrapPunctIn[tok]) {
+      words.push(wrapPunctIn[tok]);
+      continue;
+    }
+
+    // Otherwise collect parts for a word (could be {[muh]} etc. or hyphenated)
+    current.push(tok);
+  }
+  if (current.length) words.push(current.join('-'));
+
+  // Convert each “word” back
+  const out = [];
+  for (const w of words) {
+    if (w === '{MYE}') { out.push(' '); continue; }
+    if (/^\d+$/.test(w)) { out.push(w); continue; } // numeric raw
+
+    // if it's a known big number word
+    const numericNameMatch = Object.entries(chantraNumbers).find(([,name]) => name === w);
+    if (numericNameMatch) { out.push(numericNameMatch[0]); continue; }
+
+    // punctuation?
+    if (wrapPunctIn[w]) { out.push(wrapPunctIn[w]); continue; }
+
+    // word: split its hyphens (already handled in chantraWordToEnglish)
+    const english = chantraWordToEnglish(w);
+
+    // restore capitals for {[X]} cases: we only output the letter we resolved (already uppercase)
+    out.push(english);
+  }
+
+  // collapse spaces
+  const final = out.join('').replace(/\s+/g, ' ').trim();
+
+  output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
+}
+
+/* ===============================
+   TERMS GATING — include new buttons
+   =============================== */
+(function wireChantraButtons() {
+  const toChantraBtn  = document.getElementById('toChantra');
+  const fromChantraBtn = document.getElementById('fromChantra');
+
+  // extend your existing translateButtons array (if it exists)
+  if (window.translateButtons && Array.isArray(window.translateButtons)) {
+    translateButtons.push(toChantraBtn, fromChantraBtn);
+  }
+
+  // If you’d rather not depend on the array, also mirror disabled state here:
+  const agree = document.getElementById('agreeTerms');
+  function sync() {
+    const enabled = !!agree.checked;
+    toChantraBtn.disabled   = !enabled;
+    fromChantraBtn.disabled = !enabled;
+  }
+  agree.addEventListener('change', sync);
+  document.addEventListener('DOMContentLoaded', sync);
+  sync();
+})();
+
 </script>
   <script>
   document.querySelectorAll('.accordion-toggle').forEach(button => {
