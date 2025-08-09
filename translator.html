@@ -440,23 +440,30 @@ button:disabled {
   <thead>
     <tr style="background-color: #e8e8e8; text-align: left;">
       <th style="padding: 6px; border-bottom: 1px solid #ccc;">Digit</th>
-      <th style="padding: 6px; border-bottom: 1px solid #ccc;">Chantra</th>
+      <th style="padding: 6px; border-bottom: 1px solid #ccc;">Chantra Word</th>
       <th style="padding: 6px; border-bottom: 1px solid #ccc;">Pronunciation</th>
-      <th style="padding: 6px; border-bottom: 1px solid #ccc;">Element</th>
-      <th style="padding: 6px; border-bottom: 1px solid #ccc;">Color</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="padding: 6px;">0</td><td>zop</td><td>zahp</td><td>SPIRIT</td><td>Pure White</td></tr>
-    <tr><td style="padding: 6px;">1</td><td>ohn</td><td>oh-n</td><td>EARTH</td><td>Earthy Brown</td></tr>
-    <tr><td style="padding: 6px;">2</td><td>tuh</td><td>tuh</td><td>AIR</td><td>Silvery Gray</td></tr>
-    <tr><td style="padding: 6px;">3</td><td>treh</td><td>tray</td><td>AIR</td><td>Electric Blue</td></tr>
-    <tr><td style="padding: 6px;">4</td><td>fop</td><td>fahp</td><td>EARTH</td><td>Muted Green</td></tr>
-    <tr><td style="padding: 6px;">5</td><td>vye</td><td>v-eye</td><td>SPIRIT</td><td>Violet</td></tr>
-    <tr><td style="padding: 6px;">6</td><td>zix</td><td>zeecks</td><td>SPIRIT</td><td>Electric Green</td></tr>
-    <tr><td style="padding: 6px;">7</td><td>zev</td><td>zehv</td><td>FIRE</td><td>Solar Ember</td></tr>
-    <tr><td style="padding: 6px;">8</td><td>oyt</td><td>oi-t</td><td>WATER</td><td>Deep Blue</td></tr>
-    <tr><td style="padding: 6px;">9</td><td>noy</td><td>noi</td><td>SPIRIT</td><td>Gold</td></tr>
+    <tr><td style="padding: 6px;">0</td><td>zop</td><td>zahp</td></tr>
+    <tr><td style="padding: 6px;">1</td><td>ohn</td><td>oh-n</td></tr>
+    <tr><td style="padding: 6px;">2</td><td>tuh</td><td>tuh</td></tr>
+    <tr><td style="padding: 6px;">3</td><td>treh</td><td>tray</td></tr>
+    <tr><td style="padding: 6px;">4</td><td>fop</td><td>fahp</td></tr>
+    <tr><td style="padding: 6px;">5</td><td>vye</td><td>v-eye</td></tr>
+    <tr><td style="padding: 6px;">6</td><td>zix</td><td>zeecks</td></tr>
+    <tr><td style="padding: 6px;">7</td><td>zev</td><td>zehv</td></tr>
+    <tr><td style="padding: 6px;">8</td><td>oyt</td><td>oi-t</td></tr>
+    <tr><td style="padding: 6px;">9</td><td>noy</td><td>noi</td></tr>
+    <tr><td style="padding: 6px;">10</td><td>trah</td><td>trah</td></tr>
+    <tr><td style="padding: 6px;">11</td><td>trah-ohn</td><td>trah-oh-n</td></tr>
+    <tr><td style="padding: 6px;">20</td><td>tuh-trah</td><td>tuh-trah</td></tr>
+    <tr><td style="padding: 6px;">100</td><td>bop</td><td>bahp</td></tr>
+    <tr><td style="padding: 6px;">1,000</td><td>dop</td><td>dahp</td></tr>
+    <tr><td style="padding: 6px;">10,000</td><td>deka</td><td>deh-kha</td></tr>
+    <tr><td style="padding: 6px;">100,000</td><td>bop-deka</td><td>bahp-deh-kha</td></tr>
+    <tr><td style="padding: 6px;">1,000,000</td><td>zov</td><td>zahv</td></tr>
+    
   </tbody>
 </table>
 <br>
@@ -488,6 +495,25 @@ button:disabled {
   const output = document.getElementById('result');
   const btnToEcho = document.getElementById('toEcho');
   const btnToEnglish = document.getElementById('toEnglish');
+  
+  // Disable/enable translate buttons based on Terms checkbox
+const agree = document.getElementById('agreeTerms');
+const translateButtons = [
+  document.getElementById('toEcho'),
+  document.getElementById('toEnglish')
+];
+
+function setTranslateEnabled(enabled) {
+  translateButtons.forEach(btn => btn && (btn.disabled = !enabled));
+}
+
+// initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  setTranslateEnabled(agree.checked);
+});
+
+// update on change
+agree.addEventListener('change', () => setTranslateEnabled(agree.checked));
 
   function isEchoCode(input) {
     const echoSymbols = /^[!@#$%^&*()_+=\[\];:,.<>\/?`~{}\s"'-]*$/;
