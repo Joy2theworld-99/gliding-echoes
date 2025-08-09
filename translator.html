@@ -193,15 +193,27 @@ input[type="checkbox"] {
 
 /* align the checkbox + label nicely */
 .terms-row {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   margin: 0.5rem 0 1rem;
+  user-select: none;
+}
+
+.terms-row input[type="checkbox"] {
+  width: auto !important;   /* defeat any global width:100% rule */
+  transform: scale(1.1);
 }
 
 .terms-row a {
   text-decoration: underline;
   color: #555;
+}
+
+/* visual state for disabled buttons */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 }
   </style>
@@ -446,14 +458,11 @@ input[type="checkbox"] {
   </tbody>
 </table>
 <br>
-<div class="terms-row">
-  <input type="checkbox" id="agreeTerms" />
-  <label for="agreeTerms">
-    I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank">Terms of Use</a>
-  </label>
-</div>
-
-
+<!-- Terms row (place above the buttons) -->
+<label class="terms-row">
+  <input type="checkbox" id="agreeTerms">
+  I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank" style="text-decoration: underline; color: #555;">Terms of Use</a>
+</label>
            
 <div class="button-row">
     <div id="translatorBox">
