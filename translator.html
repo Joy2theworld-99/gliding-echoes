@@ -123,10 +123,40 @@ th, td {
   word-break: break-word;
 }
 
+/* Translator panel width + centering */
 #translatorBox {
-  margin-top: 32px;
+  max-width: 760px;       /* tweak 700–900 to taste */
+  margin: 0 auto 1.25rem; /* center horizontally */
 }
 
+/* Checkbox row inside translator */
+#translatorBox .terms-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 .5rem 0;
+}
+
+/* Checkbox sizing */
+#translatorBox .terms-row input[type="checkbox"] {
+  width: auto;
+  flex: 0 0 auto;
+  transform: scale(1.1);
+  margin: 0;
+}
+
+/* Link style */
+#translatorBox .terms-row a {
+  text-decoration: underline;
+  color: #555;
+}
+
+/* Stack buttons neatly */
+#translatorBox .actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
 /* On mobile, stack buttons and shrink fonts */
 /* ========== GLOBAL styles (apply to desktop + mobile) ========== */
 
@@ -467,27 +497,24 @@ button:disabled {
    </div>
 <br>
 <!-- Terms row (place above the buttons) -->
-<div class="terms-row" id="termsRow">
-  <input type="checkbox" id="agreeTerms">
-  <label for="agreeTerms">
-    I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank">Terms of Use</a>
-  </label>
-</div>
-           
-<div class="button-row">
-    <div id="translatorBox">
-      <label for="input"><strong>Enter Text/Symbols to be Translated:</strong></label><br>
-      <br>
-      <textarea id="input"></textarea><br>
-
-      <button id="toEcho" onclick="translateToEcho()">Translate to HUMAINIO™</button>
-      <button id="toEnglish" onclick="translateToEnglish()">Translate to English</button>
-      <button onclick="clearText()">Clear</button>
-      <button onclick="exportResult()">Export</button>
-    </div>
-</div>
-    <div id="result"><strong>Translation:</strong></div>
+<div id="translatorBox">
+  <div class="terms-row" id="termsRow">
+    <input type="checkbox" id="agreeTerms">
+    <label for="agreeTerms">
+      I agree to the <a href="https://glidingechoes.com/terms-of-use" target="_blank">Terms of Use</a>
+    </label>
   </div>
+
+  <label for="input"><strong>Enter Text/Symbols to be Translated:</strong></label><br><br>
+  <textarea id="input"></textarea><br>
+
+  <div class="actions">
+    <button id="toEcho" onclick="translateToEcho()">Translate to HUMAINIO™</button>
+    <button id="toEnglish" onclick="translateToEnglish()">Translate to English</button>
+    <button onclick="clearText()">Clear</button>
+    <button onclick="exportResult()">Export</button>
+  </div>
+</div>
   <!--ADD NEW SCRIPT-->
 <script>
   const inputField = document.getElementById('input');
