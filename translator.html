@@ -835,27 +835,23 @@ function exportResult() {
 /* ===============================
    CHANTRA: EN → CHANTRA
    =============================== */
-  function englishWordToChantra(word) {
-  // Capital handling: wrap each capital letter as {[X]}
+ function englishWordToChantra(word) {
   const letters = word.split('');
   const chantraLettersList = [];
 
   for (let i = 0; i < letters.length; i++) {
     const ch = letters[i];
 
-    // numbers inside words -> speak as numbers separately
     if (/\d/.test(ch)) {
       chantraLettersList.push(numberToChantra(ch));
       continue;
     }
 
-    // letters only
     if (/[A-Za-z]/.test(ch)) {
       const isUpper = ch === ch.toUpperCase();
       const upper = ch.toUpperCase();
-      const token = chantraLetters[upper] || upper; // fallback to the letter itself if missing
+      const token = chantraLetters[upper] || upper;
       if (isUpper) {
-        // wrap capitals
         chantraLettersList.push(`{[${token}]}`);
       } else {
         chantraLettersList.push(token);
@@ -863,64 +859,54 @@ function exportResult() {
     }
   }
 
-  // hyphen between letters
   return chantraLettersList.filter(Boolean).join('-');
 }
-
 function translateToChantra() {
   if (!termsAccepted()) return;
 
   const src = document.getElementById('input').value;
   const tokens = tokenizeWords(src);
   const out = [];
-  let pendingSpace = '';
+  let haveWord = false;
 
   for (const t of tokens) {
-    if (t.trim() === '') { pendingSpace += t; continue; }
+    if (t.trim() === '') continue;
 
-    // punctuation wrapped
+    // wrapped punctuation
     if (wrapPunctOut[t]) {
       out.push(wrapPunctOut[t]);
-      pendingSpace = '';
       continue;
     }
 
     // numbers (whole token)
     if (/^\d+$/.test(t)) {
+      if (haveWord) out.push('{MYE}');
       out.push(numberToChantra(t));
-      pendingSpace = ' '; // a normal word boundary after a number
+      haveWord = true;
       continue;
     }
 
-    // normal word
+    // word
     const chan = englishWordToChantra(t);
-
-    // Between words in CHANTRA, use {MYE}
-    if (out.length > 0) out.push('{MYE}');
-    out.push(chan);
-    pendingSpace = '';
+    if (chan) {
+      if (haveWord) out.push('{MYE}');
+      out.push(chan);
+      haveWord = true;
+    }
   }
 
-  // glue with spaces between tokens except {MYE} which we want as is
-  const final = out
-  .join(' ')
-  .replace(/\s*\{MYE\}\s*/g, ' {MYE} ')
-  .replace(/\s+(\{[^\}]+\})/g, ' $1')   // keep wrapped punctuation tight
-  .replace(/\s+([.,!?;:)"\']+)/g, '$1') // no space before plain punctuation
-  .replace(/\s+/g, ' ')
-  .trim();
-
-  // glue with spaces between tokens
+  // assemble ONCE (you had two conflicting blocks)
   let final = out.join(' ');
 
   // normalize {MYE} spacing to exactly one space on each side
   final = final.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
 
- // remove any space that sneaks in *before* wrapped punctuation
-  // e.g., "... wha {.}" -> "... wha{.}"
+  // remove any space before wrapped punctuation (e.g., "{.}{!}{?}{,}{:}{;}{')}{\"}{)}{(}{-}")
   final = final.replace(/\s+(?=\{[.!?,:;'"()\-]\})/g, '');
 
-  // tidy extra spaces
+  // also make sure there’s no space before plain punctuation, just in case
+  final = final.replace(/\s+([.,!?;:)"'])/g, '$1');
+
   final = final.replace(/\s+/g, ' ').trim();
 
   output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
@@ -931,27 +917,26 @@ function translateToChantra() {
    =============================== */
 
 function chantraWordToEnglish(word) {
-  // If the whole "word" is a single capital wrapper {[...]} (rare case)
+  // If the whole word is a single capital wrapper {[...]}
   const wholeCap = word.match(/^\{\[([^\]]+)\]\}$/);
   if (wholeCap) {
-    const token = wholeCap[1];                // e.g., 'muh'
-    const letter = chantraToLetter[token] || '?';
-    return letter;                             // returns uppercase A–Z
+    const token = wholeCap[1];                 // e.g., 'muh'
+    const letterUpper = chantraToLetter[token] || '?';
+    return letterUpper;                        // uppercase for wrapped caps
   }
 
-  // Otherwise, handle hyphenated parts (e.g., {[muh]}-{[ip]}-{[ahnk]})
+  // Hyphenated parts (e.g., {[muh]}-{[ip]}-{[ahnk]} or ip-shah)
   const parts = word.split('-').filter(Boolean);
 
-  // try to resolve each part back to a letter; otherwise treat as unknown '?'
-  // Combine letters into a word
   const letters = parts.map(p => {
-    // If this part is a capital wrapper, strip it and decode
-    const m = p.match(/^\{\[([^\]]+)\]\}$/);
-    const key = m ? m[1] : p;                 // 'muh' or 'ett' etc.
-    return chantraToLetter[key] || '?';       // maps syllable → uppercase letter
+    const m = p.match(/^\{\[([^\]]+)\]\}$/);   // wrapped capital?
+    const key = m ? m[1] : p;                  // syllable like 'muh' or 'ip'
+    const letter = chantraToLetter[key] || '?';
+    return m ? letter                          // wrapped => UPPERCASE
+             : letter.toLowerCase();           // plain syllable => lowercase
   });
 
-  return letters.join('');                     // form the word (caps preserved)
+  return letters.join('');
 }
 
 function translateFromChantra() {
