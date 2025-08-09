@@ -901,6 +901,9 @@ function translateToChantra() {
   // normalize {MYE} spacing to exactly one space on each side
   final = final.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
 
+  // remove {MYE} immediately after wrapped punctuation; leave a single space
+final = final.replace(/(\{[.!?,:;]\})\s*\{MYE\}\s*/g, '$1 ');
+
   // remove any space before wrapped punctuation (e.g., "{.}{!}{?}{,}{:}{;}{')}{\"}{)}{(}{-}")
   final = final.replace(/\s+(?=\{[.!?,:;'"()\-]\})/g, '');
 
@@ -1011,6 +1014,11 @@ if (current.length) words.push(current.join('-'));
   out.push(chantraWordToEnglish(w));
 }
 const final = out.join('').replace(/\s+/g, ' ').trim();
+  // normalize: no {MYE} directly after wrapped punctuation
+const pre = src.replace(/(\{[.!?,:;]\})\s*\{MYE\}\s*/g, '$1 ');
+
+// then do your existing normalization on `pre`
+const normalized = pre.replace(/\s*\{MYE\}\s*/g, ' {MYE} ');
 output.innerHTML = '<strong>Translation Output:</strong><br>' + final;
 }
 
