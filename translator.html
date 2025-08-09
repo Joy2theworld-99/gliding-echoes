@@ -128,7 +128,15 @@ th, td {
   max-width: 820px;
   margin: 32px auto;
 }
-
+/* Make sure the textarea isn’t doing any weird vertical centering */
+#translatorBox textarea {
+  height: 160px;
+  line-height: 1.4;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
 /* Terms checkbox row (now inside translatorBox) */
 #termsRow{
   display:flex;
