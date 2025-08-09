@@ -943,6 +943,12 @@ function translateToChantra() {
   const out = [];
   let haveWord = false;
 
+  if (isChantraWritten(src)) {
+    output.innerHTML =
+      '<strong>Translation Output:</strong><br>' +
+      'Input appears to already be in Chantra. Try “Translate Chantra to English.”';
+    return;
+  }
   for (const t of tokens) {
     if (t.trim() === '') continue;
 
