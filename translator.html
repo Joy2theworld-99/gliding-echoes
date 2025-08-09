@@ -436,6 +436,8 @@ button:disabled {
     </div>
       </div>
                </div>
+           <div class="table-wrapper">
+      <div class="key-section-title">Numbers</div>
 <table style="width:100%; border-collapse: collapse; margin-top: 1rem;">
   <thead>
     <tr style="background-color: #e8e8e8; text-align: left;">
@@ -466,6 +468,8 @@ button:disabled {
     
   </tbody>
 </table>
+             </div>
+           </div>
 <br>
 <!-- Terms row (place above the buttons) -->
 <div class="terms-row" id="termsRow">
@@ -533,7 +537,7 @@ function termsAccepted() {
   btnToEcho.addEventListener('click', (e) => {
   if (!termsAccepted()) { e.preventDefault(); return; 
   }
-    if (isEchoCode(input)) {
+    if (isEchoCode(inputField.value)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in Echo Code.<br>Try using "Translate to English" instead.';
       e.preventDefault();
       return;
@@ -544,7 +548,7 @@ function termsAccepted() {
   btnToEnglish.addEventListener('click', (e) => {
   if (!termsAccepted()) { e.preventDefault(); return; 
   }
-    if (isEnglish(input)) {
+    if (isEnglish(inputField.value)) {
       output.innerHTML = '<strong>Translation Output:</strong><br>Input appears to already be in English.<br>Try using "Translate to Echo Code" instead.';
       e.preventDefault();
       return;
