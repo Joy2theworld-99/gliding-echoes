@@ -573,8 +573,8 @@ button:disabled {
 
     // Hyphenated syllables heuristic
     const syll = [
-      'ahnk','bu','coh','du','ett','fah','gyr','hu','ip','jah','krah','lyoh',
-      'muh','nim','oon','pau','qwah','rhit','shah','tir','uhn','vok','wha',
+      'ahnk','bu','coh','duze','ett','fah','gyr','hu','ip','jah','krah','lyoh',
+      'muh','nim','oon','pau','qwah','rehl','shah','tir','uhn','vok','wha',
       'zhet','hye','zin'
     ];
     const re = new RegExp(`\\b(?:${syll.join('|')})(?:-(?:${syll.join('|')}|\\{\\[[^\\]]+\\]\\}))*\\b`, 'i');
@@ -667,8 +667,8 @@ const symbolMap = {
    CHANTRA: DATA & HELPERS
    =============================== */
 const chantraLetters = {
-  A: 'ahnk', B: "bu", C: "coh", D: "du", E: "ett", F: "fah", G: "gyr", H: "hu", I: "ip", J: "jah", K: "krah", L: "lyoh",
-  M: "muh", N: "nim", O: "oon", P: "pau", Q: "qwah", R: "rhit", S: "shah", T: "tir", U: "uhn", V: "vok", W: 'wha',
+  A: 'ahnk', B: "bu", C: "coh", D: "duze", E: "ett", F: "fah", G: "gyr", H: "hu", I: "ip", J: "jah", K: "krah", L: "lyoh",
+  M: "muh", N: "nim", O: "oon", P: "pau", Q: "qwah", R: "rehl", S: "shah", T: "tir", U: "uhn", V: "vok", W: 'wha',
   X: "zhet", Y: "hye", Z: "zin", THAE: "{{[THAE]}}"
 };
   // Reverse for Chantra → English when letters are not wrapped as {[X]}
