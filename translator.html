@@ -610,6 +610,12 @@ button:disabled {
   });
 
   // Glyphra → English
+  function parseSymbolInput(input) {
+  // Decode HTML entities FIRST
+  // Then look up in symbol table
+  const decoded = decodeHTMLEntities(input);
+  return lookupSymbols(decoded);
+}
   btnToEnglish.addEventListener('click', (e) => {
     if (!termsAccepted()) { e.preventDefault(); return; }
     const val = inputField.value.trim();
