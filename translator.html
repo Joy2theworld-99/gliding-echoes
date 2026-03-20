@@ -556,20 +556,53 @@ button:disabled {
     return ok;
   }
 
-  // --- Input type detectors ---
-function parseSpacing(input) {
-  // Must happen in correct order
-  // 5 spaces first (longest match)
-  // Then 3 spaces
-  // Then 2 spaces  
-  // Then 1 space
-  // NEVER reverse this order
+ function translateSymbolsToEnglish(input) {
   
-  return input
-    .replace(/     /g, '[PARAGRAPH]')  // 5 spaces
-    .replace(/   /g, '[NEWLINE]')      // 3 spaces
-    .replace(/  /g, '[WORDBREAK]')     // 2 spaces
-    .replace(/ /g, '[PUNCTSPACE]');    // 1 space
+  // Step 1: Get raw value (use textarea!)
+  // Step 2: Preserve spaces as tokens
+  let processed = input
+    .replace(/     /g, '[P]')   // paragraph
+    .replace(/   /g, '[N]')     // newline  
+    .replace(/  /g, '[W]')      // word break
+    .replace(/ /g, '[S]');      // symbol space
+  
+  // Step 3: Handle HTML conflicts
+  processed = processed
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"');
+  
+  // Step 4: Split into tokens
+  const tokens = processed.split('');
+  
+  // Step 5: Look up each symbol
+  let result = '';
+  let i = 0;
+  
+  while (i < processed.length) {
+    // Check for space tokens first
+    if (processed.substring(i, i+3) === '[P]') {
+      result += '\n\n';
+      i += 3;
+    } else if (processed.substring(i, i+3) === '[N]') {
+      result += '\n';
+      i += 3;
+    } else if (processed.substring(i, i+3) === '[W]') {
+      result += ' ';
+      i += 3;
+    } else if (processed.substring(i, i+3) === '[S]') {
+      result += '';  // punctuation space handling
+      i += 3;
+    } else {
+      // Look up symbol in your translation table
+      const letter = symbolTable[processed[i]];
+      result += letter || processed[i];
+      i++;
+    }
+  }
+  
+  return result;
 }
   
   function isEchoCode(str) {
