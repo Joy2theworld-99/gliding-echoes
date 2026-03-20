@@ -599,11 +599,16 @@ button:disabled {
     const hyphens = (str.match(/-/g) || []).length;
     return re.test(str) || hyphens >= 3;
   }
+// Define output OUTSIDE both functions
+const output = document.getElementById('output');
+    
+  function translate() {
+  output.innerHTML = result; // ✅ sees output
+}
 
-  function clearText() {
-    document.getElementById('input').value = '';
-    document.getElementById('output').innerHTML = '<strong>Translation Output:</strong>';
-  }
+function clearText() {
+  output.innerHTML = ''; // ✅ sees output
+}
   window.clearText = clearText; // keep your Clear button working
 
   // ---------- Button guards ----------
