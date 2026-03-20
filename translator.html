@@ -277,7 +277,7 @@ button:disabled {
           <li><strong>1 space between symbols and punctuation</li>
           <li>2 spaces between words</li>
           <li>3 spaces = new line</li>
-          <li>5 spaces = paragraph</strong></li>
+          <li>5 spaces = paragraph<</strong></li>
         </ul>
       </li>
       <li><strong>No raw punctuation or spacing errors</strong></li>
@@ -532,8 +532,6 @@ button:disabled {
     </div>
   <!--ADD NEW SCRIPT-->
 <script>
-  const rawInput = document.getElementById('symbolInput').value;
-// Don't let browser touch it first
  const inputField = document.getElementById('input');
   const output = document.getElementById('result');
 
@@ -559,22 +557,6 @@ button:disabled {
   }
 
   // --- Input type detectors ---
-  // Use a textarea (preserves multiple spaces)
-// NOT a regular input field
-  function parseSpacing(input) {
-  // Must happen in correct order
-  // 5 spaces first (longest match)
-  // Then 3 spaces
-  // Then 2 spaces  
-  // Then 1 space
-  // NEVER reverse this order
-  
-  return input
-    .replace(/     /g, '[PARAGRAPH]')  // 5 spaces
-    .replace(/   /g, '[NEWLINE]')      // 3 spaces
-    .replace(/  /g, '[WORDBREAK]')     // 2 spaces
-    .replace(/ /g, '[PUNCTSPACE]');    // 1 space
-    
   function isEchoCode(str) {
     // Only symbols/spaces/braces → looks like Glyphra
     return /^[!@#$%^&*()_+\=\[\];:,.<>\/?`~{}\s"'-]*$/.test((str||'').trim());
@@ -599,16 +581,11 @@ button:disabled {
     const hyphens = (str.match(/-/g) || []).length;
     return re.test(str) || hyphens >= 3;
   }
-// Define output OUTSIDE both functions
-const output = document.getElementById('output');
-    
-  function translate() {
-  output.innerHTML = result; // ✅ sees output
-}
 
-function clearText() {
-  output.innerHTML = ''; // ✅ sees output
-}
+  function clearText() {
+    document.getElementById('input').value = '';
+    output.innerHTML = '<strong>Translation Output:</strong>';
+  }
   window.clearText = clearText; // keep your Clear button working
 
   // ---------- Button guards ----------
@@ -633,12 +610,6 @@ function clearText() {
   });
 
   // Glyphra → English
-  function parseSymbolInput(input) {
-  // Decode HTML entities FIRST
-  // Then look up in symbol table
-  const decoded = decodeHTMLEntities(input);
-  return lookupSymbols(decoded);
-}
   btnToEnglish.addEventListener('click', (e) => {
     if (!termsAccepted()) { e.preventDefault(); return; }
     const val = inputField.value.trim();
