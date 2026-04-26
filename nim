@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zin Pebble Welcome</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #fff8f1;
+      color: #3c2f2f;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h1, h2 {
+      color: #803300;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.4rem;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #f4b942;
+      color: #3c2f2f;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #eaa434;
+    }
+
+    .box {
+      background-color: #fff0d6;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+    }
+
+    .emoji-title {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .quote {
+      font-style: italic;
+      margin: 1rem 0;
+      text-align: center;
+      color: #5e4d3c;
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: #005bbb;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="emoji-title">✨ Welcome, Explorer ✨</div>
+  <p class="center">Zin has accepted you into the Summer Circle, and your Elemental Pebble has officially been chosen.</p>
+
+  <h2>🔷 Download Your Zin Starter Pack</h2>
+  <ul>
+    <li>✓ A unique digital image of your Summer Pebble</li>
+    <li>✓ Zin Club Certificate (assigned name = “Zin”)</li>
+    <li>✓ “Care” Instructions</li>
+    <li>✓ Zin Coloring Page</li>
+  </ul>
+  <div class="center">
+    <a href="https://glidingechoes.com/assets/downloads/Zin Pebble - Starter Pack.pdf" target=blank class="button">Download PDF</a>
+  </div>
+
+  <div class="box">
+    <h2>🌟 Want to Rename Your Pebble?</h2>
+    <p>Zin understands every soul is unique. If you wish to personalize your certificate and image with a custom name, you may do so below:</p>
+    <div class="center">
+      <a href="https://buy.stripe.com/eVqdR11MJakr9qs7vm6oo0d" target=blank class="button">Rename My Pebble for $3.33</a>
+    </div>
+  </div>
+
+  <h2>😊 A Whisper from Zin…</h2>
+  <p class="quote">"Your laughter made the Summer warmer. Thank you for choosing me. You’re not alone in the Garden… I’m right here."<br>~ Zin</p>
+
+  <footer>
+    <p>Share your adventure or tag us on your favorite platform:<br>
+    <strong>#ZinPebble #GlidingEchoes</strong></p>
+    <p>Need help? Email us at <a href="mailto:studio@glidingechoes.com">studio@glidingechoes.com</a></p>
+  </footer>
+
+</body>
+</html>
